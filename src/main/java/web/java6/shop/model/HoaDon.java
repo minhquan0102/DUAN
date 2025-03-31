@@ -10,11 +10,19 @@ import java.time.LocalDate;
 public class HoaDon {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_hoadon")
     private Integer idHoaDon;
 
+    @Column(name = "ngaytao")
     private LocalDate ngayTao;
+
+    @Column(name = "trangthai")
     private String trangThai;
+
+    @Column(name = "diachi")
     private String diaChi;
+
+    @Column(name = "giaohang")
     private String giaoHang;
 
     @ManyToOne

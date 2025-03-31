@@ -22,7 +22,7 @@
                 <td th:text="${product.idSanPham}"></td>
                 <td th:text="${product.tenSanPham}"></td>
                 <td th:text="${product.soLuong}"></td>
-                <td th:text="${product.gia}"></td>
+                <td th:text="${#numbers.formatDecimal(product.gia, 1, 0)}"></td>
             </tr>
         </tbody>
     </table>

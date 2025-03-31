@@ -10,7 +10,7 @@ import java.time.LocalDate;
 public class SanPham {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_sanpham")  // Đảm bảo mapping đúng tên cột trong DB
+    @Column(name = "id_sanpham")
     private Integer idSanPham;
 
     @Column(name = "ten_sanpham")

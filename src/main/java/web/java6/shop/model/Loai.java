@@ -9,8 +9,9 @@ import lombok.Data;
 public class Loai {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id_loai")
     private Integer idLoai;
 
+    @Column(name = "ten_loai")
     private String tenLoai;
 }
-    

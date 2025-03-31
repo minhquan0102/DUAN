@@ -18,25 +18,22 @@ public class AdminDashboardController {
     @Autowired
     private SanPhamService sanPhamService;
 
-    // Trang Dashboard tổng quan
     @GetMapping("/dashboard")
     public String showDashboard(Model model) {
         model.addAttribute("userCount", userService.findAll().size());
         model.addAttribute("productCount", sanPhamService.findAll().size());
-        return "admin/dashboard"; // Trỏ tới file templates/admin/dashboard.html
+        return "admin/dashboard";
     }
 
-    // Trang quản lý người dùng
     @GetMapping("/users")
     public String showUserManagement(Model model) {
         model.addAttribute("users", userService.findAll());
-        return "admin/users"; // Trỏ tới file templates/admin/users.html
+        return "admin/users";
     }
 
-    // Trang quản lý sản phẩm
     @GetMapping("/products")
     public String showProductManagement(Model model) {
         model.addAttribute("products", sanPhamService.findAll());
-        return "admin/products"; // Trỏ tới file templates/admin/products.html
+        return "admin/products";
     }
 }

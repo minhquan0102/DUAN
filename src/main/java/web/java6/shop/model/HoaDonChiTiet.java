@@ -10,6 +10,7 @@ public class HoaDonChiTiet {
     @EmbeddedId
     private HoaDonChiTietKey id;
 
+    @Column(name = "soluong")
     private Integer soLuong;
 
     @ManyToOne

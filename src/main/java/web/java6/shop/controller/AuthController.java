@@ -1,7 +1,6 @@
 package web.java6.shop.controller;
 
 import java.util.Optional;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -19,13 +18,12 @@ public class AuthController {
     @GetMapping("/register")
     public String showRegisterForm(Model model) {
         model.addAttribute("user", new User());
-        return "register"; // file Thymeleaf: register.html
+        return "register";
     }
 
     // Xử lý đăng ký
     @PostMapping("/register")
     public String registerUser(@ModelAttribute("user") User user, Model model) {
-        // Thực hiện kiểm tra hợp lệ, mã hóa mật khẩu nếu cần
         userService.save(user);
         return "redirect:/login";
     }
@@ -33,7 +31,7 @@ public class AuthController {
     // Hiển thị trang đăng nhập
     @GetMapping("/login")
     public String showLoginForm(Model model) {
-        return "login"; // file Thymeleaf: login.html
+        return "login";
     }
 
     // Xử lý đăng nhập
@@ -42,15 +40,13 @@ public class AuthController {
                             @RequestParam("matkhau") String password,
                             Model model) {
         Optional<User> optionalUser = userService.findById(idUser);
-        if (optionalUser.isPresent()) {
+        if(optionalUser.isPresent()){
             User user = optionalUser.get();
-            // Giả sử mật khẩu lưu dưới dạng plain text
-            if (user.getMatkhau().equals(password)) {
-                // Phân quyền: nếu vaitro là true -> Admin, false -> User
-                if (user.isVaitro()) {
+            if(user.getMatkhau().equals(password)){
+                if(user.isVaitro()){
                     return "redirect:/admin/dashboard";
                 } else {
-                    return "redirect:/user/home";
+                    return "redirect:/products";
                 }
             }
         }
