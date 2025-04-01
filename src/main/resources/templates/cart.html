@@ -28,6 +28,11 @@
         </tr>
     </table>
     <br>
+    <form th:action="@{/cart/clear}" method="post">
+        <input type="hidden" name="userId" th:value="${cart.idUser}">
+        <button type="submit">Xóa toàn bộ giỏ hàng</button>
+    </form>
+    <br>
     <a href="/products">Tiếp tục mua sắm</a>
 </body>
 </html>

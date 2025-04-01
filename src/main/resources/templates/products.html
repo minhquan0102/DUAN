@@ -26,12 +26,15 @@
           <form th:action="@{/cart/add}" method="post">
             <input type="hidden" name="userId" value="user1" />
             <input type="hidden" name="productId" th:value="${product.idSanPham}" />
+            <input type="hidden" name="productName" th:value="${product.tenSanPham}" />
+            <input type="hidden" name="price" th:value="${product.gia}" />
             <div class="mb-3">
               <label for="quantity" class="form-label">Số lượng:</label>
               <input type="number" name="quantity" value="1" min="1" class="form-control" />
             </div>
             <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
           </form>
+          
         </div>
       </div>
     </div>
