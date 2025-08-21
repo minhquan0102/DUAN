@@ -5,6 +5,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import web.java6.shop.model.User;
+import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class DashboardController {
@@ -13,7 +16,14 @@ public class DashboardController {
     public DashboardController(DashboardService dashboardService) {
         this.dashboardService = dashboardService;
     }
-
+@ModelAttribute
+public void addUserToModel(HttpSession session, Model model) {
+    User user = (User) session.getAttribute("user");
+    if (user != null) {
+        model.addAttribute("avatar", user.getHinh());
+        model.addAttribute("hoten", user.getHoten());
+    }
+}
     @GetMapping("/admin/dashboard")
     public String dashboard(Model model) {
         model.addAttribute("tongDoanhThu", dashboardService.getTongDoanhThu());

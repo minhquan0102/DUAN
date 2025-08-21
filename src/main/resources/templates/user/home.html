@@ -565,6 +565,12 @@
 .account .dropdown:hover .dropdown-content {
     display: block;
 }
+.avatar-img {
+    width: 40px;       /* hoặc 50px, tuỳ bạn */
+    height: 40px;      /* đảm bảo ảnh vuông */
+    border-radius: 50%; /* làm ảnh tròn */
+    object-fit: cover; /* cắt ảnh vừa khung */
+}
 
     </style>
 </head>
@@ -607,9 +613,13 @@
                 <th:block th:if="${session.user != null}">
                     <div class="dropdown">
                         <a href="#" class="account-link">
-                            <i class="fas fa-user"></i>
-                            <span>Xin chào, <span th:text="${session.user.hoten}"></span></span>
+                            <img th:src="${avatar != null} ? @{${avatar}} : @{/images/default-avatar.png}"
+     class="avatar-img" alt="Avatar">
+<span th:text="${hoten}">Tên user</span>
+
+                           
                             <i class="fas fa-chevron-down"></i>
+                            
                         </a>
                         <div class="dropdown-content">
                             <a href="/user/profile"><i class="fas fa-id-card"></i> Thông tin cá nhân</a>

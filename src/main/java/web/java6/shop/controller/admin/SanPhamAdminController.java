@@ -11,8 +11,10 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import jakarta.servlet.http.HttpSession;
 import web.java6.shop.model.SanPham;
 import web.java6.shop.model.SanPhamVariant;
+import web.java6.shop.model.User;
 import web.java6.shop.model.Loai;
 import web.java6.shop.service.SanPhamService;
 import web.java6.shop.repository.SanPhamVariantRepository;
@@ -208,4 +210,12 @@ public String saveSanPham(@ModelAttribute("sanPham") SanPham sanPham,
             }
         });
     }
+    @ModelAttribute
+public void addUserToModel(HttpSession session, Model model) {
+    User user = (User) session.getAttribute("user");
+    if (user != null) {
+        model.addAttribute("avatar", user.getHinh());
+        model.addAttribute("hoten", user.getHoten());
+    }
+}
 }
