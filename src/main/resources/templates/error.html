@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Lỗi - 403</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 50px;
+        }
+        .error-box {
+            display: inline-block;
+            padding: 30px;
+            border-radius: 12px;
+            background: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        h1 {
+            font-size: 48px;
+            margin: 0;
+        }
+        p {
+            font-size: 18px;
+        }
+        a {
+            display: inline-block;
+            margin-top: 20px;
+            padding: 10px 20px;
+            background: #721c24;
+            color: white;
+            border-radius: 8px;
+            text-decoration: none;
+        }
+        a:hover {
+            background: #501418;
+        }
+    </style>
+</head>
+<body>
+<div class="error-box">
+    <h1>Lỗi 403</h1>
+    <p>Bạn không có quyền truy cập trang này.</p>
+    <a href="/home" th:href="@{/home}">Quay lại Trang Chủ</a>
+</div>
+</body>
+</html>
