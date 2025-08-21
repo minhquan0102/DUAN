@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết hóa đơn</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}">
+</head>
+<body class="container mt-4">
+
+    <h2 class="mb-4">Chi tiết hóa đơn #<span th:text="${hoaDonId}"></span></h2>
+
+    <table class="table table-bordered table-striped">
+        <thead class="table-dark">
+            <tr>
+                <th>Mã chi tiết</th>
+                <th>Tên sản phẩm</th>
+                <th>Màu sắc</th>
+                <th>Số lượng</th>
+                <th>Giá bán</th>
+                <th>Thành tiền</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="ct : ${chitietList}">
+                <td th:text="${ct.id}"></td>
+                <td th:text="${ct.tenSanPham}"></td>
+                <td th:text="${ct.mauSac}"></td>
+                <td th:text="${ct.soLuong}"></td>
+                <td th:text="${#numbers.formatDecimal(ct.giaBan, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+                <td th:text="${#numbers.formatDecimal(ct.soLuong * ct.giaBan, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="mt-3">
+        <a th:href="@{/admin/hoadon}" class="btn btn-secondary">← Quay lại danh sách hóa đơn</a>
+    </div>
+
+</body>
+</html>

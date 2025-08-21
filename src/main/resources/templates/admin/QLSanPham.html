@@ -1,190 +1,233 @@
 <!DOCTYPE html>
 <html lang="vi" xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Quản lý sản phẩm</title>
-<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-:root{
-  --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af;
-  --brand:#6366f1; --brand-2:#22c55e; --danger:#ef4444; --border:#1f2937;
-  --card:#0b1220; --shadow:0 10px 30px rgba(0,0,0,.25);
-}
-:root.light{
-  --bg:#f3f4f6; --panel:#fff; --text:#0f172a; --muted:#6b7280;
-  --brand:#4f46e5; --brand-2:#16a34a; --danger:#dc2626; --border:#e5e7eb;
-  --card:#fff; --shadow:0 10px 20px rgba(0,0,0,.06);
-}
-*{box-sizing:border-box;}
-body{margin:0; background:var(--bg); color:var(--text); font:14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;}
+    <meta charset="UTF-8">
+    <title>Quản lý sản phẩm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a; --panel: #111827; --text: #e5e7eb; --muted: #9ca3af;
+            --brand: #6366f1; --brand-2: #22c55e; --danger: #ef4444; --border: #1f2937;
+            --card: #0b1220; --shadow: 0 10px 30px rgba(0,0,0,.25);
+        }
+        :root.light {
+            --bg: #f3f4f6; --panel: #fff; --text: #0f172a; --muted: #6b7280;
+            --brand: #4f46e5; --brand-2: #16a34a; --danger: #dc2626; --border: #e5e7eb;
+            --card: #fff; --shadow: 0 10px 20px rgba(0,0,0,.06);
+        }
+        * { box-sizing: border-box; }
+        body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif; }
 
-/* Layout */
-.app { display:grid; grid-template-columns:260px 1fr; min-height:100vh; transition: grid-template-columns 0.3s;}
-.app.collapsed { grid-template-columns:76px 1fr; }
-.sidebar { background:var(--panel); border-right:1px solid var(--border); padding:16px; display:flex; flex-direction:column; gap:12px; transition:all 0.3s;}
-.brand{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:linear-gradient(135deg,var(--brand),#0ea5e9);color:#fff;box-shadow:var(--shadow);}
-.brand .logo{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-weight:700;}
-.nav{margin-top:8px;display:flex;flex-direction:column;gap:6px;}
-.nav a{display:flex;align-items:center;gap:10px;padding:10px 12px;color:var(--text);text-decoration:none;border-radius:10px;border:1px solid transparent;}
-.nav a:hover{background:rgba(99,102,241,.12);border-color:rgba(99,102,241,.25);}
-.nav a.active{background:rgba(99,102,241,.18);border-color:rgba(99,102,241,.35);}
-.note{margin-top:auto;font-size:12px;color:var(--muted);border:1px dashed var(--border);padding:10px;border-radius:10px;background:rgba(148,163,184,.04);}
-.app.collapsed .sidebar .brand span,
-.app.collapsed .sidebar .nav a span:nth-child(2){display:none;}
+        /* Layout */
+        .app { display: grid; grid-template-columns: 260px 1fr; min-height: 100vh; transition: grid-template-columns 0.3s; }
+        .app.collapsed { grid-template-columns: 76px 1fr; }
+        .sidebar { background: var(--panel); border-right: 1px solid var(--border); padding: 16px; display: flex; flex-direction: column; gap: 12px; transition: all 0.3s; }
+        .brand { display: flex; align-items: center; gap: 10px; padding: 8px 10px; border-radius: 12px; background: linear-gradient(135deg, var(--brand), #0ea5e9); color: #fff; box-shadow: var(--shadow); }
+        .brand .logo { width: 34px; height: 34px; border-radius: 10px; background: rgba(255,255,255,.2); display: grid; place-items: center; font-weight: 700; }
+        .nav { margin-top: 8px; display: flex; flex-direction: column; gap: 6px; }
+        .nav a { display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--text); text-decoration: none; border-radius: 10px; border: 1px solid transparent; }
+        .nav a:hover { background: rgba(99,102,241,.12); border-color: rgba(99,102,241,.25); }
+        .nav a.active { background: rgba(99,102,241,.18); border-color: rgba(99,102,241,.35); }
+        .note { margin-top: auto; font-size: 12px; color: var(--muted); border: 1px dashed var(--border); padding: 10px; border-radius: 10px; background: rgba(148,163,184,.04); }
+        .app.collapsed .sidebar .brand span,
+        .app.collapsed .sidebar .nav a span:nth-child(2) { display: none; }
 
-.content{display:flex;flex-direction:column;transition:all 0.3s;}
-header{position:sticky;top:0;z-index:5;background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:10px 16px;}
-.icon-btn{border:1px solid var(--border);background:transparent;color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer;}
-.search{flex:1;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);padding:8px 12px;border-radius:12px;}
-.search input{flex:1;background:transparent;border:0;outline:none;color:var(--text);}
-.right{display:flex;align-items:center;gap:10px;}
-.avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#06b6d4);}
-main{padding:18px;display:flex;flex-direction:column;gap:18px;}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow);}
-table{width:100%;border-collapse:collapse;font-size:13px;}
-th,td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left;}
-th{color:var(--muted);font-weight:600;}
-tr:hover td{background:rgba(148,163,184,.06);}
-button{cursor:pointer;background-color:var(--brand);color:#fff;border:none;padding:8px 16px;border-radius:5px;margin-top:5px;}
-button:hover{background-color:#5555ff;}
-.pagination a{margin:0 10px;text-decoration:none;color:var(--brand);}
-.pagination span{font-weight:bold;}
-  .search-form {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    margin-bottom: 20px;
-  }
-
-  .search {
-    flex: 1;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    background-color: var(--card, #fff);
-    border: 1px solid var(--border, #ccc);
-    padding: 8px 12px;
-    border-radius: 12px;
-  }
-
-  .search input {
-    flex: 1;
-    border: none;
-    outline: none;
-    background: transparent;
-    font-size: 14px;
-    color: var(--text, #333);
-  }
-
-  .search-btn {
-    padding: 8px 16px;
-    background-color: var(--brand, #6366f1);
-    color: white;
-    border: none;
-    border-radius: 12px;
-    cursor: pointer;
-    font-weight: 600;
-  }
-
-  .search-btn:hover {
-    background-color: #4f46e5;
-  }
-.logout-btn{
-  margin-top:auto;display:flex;align-items:center;gap:10px;
-  padding:10px 12px;color:var(--danger);text-decoration:none;border-radius:10px;
-  border:1px solid transparent;font-size:14px;font-weight:500;transition:all 0.2s;
-}
-.logout-btn i{width:18px;text-align:center;}
-.logout-btn:hover{background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);}
-</style>
+        .content { display: flex; flex-direction: column; transition: all 0.3s; }
+        header { position: sticky; top: 0; z-index: 5; background: var(--panel); border-bottom: 1px solid var(--border); display: flex; align-items: center; gap: 12px; padding: 10px 16px; }
+        .icon-btn { border: 1px solid var(--border); background: transparent; color: var(--text); padding: 8px 10px; border-radius: 10px; cursor: pointer; }
+        .search { flex: 1; display: flex; align-items: center; gap: 6px; background: var(--card); border: 1px solid var(--border); padding: 8px 12px; border-radius: 12px; }
+        .search input { flex: 1; background: transparent; border: 0; outline: none; color: var(--text); }
+        .search-btn { padding: 8px 16px; background-color: var(--brand); color: white; border: none; border-radius: 12px; cursor: pointer; font-weight: 600; }
+        .search-btn:hover { background-color: #4f46e5; }
+        .right { display: flex; align-items: center; gap: 10px; }
+        .avatar { width: 34px; height: 34px; border-radius: 50%; background: linear-gradient(135deg, #22c55e, #06b6d4); }
+        main { padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { padding: 10px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+        th { color: var(--muted); font-weight: 600; }
+        tr:hover td { background: rgba(148,163,184,.06); }
+        button { cursor: pointer; background-color: var(--brand); color: #fff; border: none; padding: 8px 16px; border-radius: 5px; margin-top: 5px; }
+        button:hover { background-color: #5555ff; }
+        .pagination a { margin: 0 10px; text-decoration: none; color: var(--brand); }
+        .pagination span { font-weight: bold; }
+        .add-button button { background-color: var(--brand-2); }
+        .add-button button:hover { background-color: #16a34a; }
+        .form-section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: var(--shadow); margin-top: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { font-weight: 600; color: var(--text); display: block; margin-bottom: 5px; }
+        .form-group input, .form-group select, .form-group textarea { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); color: var(--text); }
+        .form-group textarea { resize: vertical; }
+        .variant-group { border: 1px dashed var(--border); padding: 10px; margin-bottom: 10px; background: rgba(148,163,184,.04); border-radius: 8px; }
+        .form-actions button { margin-right: 10px; }
+        .form-actions a button { background-color: var(--danger); }
+        .form-actions a button:hover { background-color: #c52222; }
+        .logout-btn { margin-top: auto; display: flex; align-items: center; gap: 10px; padding: 10px 12px; color: var(--danger); text-decoration: none; border-radius: 10px; border: 1px solid transparent; font-size: 14px; font-weight: 500; transition: all 0.2s; }
+        .logout-btn i { width: 18px; text-align: center; }
+        .logout-btn:hover { background: rgba(239,68,68,.12); border-color: rgba(239,68,68,.25); }
+    </style>
 </head>
 <body>
 <div class="app">
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-    <button class="icon-btn" id="toggleSidebar">☰</button>
-    <div class="brand">
-      <div class="logo">📱</div>
-      <span><strong>PhoneShop</strong> Admin</span>
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <button class="icon-btn" id="toggleSidebar">☰</button>
+        <div class="brand">
+            <div class="logo">📱</div>
+            <span><strong>PhoneShop</strong> Admin</span>
+        </div>
+        <nav class="nav">
+            <a href="/admin/dashboard"><i class="fas fa-home"></i><span>Tổng quan</span></a>
+            <a href="/admin/users"><i class="fas fa-users"></i><span>Người dùng</span></a>
+            <a href="/admin/sanpham" class="active"><i class="fas fa-box"></i><span>Sản phẩm</span></a>
+            <a href="/admin/hoadon"><i class="fas fa-file-invoice"></i><span>Đơn hàng</span></a>
+            <a href="/admin/loai"><i class="fas fa-tags"></i><span>Loại Sản Phẩm</span></a>
+            <a href="/admin/khuyenmai"><i class="fas fa-gift"></i><span>Khuyến mãi</span></a>
+            <a href="#"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a>
+        </nav>
+        <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span></a>
+    </aside>
+
+    <div class="content">
+        <header>
+            <form method="get" th:action="@{/admin/sanpham}" class="search">
+                🔎 
+                <input type="text" name="keyword" placeholder="Tìm theo tên..." th:value="${keyword}"/>
+                <button type="submit" class="search-btn">Tìm</button>
+            </form>
+            <div class="right">
+                <button class="icon-btn" id="themeBtn">🌓</button>
+                <button class="icon-btn">🔔</button>
+                <div class="avatar"></div>
+            </div>
+        </header>
+
+        <main>
+            <!-- Danh sách sản phẩm -->
+            <div class="card">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>Tên</th><th>Loại</th><th>Giá</th><th>SL</th><th>Hành động</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="sp : ${sanPhamPage.content}">
+                        <td th:text="${sp.tenSanPham}"></td>
+                        <td th:text="${sp.loai.tenLoai}"></td>
+                        <td th:text="${sp.gia}"></td>
+                        <td th:text="${sp.soLuong}"></td>
+                        <td>
+                            <a th:href="@{'/admin/sanpham/edit/' + ${sp.idSanPham}}">Sửa</a> |
+                            <a th:href="@{'/admin/sanpham/delete/' + ${sp.idSanPham}}"
+                               onclick="return confirm('Bạn có chắc muốn xoá?')">Xoá</a>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!-- Phân trang -->
+                <div class="pagination">
+                    <a th:if="${currentPage > 0}"
+                       th:href="@{/admin/sanpham(page=${currentPage - 1}, keyword=${keyword})}">← Trước</a>
+                    <span>Trang [[${currentPage + 1}]] / [[${sanPhamPage.totalPages}]]</span>
+                    <a th:if="${currentPage + 1 < sanPhamPage.totalPages}"
+                       th:href="@{/admin/sanpham(page=${currentPage + 1}, keyword=${keyword})}">Sau →</a>
+                </div>
+
+                <!-- Nút thêm -->
+                <div class="add-button">
+                    <a th:href="@{/admin/sanpham/create}"><button>➕ Thêm sản phẩm</button></a>
+                </div>
+            </div>
+<!-- FORM THÊM/SỬA -->
+<div class="form-section" th:if="${sanPham != null}">
+    <h3 th:text="${sanPham.idSanPham == null ? 'Thêm sản phẩm' : 'Cập nhật sản phẩm'}"></h3>
+    <form th:action="@{/admin/sanpham/save}" method="post" th:object="${sanPham}" enctype="multipart/form-data">
+        <input type="hidden" th:field="*{idSanPham}">
+        
+        <div class="form-group">
+            <label>Tên:</label>
+            <input type="text" th:field="*{tenSanPham}" required>
+        </div>
+        <div class="form-group">
+            <label>Số lượng:</label>
+            <input type="number" th:field="*{soLuong}" required>
+        </div>
+        <div class="form-group">
+            <label>Giá:</label>
+            <input type="number" th:field="*{gia}" required>
+        </div>
+        <div class="form-group">
+            <label>Giảm giá:</label>
+            <input type="number" th:field="*{giamgia}">
+        </div>
+        <div class="form-group">
+            <label>Loại:</label>
+            <select th:field="*{loai}">
+                <option value="" disabled selected>-- Chọn loại --</option>
+                <option th:each="loai : ${loais}" th:value="${loai.idLoai}" th:text="${loai.tenLoai}"></option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label>Hình:</label>
+            <input type="file" name="file" accept="image/*">
+            <!-- Nếu sửa thì hiện ảnh cũ -->
+            <div th:if="${sanPham.hinh != null}">
+                <p>Ảnh hiện tại:</p>
+                <img th:src="@{'/images/' + ${sanPham.hinh}}" alt="Ảnh sản phẩm" style="max-height:100px;">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label>Mô tả ngắn:</label>
+            <textarea th:field="*{motangan}"></textarea>
+        </div>
+        <div class="form-group">
+            <label>Mô tả chi tiết:</label>
+            <textarea th:field="*{mota}"></textarea>
+        </div>
+
+        <h4>Danh sách màu (tối đa 5 dòng)</h4>
+       <div th:each="i : ${#numbers.sequence(0,4)}" class="variant-group">
+    <label>Màu:</label>
+    <input type="text" name="variantColors" th:value="${variants.size() > i} ? ${variants[i].tenMau} : ''">
+    
+    <label>Giá bán:</label>
+    <input type="number" name="variantPrices" th:value="${variants.size() > i} ? ${variants[i].giaBan} : ''">
+    
+    <label>Số lượng:</label>
+    <input type="number" name="variantQuantities" th:value="${variants.size() > i} ? ${variants[i].soLuong} : ''">
+
+    <label>Ảnh:</label>
+    <input type="file" name="variantFiles" accept="image/*">
+    <!-- Nếu sửa thì hiện ảnh cũ -->
+    <div th:if="${variants.size() > i and variants[i].hinhAnh != null}">
+        <img th:src="@{'/images/' + ${variants[i].hinhAnh}}" style="max-height:80px;">
     </div>
-    <nav class="nav">
-      <a href="/admin/dashboard" ><i class="fas fa-home"></i><span>Tổng quan</span></a>
-      <a href="/admin/users"><i class="fas fa-users"></i><span>Người dùng</span></a>
-      <a href="/admin/sanpham"class="active"><i class="fas fa-box"></i><span>Sản phẩm</span></a>
-      <a href="/admin/hoadon"><i class="fas fa-file-invoice"></i><span>Đơn hàng</span></a>
-      <a href="/admin/loai"><i class="fas fa-tags"></i><span>Loại Sản Phẩm</span></a>
-      <a href="/admin/khuyenmai"><i class="fas fa-gift"></i><span>Khuyến mãi</span></a>
-      <a href="#"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a>
-    </nav>
-    <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span></a>
-  </aside>
+</div>
 
-  <div class="content">
-    <header>
-      <form method="get" th:action="@{/admin/sanpham}" class="search" style="flex:1; display:flex; gap:8px;">
-    🔎 
-    <input type="text" name="keyword" placeholder="Tìm theo tên..." th:value="${keyword}" />
-    <button type="submit" class="search-btn">Tìm</button>
-  </form>
-      <div class="right">
-        <button class="icon-btn" id="themeBtn">🌓</button>
-        <button class="icon-btn">🔔</button>
-        <div class="avatar"></div>
-      </div>
-    </header>
-
-    <main>
-
-
-      <!-- Danh sách sản phẩm -->
-      <table>
-          <thead>
-          <tr>
-              <th>Tên</th><th>Loại</th><th>Giá</th><th>SL</th><th>Hành động</th>
-          </tr>
-          </thead>
-          <tbody>
-          <tr th:each="sp : ${sanPhamPage.content}">
-              <td th:text="${sp.tenSanPham}"></td>
-              <td th:text="${sp.loai.tenLoai}"></td>
-              <td th:text="${sp.gia}"></td>
-              <td th:text="${sp.soLuong}"></td>
-              <td>
-                  <a th:href="@{'/admin/sanpham/edit/' + ${sp.idSanPham}}">Sửa</a> |
-                  <a th:href="@{'/admin/sanpham/delete/' + ${sp.idSanPham}}"
-                     onclick="return confirm('Bạn có chắc muốn xoá?')">Xoá</a>
-              </td>
-          </tr>
-          </tbody>
-      </table>
-
-      <!-- Phân trang -->
-      <div class="pagination">
-          <a th:if="${currentPage > 0}"
-             th:href="@{/admin/sanpham(page=${currentPage - 1}, keyword=${keyword})}">← Trước</a>
-          <span>Trang [[${currentPage + 1}]] / [[${sanPhamPage.totalPages}]]</span>
-          <a th:if="${currentPage + 1 < sanPhamPage.totalPages}"
-             th:href="@{/admin/sanpham(page=${currentPage + 1}, keyword=${keyword})}">Sau →</a>
-      </div>
-
-    </main>
-  </div>
+        <div class="form-actions">
+            <button type="submit">💾 Lưu</button>
+            <a href="/admin/sanpham"><button type="button">Huỷ</button></a>
+        </div>
+    </form>
 </div>
 
 <script>
-const root=document.documentElement;
-const THEME_KEY='ps_theme';
-function applyTheme(t){t==='light'?root.classList.add('light'):root.classList.remove('light');}
-applyTheme(localStorage.getItem(THEME_KEY)||'');
-document.getElementById('themeBtn').addEventListener('click', ()=>{
-  const nowLight = !root.classList.contains('light');
-  applyTheme(nowLight?'light':'');
-  localStorage.setItem(THEME_KEY, nowLight?'light':'');
+const root = document.documentElement;
+const THEME_KEY = 'ps_theme';
+function applyTheme(t) { t === 'light' ? root.classList.add('light') : root.classList.remove('light'); }
+applyTheme(localStorage.getItem(THEME_KEY) || '');
+document.getElementById('themeBtn').addEventListener('click', () => {
+    const nowLight = !root.classList.contains('light');
+    applyTheme(nowLight ? 'light' : '');
+    localStorage.setItem(THEME_KEY, nowLight ? 'light' : '');
 });
-document.getElementById('toggleSidebar').addEventListener('click', ()=>{
-  document.querySelector('.app').classList.toggle('collapsed');
+document.getElementById('toggleSidebar').addEventListener('click', () => {
+    document.querySelector('.app').classList.toggle('collapsed');
 });
 </script>
 </body>

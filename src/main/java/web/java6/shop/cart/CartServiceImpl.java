@@ -12,6 +12,7 @@ import java.util.Optional;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import web.java6.shop.repository.HoaDonRepository;
@@ -19,6 +20,9 @@ import web.java6.shop.repository.HoaDonChiTietRepository;
 
 @Service
 public class CartServiceImpl implements CartService {
+
+    private static final String CART_PREFIX = "cart:";
+
 
     @Autowired
     private CartRepository cartRepository;
@@ -77,7 +81,7 @@ public class CartServiceImpl implements CartService {
     }
 
    @Override
-public void checkout(String idUser, String fullName, String phone, String address) {
+public void checkout(String idUser, String fullName, String phone, String address, double tongTien) {
     Cart cart = cartRepository.findById(idUser).orElse(new Cart(idUser, new ArrayList<>()));
 
     if (cart.getItems().isEmpty()) {
@@ -89,6 +93,7 @@ public void checkout(String idUser, String fullName, String phone, String addres
     hoaDon.setTrangThai("Đặt hàng thành công và đang chờ xử lý");
     hoaDon.setDiaChi(address);
     hoaDon.setGiaoHang("Giao hàng tận nơi");
+    hoaDon.setTongTien(tongTien);
 
     User user = new User();
     user.setIdUser(idUser);
@@ -128,4 +133,14 @@ public void updateQuantity(String idUser, Integer idSanPham, String mau, Integer
     }
     cartRepository.save(cart);
 }
+    // Đếm tổng số lượng sản phẩm trong giỏ theo userId
+@Override
+public Long getCartCount(String userId) {
+    Cart cart = cartRepository.findById(userId).orElse(new Cart(userId, new ArrayList<>()));
+    return cart.getItems().stream()
+               .mapToLong(CartItem::getSoLuong)
+               .sum();
+}
+
+
 } 

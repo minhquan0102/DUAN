@@ -517,143 +517,58 @@
         .product-hidden {
             display: none;
         }
-
-        .account {
-    position: relative;
-}
-
-.account .account-link {
-    text-decoration: none;
-    color: white;
-    font-weight: 500;
-    display: flex;
-    align-items: center;
-    gap: 5px;
-}
-
-.account .account-link:hover {
-    color: #00c3ff; /* xanh nhấn */
-}
-
-.account .dropdown {
-    position: relative;
-    display: inline-block;
-}
-
-.account .dropdown-content {
-    display: none;
-    position: absolute;
-    background: #222;
-    min-width: 180px;
-    border-radius: 6px;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.2);
-    z-index: 10;
-}
-
-.account .dropdown-content a {
-    display: block;
-    padding: 10px;
-    color: white;
-    text-decoration: none;
-}
-
-.account .dropdown-content a:hover {
-    background: #00c3ff;
-    color: #fff;
-}
-
-.account .dropdown:hover .dropdown-content {
-    display: block;
-}
-
     </style>
 </head>
 <body>
-<!-- Header -->
-<header class="main-header">
-    <!-- Top bar -->
-    <div class="top-bar">
-        <!-- Logo -->
-        <div class="logo">STERIA</div>
-
-        <!-- Thanh tìm kiếm -->
-        <div class="search-bar">
-            <input type="text" placeholder="Tìm sản phẩm..." />
-            <button><i class="fas fa-search"></i></button>
-        </div>
-
-        <!-- Action buttons -->
-        <div class="header-actions">
-            <!-- Địa chỉ -->
-            <div class="location">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                    <small>Hệ thống cửa hàng</small><br>
-                    <strong>7 cửa hàng</strong>
-                </div>
+    <!-- Header -->
+    <header class="main-header">
+        <div class="top-bar">
+            <div class="logo">STERIA</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Tìm sản phẩm..." />
+                <button><i class="fas fa-search"></i></button>
             </div>
-
-            <!-- Hotline -->
-            <div class="hotline">
-                <i class="fas fa-phone-volume"></i>
-                <div>
-                    <small>Gọi mua hàng</small><br>
-                    <strong>1900 6750</strong>
-                </div>
-            </div>
-
-            <!-- Tài khoản -->
-            <div class="account">
-                <th:block th:if="${session.user != null}">
-                    <div class="dropdown">
-                        <a href="#" class="account-link">
-                            <i class="fas fa-user"></i>
-                            <span>Xin chào, <span th:text="${session.user.hoten}"></span></span>
-                            <i class="fas fa-chevron-down"></i>
-                        </a>
-                        <div class="dropdown-content">
-                            <a href="/user/profile"><i class="fas fa-id-card"></i> Thông tin cá nhân</a>
-                            <a href="/orders"><i class="fas fa-box"></i> Đơn hàng của tôi</a>
-                            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
-                        </div>
+            <div class="header-actions">
+                <div class="location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <div>
+                        <small>Hệ thống cửa hàng</small><br>
+                        <strong>7 cửa hàng</strong>
                     </div>
-                </th:block>
-
-                <th:block th:if="${session.user == null}">
-                    <a href="/login" class="account-link">
-                        <i class="fas fa-user"></i> Đăng nhập
-                    </a>
-                </th:block>
-            </div>
-
-            <!-- Giỏ hàng -->
-<div class="cart">
-    <a href="/cart" style="text-decoration:none; color:white;">
-        <i class="fas fa-shopping-cart"></i>
-        <span class="cart-text">Giỏ hàng</span>
-        <span class="cart-count" th:text="${cartCount != null ? cartCount : 0}"></span>
+                </div>
+                <div class="hotline">
+                    <i class="fas fa-phone-volume"></i>
+                    <div>
+                        <small>Gọi mua hàng</small><br>
+                        <strong>1900 6750</strong>
+                    </div>
+                </div>
+               <div class="account">
+    <a th:href="@{/login}" style="text-decoration: none; color: inherit;">
+        <i class="fas fa-user"></i> Đăng nhập <i class="fas fa-chevron-down"></i>
     </a>
 </div>
 
-
+                <div class="cart">
+                    <i class="fas fa-shopping-cart"></i> Giỏ hàng
+                    
+                </div>
+            </div>
         </div>
-    </div>
-
-    <!-- Menu -->
-    <nav class="menu-bar">
-        <a href="/home">Trang chủ</a>
-        <a href="/about">Giới thiệu</a>
-        <a href="/products">Sản phẩm<i class="fas fa-chevron-down"></i></a>
-        <a href="#">iPad </a>
-        <a href="#">Macbook - iMac </a>
-        <a href="#">Apple Watch</a>
-        <a href="#">AirPods</a>
-        <a href="#">Phụ kiện <i class="fas fa-chevron-down"></i></a>
-        <a href="/policy">Chính sách</a>
-        <a href="/news">Tin tức</a>
-        <a href="/contact">Liên hệ</a>
-    </nav>
-</header>
+        <nav class="menu-bar">
+            <a href="#">Trang chủ</a>
+            <a href="#">Giới thiệu</a>
+            <a href="#">iPhone <i class="fas fa-chevron-down"></i></a>
+            <a href="#">iPad <i class="fas fa-chevron-down"></i></a>
+            <a href="#">Macbook - iMac <i class="fas fa-chevron-down"></i></a>
+            <a href="#">Apple Watch</a>
+            <a href="#">AirPods</a>
+            <a href="#">Phụ kiện <i class="fas fa-chevron-down"></i></a>
+            <a href="#">Chính sách</a>
+            <a href="#">Tin tức</a>
+            <a href="#">Liên hệ</a>
+        </nav>
+    </header>
 
     <!-- Banner Carousel -->
     <div id="bannerSlider" class="carousel slide banner-carousel" data-bs-ride="carousel">

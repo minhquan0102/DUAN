@@ -4,6 +4,7 @@ import web.java6.shop.dto.SanPhamDTO;
 import web.java6.shop.model.Loai;
 import web.java6.shop.model.SanPham;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -23,4 +24,6 @@ public interface SanPhamService {
 
      //lấy 5 sản phẩm mới nhất theo loại
     List<SanPhamDTO> getTop5SanPhamMoiNhatByTenLoai(Integer idLoai);
+    // Lấy 5 sản phẩm mới nhất
+    List<SanPhamDTO> getTop5SanPhamMoiNhat();
 }

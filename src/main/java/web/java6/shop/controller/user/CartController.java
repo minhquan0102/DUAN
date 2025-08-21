@@ -124,12 +124,46 @@ public String hienThiTrangThanhToan(HttpSession session, Model model) {
 public String thanhToan(HttpSession session,
                         @RequestParam("fullName") String fullName,
                         @RequestParam("phone") String phone,
-                        @RequestParam("address") String address) {
+                        @RequestParam("address") String address,
+                        @RequestParam(name = "tongTien", required = false, defaultValue = "0") double tongTien) {
+
+    // Kiểm tra đăng nhập
+    User user = (User) session.getAttribute("user");
+    if (user == null) {
+        return "redirect:/login";
+    }
+
+    // Kiểm tra dữ liệu nhập
+    if (fullName.trim().isEmpty() || phone.trim().isEmpty() || address.trim().isEmpty()) {
+        // Có thể thêm thông báo lỗi qua RedirectAttributes
+        return "redirect:/cart?error=missing_info";
+    }
+
+    if (tongTien <= 0) {
+        // Nếu tổng tiền không hợp lệ
+        return "redirect:/cart?error=invalid_total";
+    }
+
+    // Thực hiện đặt hàng
+    cartService.checkout(user.getIdUser(), fullName, phone, address, tongTien);
+
+    return "redirect:/cart?success=true";
+}
+@GetMapping("/payment")
+public String showPaymentPage(Model model, HttpSession session) {
     User user = (User) session.getAttribute("user");
     if (user == null) return "redirect:/login";
 
-    cartService.checkout(user.getIdUser(), fullName, phone, address);
-    return "redirect:/cart";
+    Cart cart = cartService.getCart(user.getIdUser())
+            .orElse(new Cart(user.getIdUser(), new ArrayList<>()));
+
+    double total = cart.getItems().stream()
+        .mapToDouble(i -> i.getGia() * i.getSoLuong())
+        .sum();
+
+    model.addAttribute("total", total);
+    model.addAttribute("cart", cart);
+    return "payment"; // Tên view payment.html
 }
 
 }

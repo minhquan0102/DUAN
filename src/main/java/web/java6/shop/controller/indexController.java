@@ -1,52 +1,32 @@
-package web.java6.shop.controller.user;
+package web.java6.shop.controller;
 
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import web.java6.shop.dto.SanPhamKhuyenMaiDTO;
-import web.java6.shop.model.User;
 import web.java6.shop.service.SanPhamKhuyenMaiService;
 import web.java6.shop.service.SanPhamService;
-import web.java6.shop.cart.CartService;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.List;
 
 @Controller
-@RequestMapping("/home")
-public class HomeUIController {
-
+@RequestMapping("/")
+public class indexController {
     @Autowired
     private SanPhamService sanPhamService;
 
     @Autowired
     private SanPhamKhuyenMaiService sanPhamKhuyenMaiService;
 
-    @Autowired
-    private CartService cartService;  // ✅ Thêm giỏ hàng
-
     @GetMapping
-    public String index(Model model, HttpSession session) {
-        // Lấy user từ session
-        User user = (User) session.getAttribute("user");
-        if (user != null) {
-            model.addAttribute("user", user); // Truyền user ra view
-
-            // ✅ Lấy số lượng sản phẩm trong giỏ
-            Long cartCount = cartService.getCartCount(user.getIdUser());
-            model.addAttribute("cartCount", cartCount != null ? cartCount : 0);
-        } else {
-            model.addAttribute("cartCount", 0L);
-        }
-
+    public String index(Model model) {
         // Lấy top 5 sản phẩm theo loại (Apple id=1, Samsung id=2)
         model.addAttribute("appleProducts", sanPhamService.getTop5SanPhamMoiNhatByTenLoai(1));
         model.addAttribute("samsungProducts", sanPhamService.getTop5SanPhamMoiNhatByTenLoai(2));
-
         // Lấy 5 sản phẩm mới nhất
         model.addAttribute("newProducts", sanPhamService.getTop5SanPhamMoiNhat());
 
@@ -61,6 +41,7 @@ public class HomeUIController {
             LocalDate ngayKetThuc = firstProduct.getNgayKetThuc();
             LocalTime gioKetThuc = firstProduct.getGioKetThuc();
             if (ngayKetThuc != null && gioKetThuc != null) {
+                // Kết hợp ngày và giờ thành chuỗi ISO để sử dụng trong JavaScript
                 String endDateTime = ngayKetThuc.atTime(gioKetThuc).toString();
                 model.addAttribute("flashSaleEndDateTime", endDateTime);
             } else {
@@ -70,6 +51,7 @@ public class HomeUIController {
             model.addAttribute("flashSaleEndDateTime", "");
         }
 
-        return "user/home";
+        return "index";
     }
-}
+}  
+

@@ -117,7 +117,10 @@
         </thead>
         <tbody>
             <tr th:each="item : ${cart.items}">
-                <td><img th:src="@{${item.anh}}" width="80"/></td>
+                <td>
+    <img th:src="@{'/images/' + ${item.anh}}" width="80" style="border-radius:6px;">
+</td>
+
                 <td th:text="${item.tenSanPham}"></td>
                 <td th:text="${item.mau}"></td>
                 <td th:text="${#numbers.formatInteger(item.gia, 0, 'COMMA')} + ' VNĐ'"></td>

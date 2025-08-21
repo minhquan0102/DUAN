@@ -104,18 +104,26 @@
         </li>
     </ul>
 
-    <form th:action="@{/cart/payment}" method="post">
-        <label>Họ và tên:</label>
-        <input type="text" name="fullName" required>
+   <form th:action="@{/cart/payment}" method="post">
+    <p>
+        Tổng tiền: <span th:text="${total}">0</span> VNĐ
+    </p>
+    <!-- Input ẩn để gửi tổng tiền -->
+    <input type="hidden" name="tongTien" th:value="${total}">
 
-        <label>Số điện thoại:</label>
-        <input type="text" name="phone" required>
+    <label>Họ và tên:</label>
+    <input type="text" name="fullName" required>
 
-        <label>Địa chỉ giao hàng:</label>
-        <input type="text" name="address" required>
+    <label>Số điện thoại:</label>
+    <input type="text" name="phone" required>
 
-        <button type="submit">Xác nhận đặt hàng</button>
-    </form>
+    <label>Địa chỉ giao hàng:</label>
+    <input type="text" name="address" required>
+
+    <button type="submit">Xác nhận đặt hàng</button>
+</form>
+
+
 </div>
 </body>
 </html>

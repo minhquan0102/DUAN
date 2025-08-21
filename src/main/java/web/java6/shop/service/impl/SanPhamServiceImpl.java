@@ -157,4 +157,27 @@ public List<SanPhamDTO> getTop5SanPhamMoiNhatByTenLoai(Integer idLoai) {
                    .collect(Collectors.toList());
 }
 
-}
+@Override
+public List<SanPhamDTO> getTop5SanPhamMoiNhat() {
+    // Lấy top 5 sản phẩm mới nhất
+    List<SanPham> sanPhams = sanPhamRepository.findTop5ByOrderByNgayTaoDesc();
+    
+    // Log số lượng sản phẩm để kiểm tra
+    System.out.println("Số sản phẩm lấy được: " + sanPhams.size());
+    
+    // Áp dụng khuyến mãi
+    applyKhuyenMai(sanPhams);
+
+    // Ánh xạ sang SanPhamDTO
+    List<SanPhamDTO> result = sanPhams.stream()
+                                      .map(SanPhamMapper::toDTO)
+                                      .collect(Collectors.toList());
+    
+    // Đảm bảo chỉ trả về tối đa 5 sản phẩm
+    if (result.size() > 5) {
+        System.out.println("Cảnh báo: Danh sách vượt quá 5 sản phẩm, giới hạn lại.");
+        return result.subList(0, 5);
+    }
+    
+    return result;
+}}
