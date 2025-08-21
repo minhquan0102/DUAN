@@ -17,4 +17,5 @@ public class Cart implements Serializable { // Cần implements Serializable
     @Id
     private String idUser;
     private List<CartItem> items = new ArrayList<>();
+
 }

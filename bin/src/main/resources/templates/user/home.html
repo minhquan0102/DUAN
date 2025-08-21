@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Trang Người Dùng</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h2>Chào mừng Quý khách</h2>
+        <p>Đây là trang chính dành cho người dùng.</p>
+        <!-- Các chức năng của người dùng, ví dụ xem sản phẩm, giỏ hàng, đặt hàng,... -->
+        <a th:href="@{/logout}" class="btn btn-secondary">Đăng xuất</a>
+    </div>
+</body>
+</html>

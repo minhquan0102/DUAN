@@ -9,5 +9,5 @@ public interface UserService {
     Optional<User> findById(String idUser);
     User save(User user);
     User update(User user);
-    void delete(String idUser);
+    void deleteById(String id);
 }

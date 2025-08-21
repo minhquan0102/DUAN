@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi Tiết Hóa Đơn</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        :root{
+            --bg:#0f172a; --panel:#111827; --text:#e5e7eb; --muted:#9ca3af;
+            --brand:#6366f1; --brand-2:#22c55e; --danger:#ef4444; --border:#1f2937;
+            --card:#0b1220; --shadow:0 10px 30px rgba(0,0,0,.25);
+        }
+        :root.light{
+            --bg:#f3f4f6; --panel:#fff; --text:#0f172a; --muted:#6b7280;
+            --brand:#4f46e5; --brand-2:#16a34a; --danger:#dc2626; --border:#e5e7eb;
+            --card:#fff; --shadow:0 10px 20px rgba(0,0,0,.06);
+        }
+        *{box-sizing:border-box;}
+        body{margin:0;background:var(--bg);color:var(--text);font:14px/1.5 Roboto,system-ui,sans-serif;}
+        .app{display:grid;grid-template-columns:260px 1fr;min-height:100vh;transition:grid-template-columns .3s;}
+        .sidebar{background:var(--panel);border-right:1px solid var(--border);padding:16px;display:flex;flex-direction:column;}
+        .brand{display:flex;align-items:center;gap:10px;padding:8px 10px;border-radius:12px;background:linear-gradient(135deg,var(--brand),#0ea5e9);color:#fff;box-shadow:var(--shadow);}
+        .brand .logo{width:34px;height:34px;border-radius:10px;background:rgba(255,255,255,.2);display:grid;place-items:center;font-weight:700;}
+        .nav{margin-top:16px;display:flex;flex-direction:column;gap:6px;}
+        .nav a{padding:10px 12px;color:var(--text);text-decoration:none;border-radius:10px;}
+        .nav a.active{background:rgba(99,102,241,.18);}
+        .content{display:flex;flex-direction:column;}
+        header{background:var(--panel);border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;padding:10px 16px;}
+        .search{flex:1;display:flex;align-items:center;gap:10px;background:var(--card);border:1px solid var(--border);padding:8px 12px;border-radius:12px;}
+        .search input{flex:1;background:transparent;border:0;outline:none;color:var(--text);}
+        .right{display:flex;align-items:center;gap:10px;}
+        .avatar{width:34px;height:34px;border-radius:50%;background:linear-gradient(135deg,#22c55e,#06b6d4);}
+        main{padding:18px;}
+        .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;box-shadow:var(--shadow);margin-bottom:18px;}
+        table{width:100%;border-collapse:collapse;font-size:13px;margin-top:10px;}
+        th,td{padding:10px 8px;border-bottom:1px solid var(--border);text-align:left;}
+        th{color:var(--muted);font-weight:600;}
+        tr:hover td{background:rgba(148,163,184,.06);}
+        a{color:var(--brand);text-decoration:none;}
+        .logout-btn {
+            margin-top:auto;display:flex;align-items:center;gap:10px;
+            padding:10px 12px;color:var(--danger);
+            text-decoration:none;border-radius:10px;border:1px solid transparent;
+            font-size:14px;font-weight:500;transition:all 0.2s;
+        }
+        .logout-btn i { width:18px;text-align:center; }
+        .logout-btn:hover {background:rgba(239,68,68,.12);border-color:rgba(239,68,68,.25);}
+    </style>
+</head>
+<body>
+<div class="app">
+  <!-- Sidebar -->
+  <aside class="sidebar" id="sidebar">
+    <button class="icon-btn" id="toggleSidebar">☰</button>
+    <div class="brand">
+      <div class="logo">📱</div>
+      <span><strong>PhoneShop</strong> Admin</span>
+    </div>
+    <nav class="nav">
+      <a href="/admin/dashboard"><i class="fas fa-home"></i><span>Tổng quan</span></a>
+      <a href="/admin/users"><i class="fas fa-users"></i><span>Người dùng</span></a>
+      <a href="/admin/sanpham"><i class="fas fa-box"></i><span>Sản phẩm</span></a>
+      <a href="/admin/hoadon" class="active"><i class="fas fa-file-invoice"></i><span>Đơn hàng</span></a>
+      <a href="/admin/loai"><i class="fas fa-tags"></i><span>Loại Sản Phẩm</span></a>
+      <a href="/admin/khuyenmai"><i class="fas fa-gift"></i><span>Khuyến mãi</span></a>
+      <a href="#"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a>
+    </nav>
+    <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span></a>
+  </aside>
+
+  <!-- Content -->
+  <div class="content">
+    <header>
+      <div class="search">🔎 <input placeholder="Tìm kiếm..."/></div>
+      <div class="right">
+        <button class="icon-btn" id="themeBtn">🌓</button>
+        <div class="avatar"></div>
+      </div>
+    </header>
+
+    <main>
+      <!-- Thông tin hóa đơn -->
+      <div class="card">
+        <h2>Thông tin hóa đơn</h2>
+        <ul>
+          <li>Mã hóa đơn: <span th:text="${hoaDon.idHoaDon}"></span></li>
+          <li>Ngày tạo: <span th:text="${hoaDon.ngayTao}"></span></li>
+          <li>Trạng thái: <span th:text="${hoaDon.trangThai}"></span></li>
+          <li>Địa chỉ: <span th:text="${hoaDon.diaChi}"></span></li>
+          <li>Giao hàng: <span th:text="${hoaDon.giaoHang}"></span></li>
+          <li>Khách hàng: <span th:text="${hoaDon.user.hoten}"></span></li>
+          <li>Số điện thoại: <span th:text="${hoaDon.user.sdt}"></span></li>
+        </ul>
+      </div>
+
+      <!-- Chi tiết sản phẩm -->
+      <div class="card">
+        <h3>Chi tiết sản phẩm đã đặt</h3>
+        <table>
+          <thead>
+            <tr>
+              <th>STT</th>
+              <th>Tên sản phẩm</th>
+              <th>Màu sắc</th>
+              <th>Số lượng</th>
+              <th>Giá</th>
+              <th>Thành tiền</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr th:each="ct, iter : ${chiTietList}">
+              <td th:text="${iter.index + 1}"></td>
+              <td th:text="${ct.variant.sanPham.tenSanPham}"></td>
+              <td th:text="${ct.variant.mauSac}"></td>
+              <td th:text="${ct.soLuong}"></td>
+              <td th:text="${ct.variant.gia}"></td>
+              <td th:text="${ct.soLuong * ct.variant.gia}"></td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <a th:href="@{/admin/hoadon}">← Quay lại danh sách hóa đơn</a>
+      </div>
+    </main>
+  </div>
+</div>
+
+<script>
+const root=document.documentElement;
+const THEME_KEY='ps_theme';
+function applyTheme(t){t==='light'?root.classList.add('light'):root.classList.remove('light');}
+applyTheme(localStorage.getItem(THEME_KEY)||'');
+document.getElementById('themeBtn').addEventListener('click', ()=>{
+    const nowLight=!root.classList.contains('light');
+    applyTheme(nowLight?'light':'');
+    localStorage.setItem(THEME_KEY, nowLight?'light':'');
+});
+</script>
+</body>
+</html>

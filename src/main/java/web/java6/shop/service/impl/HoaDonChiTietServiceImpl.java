@@ -3,7 +3,6 @@ package web.java6.shop.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import web.java6.shop.model.HoaDonChiTiet;
-import web.java6.shop.model.HoaDonChiTietKey;
 import web.java6.shop.repository.HoaDonChiTietRepository;
 import web.java6.shop.service.HoaDonChiTietService;
 
@@ -22,8 +21,8 @@ public class HoaDonChiTietServiceImpl implements HoaDonChiTietService {
     }
 
     @Override
-    public Optional<HoaDonChiTiet> findById(HoaDonChiTietKey key) {
-        return hoaDonChiTietRepository.findById(key);
+    public Optional<HoaDonChiTiet> findById(Integer id) {
+        return hoaDonChiTietRepository.findById(id);
     }
 
     @Override
@@ -37,16 +36,9 @@ public class HoaDonChiTietServiceImpl implements HoaDonChiTietService {
     }
 
     @Override
-    public void delete(HoaDonChiTietKey key) {
-        hoaDonChiTietRepository.deleteById(key);
+    public void delete(Integer id) {
+        hoaDonChiTietRepository.deleteById(id);
     }
 
-    @Override
-    public List<HoaDonChiTiet> findByHoaDon(Integer idHoaDon) {
-        // Giả sử trong repository có phương thức tùy chỉnh (nếu chưa có, bạn có thể tạo thêm)
-        return hoaDonChiTietRepository.findAll()
-                .stream()
-                .filter(ct -> ct.getHoaDon().getIdHoaDon().equals(idHoaDon))
-                .toList();
-    }
+
 }

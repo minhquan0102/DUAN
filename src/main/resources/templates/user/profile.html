@@ -1,0 +1,93 @@
+<!-- templates/user/profile.html -->
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Thông tin cá nhân</title>
+</head>
+<body>
+<h1>Thông tin cá nhân</h1>
+
+<form th:action="@{/user/profile/update}" th:object="${user}" method="post">
+    <div>
+        <label>Email (ID):</label>
+        <input type="text" th:field="*{idUser}" readonly />
+    </div>
+
+    <div>
+        <label>Họ tên:</label>
+        <input type="text" th:field="*{hoten}" />
+    </div>
+
+    <div>
+        <label>Số điện thoại:</label>
+        <input type="text" th:field="*{sdt}" />
+    </div>
+
+    <div>
+        <label>Hình đại diện (URL):</label>
+        <input type="text" th:field="*{hinh}" />
+    </div>
+
+    <div>
+        <label>Mật khẩu:</label>
+        <input type="password" th:field="*{matkhau}" />
+    </div>
+
+    <div>
+        <label>Giới tính:</label>
+        <select th:field="*{gioitinh}">
+            <option value="Nam">Nam</option>
+            <option value="Nữ">Nữ</option>
+            <option value="Khác">Khác</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Ngày sinh:</label>
+        <input type="date" th:field="*{ngaysinh}" />
+    </div>
+
+    <div>
+        <label>Địa chỉ:</label>
+        <input type="text" th:field="*{diachi}" />
+    </div>
+
+    <div>
+        <label>Vai trò:</label>
+        <select th:field="*{vaitro}">
+            <option th:value="true">Admin</option>
+            <option th:value="false">Khách hàng</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Trạng thái:</label>
+        <select th:field="*{trangthai}">
+            <option th:value="true">Hoạt động</option>
+            <option th:value="false">Bị khóa</option>
+        </select>
+    </div>
+
+    <div>
+        <label>Ngày đăng ký:</label>
+        <input type="date" th:field="*{ngaydangky}" readonly />
+    </div>
+
+    <div>
+        <label>Ngày tạo:</label>
+        <input type="date" th:field="*{createdAt}" readonly />
+    </div>
+
+    <div>
+        <label>Ngày cập nhật:</label>
+        <input type="date" th:field="*{updatedAt}" readonly />
+    </div>
+
+    <button type="submit">Cập nhật</button>
+</form>
+
+
+<p th:if="${success}" th:text="${success}"></p>
+<p th:if="${error}" th:text="${error}"></p>
+</body>
+</html>

@@ -3,13 +3,16 @@ package web.java6.shop.model;
 import jakarta.persistence.*;
 import lombok.Data;
 
+import java.time.LocalDate;
+
 @Entity
 @Table(name = "USERS")
 @Data
 public class User {
+
     @Id
-    @Column(name = "id_user")
-    private String idUser;
+    @Column(name = "id_user", nullable = false)
+    private String idUser; // Email
 
     @Column(name = "sdt")
     private String sdt;
@@ -25,4 +28,27 @@ public class User {
 
     @Column(name = "vaitro")
     private boolean vaitro;
+
+    @Column(name = "gioitinh")
+    private String gioitinh;
+
+    @Column(name = "ngaysinh")
+    private LocalDate ngaysinh;
+
+    @Column(name = "diachi")
+    private String diachi;
+
+    @Column(name = "trangthai")
+    // ĐÚNG – dùng wrapper class
+    private Boolean trangthai;
+
+
+    @Column(name = "ngaydangky")
+    private LocalDate ngaydangky;
+
+    @Column(name = "created_at")
+    private LocalDate createdAt;
+
+    @Column(name = "updated_at")
+    private LocalDate updatedAt;
 }

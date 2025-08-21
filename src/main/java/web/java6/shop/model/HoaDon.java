@@ -25,7 +25,12 @@ public class HoaDon {
     @Column(name = "giaohang")
     private String giaoHang;
 
+    @Column(name = "tongtien")
+    private double tongTien;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
+
+    
 }

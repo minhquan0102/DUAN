@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Chi tiết sản phẩm</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container mt-5">
+    <h2>Chi tiết sản phẩm</h2>
+
+    <!-- Hiển thị lỗi nếu có -->
+    <div th:if="${error}" class="alert alert-danger">
+        <p th:text="${error}"></p>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6">
+            <img th:src="@{'/images/' + ${product.hinh}}" class="img-fluid" alt="Product Image">
+        </div>
+        <div class="col-md-6">
+            <h3 th:text="${product.tenSanPham}"></h3>
+            <p>Giá: <span th:text="${#numbers.formatDecimal(product.gia, 1, 0)}"></span> VND</p>
+            <p>Mô tả: <span th:text="${product.moTa}"></span></p>
+
+            <!-- Form thêm vào giỏ hàng -->
+            <form th:action="@{/cart/add}" method="post">
+                <input type="hidden" name="userId" value="user1" />
+                <input type="hidden" name="productId" th:value="${product.idSanPham}" />
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">Số lượng:</label>
+                    <input type="number" name="quantity" value="1" min="1" class="form-control" />
+                </div>
+                <button type="submit" class="btn btn-primary">Thêm vào giỏ hàng</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Sản phẩm liên quan -->
+    <h3 class="mt-5">Sản phẩm tương tự</h3>
+    <div class="row">
+        <div class="col-md-3" th:each="product : ${relatedProducts}">
+            <div class="card mb-3">
+                <img th:src="@{'/images/' + ${product.hinh}}" class="card-img-top" alt="Product Image">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${product.tenSanPham}"></h5>
+                    <p class="card-text">Giá: <span th:text="${#numbers.formatDecimal(product.gia, 1, 0)}"></span> VND</p>
+                    <a th:href="@{/product-detail(idSanPham=${product.idSanPham}, idLoai=${product.idLoai})}" class="btn btn-info">Xem chi tiết</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+</body>
+</html>

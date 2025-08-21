@@ -14,4 +14,8 @@ public class Loai {
 
     @Column(name = "ten_loai")
     private String tenLoai;
+    
+    public Integer getId() {
+        return this.idLoai;
+    }
 }

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${product.tenSanPham}"></title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<style>
+    body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 20px;
+    background-color: #f4f4f4;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+nav {
+    margin-bottom: 20px;
+}
+
+.product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 20px;
+}
+
+.product-card {
+    background: white;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    text-align: center;
+}
+
+.product-image {
+    max-width: 100%;
+    height: auto;
+    border-radius: 5px;
+    transition: opacity 0.3s ease-in-out; /* Hiệu ứng chuyển đổi ảnh */
+}
+
+.product-image.fade {
+    opacity: 0;
+}
+
+.product-detail {
+    display: flex;
+    gap: 20px;
+    max-width: 800px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 5px;
+}
+
+.product-image-container {
+    flex: 1;
+}
+
+.product-info {
+    flex: 1;
+}
+
+.color-options {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.color-button {
+    padding: 10px 20px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+}
+
+.color-button:hover {
+    background-color: #e0e0e0;
+}
+
+.color-button.active {
+    background-color: #007bff;
+    color: white;
+}
+
+a {
+    display: inline-block;
+    margin-top: 10px;
+    color: #007bff;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+</style>
+
+
+
+</head>
+
+<body>
+    <header>
+        <h1 th:text="${product.tenSanPham}"></h1>
+    </header>
+
+    <div class="product-detail">
+        <div class="product-image-container">
+            <img th:src="@{${product.hinh} ?: '/images/placeholder.jpg'}" 
+                 alt="Hình sản phẩm" 
+                 class="product-image" 
+                 id="product-image"/>
+        </div>
+        <div class="product-info">
+            <h2 th:text="${product.tenSanPham}"></h2>
+            <p th:text="${product.mota}"></p>
+            <p>Giá gốc: <span th:text="${#numbers.formatInteger(product.gia, 0, 'COMMA')} + ' VNĐ'"></span></p>
+            <p th:if="${product.giamgia > 0}">
+                Giảm: <span th:text="${product.giamgia} + '%'"></span>
+                <br/>
+                Giá sau giảm: <span th:text="${#numbers.formatInteger(product.gia * (1 - product.giamgia / 100), 0, 'COMMA')} + ' VNĐ'"></span>
+            </p>
+            <!-- ... Giữ nguyên phần trên ... -->
+
+<h3>Chọn màu:</h3>
+<div class="color-options" id="color-options">
+    <button th:each="variant : ${variants}" 
+            th:text="${variant.tenMau}" 
+            th:data-mau="${variant.tenMau}"
+            th:data-image="@{${variant.hinhAnh} ?: '/images/placeholder.jpg'}"
+            class="color-button" 
+            type="button"></button>
+</div>
+
+<!-- ✅ Thêm form giỏ hàng -->
+<form th:action="@{/cart/add}" method="post" style="margin-top: 20px;">
+    <input type="hidden" name="idSanPham" th:value="${product.idSanPham}"/>
+    <input type="hidden" name="mau" id="selected-color" value=""/>
+    <label for="soLuong">Số lượng:</label>
+    <input type="number" name="soLuong" value="1" min="1"/>
+    <br/>
+    <button type="submit">🛒 Thêm vào giỏ hàng</button>
+</form>
+
+<a href="/products" style="display:block; margin-top: 20px;">← Quay lại danh sách</a>
+
+<script>
+    // JS để chọn màu và đổi hình
+    $(document).ready(function () {
+        $('.color-button').click(function () {
+            $('.color-button').removeClass('active');
+            $(this).addClass('active');
+            
+            const selectedColor = $(this).data('mau');
+            const newImage = $(this).data('image');
+            
+            $('#selected-color').val(selectedColor); // Gán vào input hidden
+            
+            $('#product-image').fadeOut(200, function () {
+                $(this).attr('src', newImage).fadeIn(200);
+            });
+        });
+    });
+</script>
+
+        </div>
+    </div>
+</body>
+</html>

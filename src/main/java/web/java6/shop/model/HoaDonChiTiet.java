@@ -7,19 +7,24 @@ import lombok.Data;
 @Table(name = "HOADONCHITIET")
 @Data
 public class HoaDonChiTiet {
-    @EmbeddedId
-    private HoaDonChiTietKey id;
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;  // Khóa chính tự tăng
 
     @Column(name = "soluong")
     private Integer soLuong;
 
-    @ManyToOne
-    @MapsId("idHoaDon")
-    @JoinColumn(name = "id_hoadon")
-    private HoaDon hoaDon;
+    @Column(name = "ten_sanpham")
+    private String tenSanPham;
 
-    @ManyToOne
-    @MapsId("idSanPham")
-    @JoinColumn(name = "id_sanpham")
-    private SanPham sanPham;
+    @Column(name = "mau_sac")
+    private String mauSac;
+
+    @Column(name = "gia_ban")
+    private Double giaBan;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "id_hoadon")
+    private HoaDon hoaDon;  // Liên kết khóa ngoại id_hoadon
 }

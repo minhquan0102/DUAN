@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý Sản Phẩm</title>
+    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+</head>
+<body>
+<div class="container mt-5">
+    <h1>Quản lý Sản Phẩm</h1>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>ID Sản Phẩm</th>
+                <th>Tên Sản Phẩm</th>
+                <th>Số lượng</th>
+                <th>Giá</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="product : ${products}">
+                <td th:text="${product.idSanPham}"></td>
+                <td th:text="${product.tenSanPham}"></td>
+                <td th:text="${product.soLuong}"></td>
+                <td th:text="${#numbers.formatDecimal(product.gia, 1, 0)}"></td>
+            </tr>
+        </tbody>
+    </table>
+    <a th:href="@{/admin/dashboard}" class="btn btn-secondary">Trở về Dashboard</a>
+</div>
+</body>
+</html>
