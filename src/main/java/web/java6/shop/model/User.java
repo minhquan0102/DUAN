@@ -4,6 +4,9 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "USERS")
@@ -51,4 +54,8 @@ public class User {
 
     @Column(name = "updated_at")
     private LocalDate updatedAt;
+    @PreUpdate
+    protected void onUpdate() {
+        updatedAt = LocalDate.now();
+    }
 }

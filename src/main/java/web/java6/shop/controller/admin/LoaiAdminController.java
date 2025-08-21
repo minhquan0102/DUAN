@@ -5,7 +5,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import jakarta.servlet.http.HttpSession;
 import web.java6.shop.model.Loai;
+import web.java6.shop.model.User;
 import web.java6.shop.service.LoaiService;
 
 import java.util.Optional;
@@ -13,7 +16,14 @@ import java.util.Optional;
 @Controller
 @RequestMapping("/admin/loai")
 public class LoaiAdminController {
-
+@ModelAttribute
+public void addUserToModel(HttpSession session, Model model) {
+    User user = (User) session.getAttribute("user");
+    if (user != null) {
+        model.addAttribute("avatar", user.getHinh());
+        model.addAttribute("hoten", user.getHoten());
+    }
+}
     @Autowired
     private LoaiService loaiService;
 
@@ -51,4 +61,5 @@ public class LoaiAdminController {
         ra.addFlashAttribute("message", "Đã xoá danh mục.");
         return "redirect:/admin/loai";
     }
+    
 }

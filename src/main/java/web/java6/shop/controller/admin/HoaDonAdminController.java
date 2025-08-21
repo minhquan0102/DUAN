@@ -4,8 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import jakarta.servlet.http.HttpSession;
 import web.java6.shop.model.HoaDon;
 import web.java6.shop.model.HoaDonChiTiet;
+import web.java6.shop.model.User;
 import web.java6.shop.service.HoaDonChiTietService;
 import web.java6.shop.service.HoaDonService;
 
@@ -27,5 +30,12 @@ public class HoaDonAdminController {
         model.addAttribute("hoaDons", hoaDons);
         return "admin/QLHoaDon";
     }
-
+@ModelAttribute
+public void addUserToModel(HttpSession session, Model model) {
+    User user = (User) session.getAttribute("user");
+    if (user != null) {
+        model.addAttribute("avatar", user.getHinh());
+        model.addAttribute("hoten", user.getHoten());
+    }
+}
 }

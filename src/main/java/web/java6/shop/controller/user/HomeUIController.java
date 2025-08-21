@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import web.java6.shop.dto.SanPhamKhuyenMaiDTO;
 import web.java6.shop.model.User;
@@ -28,6 +29,15 @@ public class HomeUIController {
 
     @Autowired
     private CartService cartService;  // ✅ Thêm giỏ hàng
+
+    @ModelAttribute
+public void addUserToModel(HttpSession session, Model model) {
+    User user = (User) session.getAttribute("user");
+    if (user != null) {
+        model.addAttribute("avatar", user.getHinh());
+        model.addAttribute("hoten", user.getHoten());
+    }
+}
 
     @GetMapping
     public String index(Model model, HttpSession session) {

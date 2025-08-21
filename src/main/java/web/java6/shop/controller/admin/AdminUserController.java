@@ -35,7 +35,14 @@ public class AdminUserController {
         model.addAttribute("list", userService.findAll()); // Danh sách người dùng
         return "admin/QLNguoiDung"; // Tên file Thymeleaf
     }
-
+@ModelAttribute
+public void addUserToModel(HttpSession session, Model model) {
+    User user = (User) session.getAttribute("user");
+    if (user != null) {
+        model.addAttribute("avatar", user.getHinh());
+        model.addAttribute("hoten", user.getHoten());
+    }
+}
     // Xử lý thêm mới hoặc cập nhật user
     @PostMapping("/save")
     public String saveUser(@ModelAttribute("user") User user) {

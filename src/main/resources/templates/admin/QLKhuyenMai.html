@@ -70,6 +70,12 @@ form .form-group{margin-bottom:10px;}
   background: rgba(239,68,68,.12); /* màu đỏ nhạt khi hover */
   border-color: rgba(239,68,68,.25);
 }
+.avatar-img {
+    width: 40px;       /* hoặc 50px, tuỳ bạn */
+    height: 40px;      /* đảm bảo ảnh vuông */
+    border-radius: 50%; /* làm ảnh tròn */
+    object-fit: cover; /* cắt ảnh vừa khung */
+}
 </style>
 </head>
 <body>
@@ -103,7 +109,10 @@ form .form-group{margin-bottom:10px;}
       <div class="right">
         <button class="icon-btn" id="themeBtn">🌓</button>
         <button class="icon-btn">🔔</button>
-        <div class="avatar"></div>
+        <img th:src="${avatar != null} ? @{${avatar}} : @{/images/default-avatar.png}"
+     class="avatar-img" alt="Avatar">
+<span th:text="${hoten}">Tên user</span>
+
       </div>
     </header>
 

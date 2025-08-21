@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import web.java6.shop.model.User;
 import web.java6.shop.repository.UserRepository;
 import web.java6.shop.service.UserService;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +33,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User update(User user) {
+
         return userRepository.save(user);
     }
 

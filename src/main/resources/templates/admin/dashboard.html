@@ -49,6 +49,12 @@ header{position:sticky;top:0;z-index:5;background:var(--panel);
 .right{display:flex;align-items:center;gap:10px;}
 .avatar{width:34px;height:34px;border-radius:50%;
         background:linear-gradient(135deg,#22c55e,#06b6d4);}
+        .avatar-img {
+    width: 40px;       /* hoặc 50px, tuỳ bạn */
+    height: 40px;      /* đảm bảo ảnh vuông */
+    border-radius: 50%; /* làm ảnh tròn */
+    object-fit: cover; /* cắt ảnh vừa khung */
+}
 main{padding:18px;display:flex;flex-direction:column;gap:18px;}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;
       padding:16px;box-shadow:var(--shadow);}
@@ -104,7 +110,10 @@ tr:hover td{background:rgba(148,163,184,.06);}
       <div class="right">
         <button class="icon-btn" id="themeBtn">🌓</button>
         <button class="icon-btn">🔔</button>
-        <div class="avatar"></div>
+        <img th:src="${avatar != null} ? @{${avatar}} : @{/images/default-avatar.png}"
+     class="avatar-img" alt="Avatar">
+<span th:text="${hoten}">Tên user</span>
+
       </div>
     </header>
 
