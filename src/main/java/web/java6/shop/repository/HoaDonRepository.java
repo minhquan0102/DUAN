@@ -13,8 +13,8 @@ import java.util.List;
 public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
     List<HoaDon> findByUserIdUser(String idUser);
 
-@Query("SELECT SUM(h.tongTien) FROM HoaDon h")
-    double tongDoanhThu();
+@Query("SELECT COALESCE(SUM(h.tongTien), 0) FROM HoaDon h")
+double tongDoanhThu();
 
     @Query("SELECT COUNT(h) FROM HoaDon h")
     long tongDonHang();
