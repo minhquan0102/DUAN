@@ -28,6 +28,9 @@ public class HoaDon {
     @Column(name = "tongtien")
     private double tongTien;
 
+    @Column(name = "active", nullable = false)
+    private boolean active = true;
+
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;

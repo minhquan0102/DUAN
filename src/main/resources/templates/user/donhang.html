@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Đơn hàng của tôi</title>
+    <link rel="stylesheet" th:href="@{/css/styles.css}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background: #f9fafb;
+        }
+        h2 {
+            color: #222;
+            margin-bottom: 20px;
+            font-size: 22px;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+        th, td {
+            padding: 14px 12px;
+            border-bottom: 1px solid #eee;
+            text-align: center;
+            font-size: 15px;
+        }
+        th {
+            background: #f1f5f9;
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 13px;
+            letter-spacing: 0.5px;
+        }
+        tr:hover {
+            background: #f8fafc;
+        }
+        .status {
+            font-weight: bold;
+        }
+        .btn-cancel {
+            padding: 6px 14px;
+            background-color: #ef4444;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background 0.2s ease;
+        }
+        .btn-cancel:hover {
+            background-color: #dc2626;
+        }
+        .badge-disabled {
+            display: inline-block;
+            padding: 6px 14px;
+            border-radius: 6px;
+            background: #e5e7eb;
+            color: #6b7280;
+            font-size: 14px;
+            font-weight: 500;
+        }
+    </style>
+</head>
+<body>
+
+<h2>📦 Danh sách đơn hàng của bạn</h2>
+
+<table>
+    <thead>
+    <tr>
+        <th>Mã đơn</th>
+        <th>Ngày tạo</th>
+        <th>Địa chỉ</th>
+        <th>Giao hàng</th>
+        <th>Tổng tiền</th>
+        <th>Trạng thái</th>
+        <th>Hành động</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="dh : ${donhangList}">
+        <td th:text="${dh.idHoaDon}"></td>
+        <td th:text="${dh.ngayTao}"></td>
+        <td th:text="${dh.diaChi}"></td>
+        <td th:text="${dh.giaoHang}"></td>
+        <td th:text="${#numbers.formatDecimal(dh.tongTien, 0, 'COMMA', 0, 'POINT')} + ' ₫'"></td>
+        <td th:text="${dh.trangThai}"></td>
+
+       
+
+        <td>
+            <!-- Nếu active=false thì hiện nút Hủy -->
+            <form th:if="${!dh.active}" 
+                  th:action="@{/user/huydon/{id}(id=${dh.idHoaDon})}" 
+                  method="post">
+                <button type="submit" class="btn-cancel"
+                        onclick="return confirm('Bạn có chắc muốn hủy đơn này không?');">
+                    Hủy đơn
+                </button>
+            </form>
+
+            <!-- Nếu active=true thì hiện badge -->
+            <span th:if="${dh.active}" class="badge-disabled">Không thể hủy</span>
+        </td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>

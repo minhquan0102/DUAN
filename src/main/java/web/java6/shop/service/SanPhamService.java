@@ -26,4 +26,6 @@ public interface SanPhamService {
     List<SanPhamDTO> getTop5SanPhamMoiNhatByTenLoai(Integer idLoai);
     // Lấy 5 sản phẩm mới nhất
     List<SanPhamDTO> getTop5SanPhamMoiNhat();
+
+    
 }

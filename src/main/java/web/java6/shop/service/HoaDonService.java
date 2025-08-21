@@ -12,4 +12,6 @@ public interface HoaDonService {
     void delete(Integer idHoaDon);
     // Lấy danh sách đơn hàng theo người dùng
     List<HoaDon> findByUser(String idUser);
+    void cancelOrder(Integer idHoaDon);
+    void updateOrderStatus(Integer idHoaDon, String status);
 }

@@ -127,7 +127,24 @@ tr:hover td{background:rgba(148,163,184,.06);}
             <tr th:each="hd : ${hoaDons}">
                 <td th:text="${hd.idHoaDon}"></td>
                 <td th:text="${hd.ngayTao}"></td>
-                <td th:text="${hd.trangThai}"></td>
+            <td>
+    <form th:action="@{'/admin/hoadon/updateStatus/' + ${hd.idHoaDon}}" method="post">
+        <select name="status">
+            <option value="Chờ xác nhận" 
+                th:selected="${hd.trangThai == 'Đặt hàng thành công và đang chờ xử lý'}">Đặt hàng thành công và đang chờ xử lý</option>
+            <option value="Đã xác nhận" 
+                th:selected="${hd.trangThai == 'Đã xác nhận'}">Đã xác nhận</option>
+            <option value="Đang giao hàng" 
+                th:selected="${hd.trangThai == 'Đang giao hàng'}">Đang giao hàng</option>
+            <option value="Đã giao thành công" 
+                th:selected="${hd.trangThai == 'Đã giao thành công'}">Đã giao thành công</option>
+            <option value="Đã hủy" 
+                th:selected="${hd.trangThai == 'Đã hủy'}">Đã hủy</option>
+        </select>
+        <button type="submit">Cập nhật</button>
+    </form>
+</td>
+
                 <td th:text="${hd.diaChi}"></td>
                 <td th:text="${hd.giaoHang}"></td>
                 <td th:text="${hd.user.idUser}"></td>

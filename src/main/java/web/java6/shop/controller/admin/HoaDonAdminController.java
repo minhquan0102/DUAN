@@ -27,5 +27,14 @@ public class HoaDonAdminController {
         model.addAttribute("hoaDons", hoaDons);
         return "admin/QLHoaDon";
     }
+    // Xử lý cập nhật
+@PostMapping("/updateStatus/{idHoaDon}")
+public String updateOrderStatus(@PathVariable Integer idHoaDon,
+                                @RequestParam("status") String status) {
+    hoaDonService.updateOrderStatus(idHoaDon, status);
+    return "redirect:/admin/hoadon"; // reload danh sách
+}
+
+
 
 }

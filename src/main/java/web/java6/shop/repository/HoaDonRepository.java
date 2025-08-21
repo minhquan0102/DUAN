@@ -12,6 +12,8 @@ import java.util.List;
 
 public interface HoaDonRepository extends JpaRepository<HoaDon, Integer> {
     List<HoaDon> findByUserIdUser(String idUser);
+      // Chỉ lấy đơn hàng còn active
+    List<HoaDon> findByUserIdUserAndActiveTrue(String idUser);
 
 @Query("SELECT SUM(h.tongTien) FROM HoaDon h")
     double tongDoanhThu();

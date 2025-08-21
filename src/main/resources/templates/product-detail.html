@@ -252,6 +252,8 @@
         color: #4a5568;
         line-height: 1.6;
     }
+
+
 </style>
 </head>
 <body>
@@ -269,7 +271,8 @@
         </div>
         <div class="product-info">
             <h2 th:text="${product.tenSanPham}"></h2>
-            <p th:text="${product.mota}"></p>
+            <p th:utext="${product.mota}" class="mota" style="white-space: pre-line;"></p>
+
             <p class="original-price" th:if="${product.giamgia > 0}">
                 Giá gốc: <span th:text="${#numbers.formatInteger(product.gia, 0, 'COMMA')} + ' VNĐ'"></span>
             </p>
