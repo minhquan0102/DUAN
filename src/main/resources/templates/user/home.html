@@ -624,6 +624,9 @@
                         <div class="dropdown-content">
                             <a href="/user/profile"><i class="fas fa-id-card"></i> Thông tin cá nhân</a>
                             <a href="/user/donhang"><i class="fas fa-box"></i> Đơn hàng của tôi</a>
+                            <th:block th:if="${session.user != null and session.user.vaitro}">
+    <a href="/admin"><i class="fas fa-cog"></i> Quản lý</a>
+</th:block>
                             <a href="/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
                         </div>
                     </div>
