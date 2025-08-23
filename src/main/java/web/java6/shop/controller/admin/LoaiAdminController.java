@@ -28,11 +28,17 @@ public void addUserToModel(HttpSession session, Model model) {
     private LoaiService loaiService;
 
     // Danh sách + thêm mới
-    @GetMapping
+        @GetMapping
     public String index(Model model) {
         model.addAttribute("loais", loaiService.findAll());
         model.addAttribute("loai", new Loai()); // form thêm mới
-        return "admin/QLLoai";
+
+        // Thêm biến cho layout
+        model.addAttribute("pageTitle", "Quản lý loại sản phẩm");
+        model.addAttribute("activePage", "loai");
+        model.addAttribute("content", "admin/QLLoai"); // file con
+
+        return "admin/layout"; // trả về layout.html
     }
 
     // Sửa
@@ -43,7 +49,12 @@ public void addUserToModel(HttpSession session, Model model) {
 
         model.addAttribute("loais", loaiService.findAll());
         model.addAttribute("loai", opt.get());
-        return "admin/QLLoai";
+
+        model.addAttribute("pageTitle", "Sửa loại sản phẩm");
+        model.addAttribute("activePage", "loai");
+        model.addAttribute("content", "admin/QLLoai"); // file con
+
+        return "admin/layout";
     }
 
     // Lưu (thêm hoặc cập nhật)

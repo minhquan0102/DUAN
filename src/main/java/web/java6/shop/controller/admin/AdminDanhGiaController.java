@@ -17,15 +17,18 @@ public class AdminDanhGiaController {
     private DanhGiaService danhGiaService;
 
     @GetMapping
-    public String listDanhGia(Model model,
-                              @RequestParam(value = "keyword", required = false) String keyword) {
-        List<DanhGia> danhgias = (keyword != null && !keyword.isEmpty())
-                ? danhGiaService.search(keyword)
-                : danhGiaService.findAll();
-        model.addAttribute("danhgias", danhgias);
-        return "admin/QLDanhgia";
-    }
+public String listDanhGia(Model model,
+                          @RequestParam(value = "keyword", required = false) String keyword) {
+    List<DanhGia> danhgias = (keyword != null && !keyword.isEmpty())
+            ? danhGiaService.search(keyword)
+            : danhGiaService.findAll();
+    model.addAttribute("danhgias", danhgias);
+    model.addAttribute("pageTitle", "Quản lý đánh giá");
+    model.addAttribute("activePage", "danhgia");
+    model.addAttribute("content", "admin/QLDanhgia"); // trang con
 
+    return "admin/layout"; // Luôn trả về layout
+}
     @PostMapping("/duyet/{id}")
     public String duyetDanhGia(@PathVariable("id") Integer id) {
         danhGiaService.duyet(id);

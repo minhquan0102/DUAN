@@ -16,11 +16,17 @@ public class HoadonchitietController {
     @Autowired
     private HoaDonChiTietRepository hoaDonChiTietRepository;
 
-    @GetMapping("/view/{id}")
+    @GetMapping("/admin/hoadon/view/{id}")
 public String xemChiTietHoaDon(@PathVariable("id") Integer idHoaDon, Model model) {
     model.addAttribute("chitietList", hoaDonChiTietRepository.findByIdHoaDon(idHoaDon));
     model.addAttribute("hoaDonId", idHoaDon);
-    return "admin/hoadonchitiet";
+
+    // Thêm các biến cho layout
+    model.addAttribute("pageTitle", "Chi tiết hóa đơn #" + idHoaDon);
+    model.addAttribute("activePage", "hoadon");
+    model.addAttribute("content", "admin/hoadonchitiet"); // file con
+
+    return "layout"; // luôn trả về layout.html
 }
 
 }

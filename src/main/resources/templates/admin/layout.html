@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title th:text="${pageTitle} ?: 'Admin Dashboard'">Admin Dashboard</title>
+
+    <!-- Fonts + Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+
+    <!-- CSS -->
+    <link th:href="@{/css/admin.css}" rel="stylesheet">
+
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+<div class="app">
+    <!-- Sidebar -->
+    <aside class="sidebar" id="sidebar">
+        <button class="icon-btn" id="toggleSidebar">☰</button>
+        <div class="brand">
+            <div class="logo">📱</div>
+            <span><strong>PhoneShop</strong> Admin</span>
+        </div>
+        <nav class="nav">
+            <a th:href="@{/admin/dashboard}" th:classappend="${activePage=='dashboard'} ? ' active'"><i class="fas fa-home"></i><span>Tổng quan</span></a>
+            <a th:href="@{/admin/users}" th:classappend="${activePage=='users'} ? ' active'"><i class="fas fa-users"></i><span>Người dùng</span></a>
+            <a th:href="@{/admin/sanpham}" th:classappend="${activePage=='sanpham'} ? ' active'"><i class="fas fa-box"></i><span>Sản phẩm</span></a>
+            <a th:href="@{/admin/hoadon}" th:classappend="${activePage=='hoadon'} ? ' active'"><i class="fas fa-file-invoice"></i><span>Đơn hàng</span></a>
+            <a th:href="@{/admin/danhgia}" th:classappend="${activePage=='danhgia'} ? ' active'"><i class="fas fa-comment"></i><span>Đánh giá</span></a>
+            <a th:href="@{/admin/loai}" th:classappend="${activePage=='loai'} ? ' active'"><i class="fas fa-tags"></i><span>Loại Sản Phẩm</span></a>
+            <a th:href="@{/admin/khuyenmai}" th:classappend="${activePage=='khuyenmai'} ? ' active'"><i class="fas fa-gift"></i><span>Khuyến mãi</span></a>
+            <a href="#"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a>
+        </nav>
+        <a th:href="@{/logout}" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span></a>
+    </aside>
+
+    <!-- Content -->
+    <div class="content">
+        <header>
+            <div class="search">🔎 <input placeholder="Tìm kiếm..." /></div>
+            <div class="right">
+                <button class="icon-btn" id="themeBtn">🌓</button>
+                <button class="icon-btn">🔔</button>
+                <img th:src="${avatar != null} ? @{${avatar}} : @{/images/default-avatar.png}"
+                     class="avatar-img" alt="Avatar">
+                <span th:text="${hoten}">Tên user</span>
+            </div>
+        </header>
+
+        <!-- Nội dung động -->
+        <main th:replace="~{${content}}"></main>
+
+    </div>
+</div>
+
+<!-- JS -->
+<script th:src="@{/js/admin.js}"></script>
+</body>
+</html>

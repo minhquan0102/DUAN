@@ -21,29 +21,47 @@ public class KhuyenMaiAdminController {
     @Autowired
     private KhuyenMaiService khuyenMaiService;
 
+    // Thêm thông tin user vào model
+    @ModelAttribute
+    public void addUserToModel(HttpSession session, Model model) {
+        User user = (User) session.getAttribute("user");
+        if (user != null) {
+            model.addAttribute("avatar", user.getHinh());
+            model.addAttribute("hoten", user.getHoten());
+        }
+    }
+
+    // Danh sách + thêm mới
     @GetMapping
     public String index(Model model) {
         model.addAttribute("dsKhuyenMai", khuyenMaiService.findAll());
         model.addAttribute("khuyenMai", new KhuyenMai());
-        return "admin/QLKhuyenMai";
+
+        // Biến cho layout
+        model.addAttribute("pageTitle", "Quản lý khuyến mãi");
+        model.addAttribute("activePage", "khuyenmai");
+        model.addAttribute("content", "admin/QLKhuyenMai"); // file con
+
+        return "admin/layout"; // trả về layout.html
     }
-@ModelAttribute
-public void addUserToModel(HttpSession session, Model model) {
-    User user = (User) session.getAttribute("user");
-    if (user != null) {
-        model.addAttribute("avatar", user.getHinh());
-        model.addAttribute("hoten", user.getHoten());
-    }
-}
+
+    // Sửa
     @GetMapping("/edit/{id}")
     public String edit(@PathVariable("id") Integer id, Model model) {
         KhuyenMai km = khuyenMaiService.findById(id).orElse(null);
         if (km == null) return "redirect:/admin/khuyenmai";
+
         model.addAttribute("dsKhuyenMai", khuyenMaiService.findAll());
         model.addAttribute("khuyenMai", km);
-        return "admin/QLKhuyenMai";
+
+        model.addAttribute("pageTitle", "Sửa khuyến mãi");
+        model.addAttribute("activePage", "khuyenmai");
+        model.addAttribute("content", "admin/QLKhuyenMai"); // file con
+
+        return "admin/layout";
     }
 
+    // Lưu
     @PostMapping("/save")
     public String save(@ModelAttribute("khuyenMai") KhuyenMai khuyenMai, RedirectAttributes ra) {
         if (khuyenMai.getGioBatDau() == null) {
@@ -58,6 +76,7 @@ public void addUserToModel(HttpSession session, Model model) {
         return "redirect:/admin/khuyenmai";
     }
 
+    // Xoá
     @GetMapping("/delete/{id}")
     public String delete(@PathVariable("id") Integer id, RedirectAttributes ra) {
         khuyenMaiService.deleteById(id);
@@ -65,3 +84,4 @@ public void addUserToModel(HttpSession session, Model model) {
         return "redirect:/admin/khuyenmai";
     }
 }
+

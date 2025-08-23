@@ -77,44 +77,7 @@ form .form-group{margin-bottom:10px;}
     object-fit: cover; /* cắt ảnh vừa khung */
 }
 </style>
-</head>
-<body>
-<div class="app">
-  <!-- Sidebar -->
-  <aside class="sidebar" id="sidebar">
-  <button class="icon-btn" id="toggleSidebar">☰</button>
-  <div class="brand">
-    <div class="logo">📱</div>
-    <span><strong>PhoneShop</strong> Admin</span>
-  </div>
 
-  <nav class="nav">
-    <a href="/admin/dashboard" ><i class="fas fa-home"></i><span>Tổng quan</span></a>
-    <a href="/admin/users"><i class="fas fa-users"></i><span>Người dùng</span></a>
-    <a href="/admin/sanpham"><i class="fas fa-box"></i><span>Sản phẩm</span></a>
-    <a href="/admin/hoadon"><i class="fas fa-file-invoice"></i><span>Đơn hàng</span></a>
-    <a href="/admin/loai"><i class="fas fa-tags"></i><span>Loại Sản Phẩm</span></a>
-    <a href="/admin/khuyenmai"class="active"><i class="fas fa-gift"></i><span>Khuyến mãi</span></a>
-    <a href="#"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a>
-  </nav>
-
-  <!-- Nút đăng xuất -->
-  <a href="/logout" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span></a>
-</aside>
-
-  <!-- Content -->
-  <div class="content">
-    <header>
-      <div class="search">🔎 <input placeholder="Tìm kiếm khuyến mãi..." /></div>
-      <div class="right">
-        <button class="icon-btn" id="themeBtn">🌓</button>
-        <button class="icon-btn">🔔</button>
-        <img th:src="${avatar != null} ? @{${avatar}} : @{/images/default-avatar.png}"
-     class="avatar-img" alt="Avatar">
-<span th:text="${hoten}">Tên user</span>
-
-      </div>
-    </header>
 
     <main>
       <!-- Form thêm/sửa -->

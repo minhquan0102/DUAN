@@ -25,11 +25,17 @@ public class HoaDonAdminController {
     private HoaDonChiTietService hoaDonChiTietService;
 
     @GetMapping
-    public String danhSachHoaDon(Model model) {
-        List<HoaDon> hoaDons = hoaDonService.findAll();
-        model.addAttribute("hoaDons", hoaDons);
-        return "admin/QLHoaDon";
-    }
+public String danhSachHoaDon(Model model) {
+    List<HoaDon> hoaDons = hoaDonService.findAll();
+    model.addAttribute("hoaDons", hoaDons);
+
+    // Biến cho layout
+    model.addAttribute("pageTitle", "Quản lý hóa đơn");
+    model.addAttribute("activePage", "hoadon");
+    model.addAttribute("content", "admin/QLHoaDon"); // file con để chèn vào layout
+
+    return "admin/layout"; // Luôn trả về layout.html
+}
     // Xử lý cập nhật
 @PostMapping("/updateStatus/{idHoaDon}")
 public String updateOrderStatus(@PathVariable Integer idHoaDon,

@@ -24,12 +24,18 @@ public void addUserToModel(HttpSession session, Model model) {
         model.addAttribute("hoten", user.getHoten());
     }
 }
-    @GetMapping("/admin/dashboard")
-    public String dashboard(Model model) {
-        model.addAttribute("tongDoanhThu", dashboardService.getTongDoanhThu());
-        model.addAttribute("tongDonHang", dashboardService.getTongDonHang());
-        model.addAttribute("tongKhachHang", dashboardService.getTongKhachHang());
-        model.addAttribute("donHangGanDay", dashboardService.getDonHangGanDay());
-        return "admin/dashboard";
-    }
+   @GetMapping("/admin/dashboard")
+public String dashboard(Model model) {
+    model.addAttribute("tongDoanhThu", dashboardService.getTongDoanhThu());
+    model.addAttribute("tongDonHang", dashboardService.getTongDonHang());
+    model.addAttribute("tongKhachHang", dashboardService.getTongKhachHang());
+    model.addAttribute("donHangGanDay", dashboardService.getDonHangGanDay());
+
+    // Thêm các biến cho layout
+    model.addAttribute("pageTitle", "Tổng quan");
+    model.addAttribute("activePage", "dashboard");
+    model.addAttribute("content", "admin/dashboard"); // file con để chèn vào layout
+
+    return "admin/layout"; // LUÔN trả về layout.html
+}
 }

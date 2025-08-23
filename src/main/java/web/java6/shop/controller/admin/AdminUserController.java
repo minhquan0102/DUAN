@@ -21,20 +21,26 @@ public class AdminUserController {
 
     // Load danh sách + hiển thị form thêm hoặc sửa
     @GetMapping
-    public String loadUserPage(@RequestParam(name = "editId", required = false) String editId, Model model) {
-        User userForm = new User();
+public String loadUserPage(@RequestParam(name = "editId", required = false) String editId, Model model) {
+    User userForm = new User();
 
-        if (editId != null && !editId.isEmpty()) {
-            Optional<User> optionalUser = userService.findById(editId);
-            if (optionalUser.isPresent()) {
-                userForm = optionalUser.get();
-            }
+    if (editId != null && !editId.isEmpty()) {
+        Optional<User> optionalUser = userService.findById(editId);
+        if (optionalUser.isPresent()) {
+            userForm = optionalUser.get();
         }
-
-        model.addAttribute("user", userForm); // Dùng cho form thêm/sửa
-        model.addAttribute("list", userService.findAll()); // Danh sách người dùng
-        return "admin/QLNguoiDung"; // Tên file Thymeleaf
     }
+
+    model.addAttribute("user", userForm); // Dùng cho form thêm/sửa
+    model.addAttribute("list", userService.findAll()); // Danh sách người dùng
+
+    // Thêm các biến cho layout
+    model.addAttribute("pageTitle", "Quản lý người dùng");
+    model.addAttribute("activePage", "users");
+    model.addAttribute("content", "admin/QLNguoiDung"); // file con nhúng vào layout
+
+    return "admin/layout"; // luôn trả về layout.html
+}
 @ModelAttribute
 public void addUserToModel(HttpSession session, Model model) {
     User user = (User) session.getAttribute("user");

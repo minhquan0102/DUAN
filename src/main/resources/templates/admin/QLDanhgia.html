@@ -23,7 +23,7 @@
             <td th:text="${dg.sanPham.tenSanPham}"></td>
             <td th:text="${dg.sao}"></td>
             <td th:text="${dg.noiDung}"></td>
-            <td th:text="${dg.daDuyet ? 'Đã duyệt' : 'Chưa duyệt'}"></td>
+            <td th:text="${dg.daDuyet ? 'Đã duyệt' : 'Chưa duyệt/Ẩn'}"></td>
             <td>
                 <form th:action="@{'/admin/danhgia/duyet/' + ${dg.idDanhGia}}" method="post">
                     <button type="submit">Duyệt</button>
