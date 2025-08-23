@@ -571,6 +571,109 @@
     border-radius: 50%; /* làm ảnh tròn */
     object-fit: cover; /* cắt ảnh vừa khung */
 }
+.cart-dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.cart-btn {
+    text-decoration: none;
+    color: white;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 10px 15px;
+    background: #0071e3;
+    border-radius: 5px;
+}
+
+.cart-count {
+    background: red;
+    color: white;
+    font-size: 12px;
+    padding: 2px 6px;
+    border-radius: 50%;
+    margin-left: 5px;
+}
+
+.cart-dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 110%;
+    background: white;
+    min-width: 300px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
+    border-radius: 8px;
+    overflow: hidden;
+    z-index: 1000;
+}
+
+.cart-dropdown:hover .cart-dropdown-content {
+    display: block;
+}
+
+.cart-dropdown-content ul {
+    list-style: none;
+    max-height: 400px;
+    overflow-y: auto;
+}
+
+.cart-item {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    border-bottom: 1px solid #eee;
+    position: relative;
+}
+
+.cart-item img {
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 5px;
+    margin-right: 10px;
+}
+
+.cart-item-info p {
+    margin: 0;
+    font-weight: 500;
+}
+
+.cart-item-info span {
+    font-size: 12px;
+    color: #555;
+}
+
+.remove-item {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: red;
+    text-decoration: none;
+    font-size: 16px;
+}
+
+.cart-footer {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background: #f9f9f9;
+}
+
+.cart-footer a {
+    text-decoration: none;
+    color: #0071e3;
+    font-weight: 500;
+}
+
+.cart-footer a.checkout {
+    background: #0071e3;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
 
     </style>
 </head>
@@ -580,7 +683,7 @@
     <!-- Top bar -->
     <div class="top-bar">
         <!-- Logo -->
-        <div class="logo">STERIA</div>
+        <div class="logo">FIVETECH</div>
 
         <!-- Thanh tìm kiếm -->
         <div class="search-bar">
@@ -590,23 +693,7 @@
 
         <!-- Action buttons -->
         <div class="header-actions">
-            <!-- Địa chỉ -->
-            <div class="location">
-                <i class="fas fa-map-marker-alt"></i>
-                <div>
-                    <small>Hệ thống cửa hàng</small><br>
-                    <strong>7 cửa hàng</strong>
-                </div>
-            </div>
-
-            <!-- Hotline -->
-            <div class="hotline">
-                <i class="fas fa-phone-volume"></i>
-                <div>
-                    <small>Gọi mua hàng</small><br>
-                    <strong>1900 6750</strong>
-                </div>
-            </div>
+            
 
             <!-- Tài khoản -->
             <div class="account">
@@ -1121,7 +1208,7 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="footer-column">
-            <h2 style="font-size: 22px; font-weight: bold; color: white;">STERIA</h2>
+            <h2 style="font-size: 22px; font-weight: bold; color: white;">FIVETECH</h2>
             <p>Hệ thống cửa hàng Sona Phone chuyên bán lẻ điện thoại, máy tính laptop, smartwatch, smarthome, phụ kiện chính hãng – Giá tốt, giao miễn phí.</p>
             <p><strong>Địa chỉ:</strong> 70 Lữ Gia, Phường 15, Quận 11, Tp.HCM</p>
             <p><strong>Điện thoại:</strong> 086283246</p>

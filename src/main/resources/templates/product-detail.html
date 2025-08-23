@@ -252,7 +252,131 @@
         color: #4a5568;
         line-height: 1.6;
     }
+.rating-section {
+    max-width: 1000px;
+    margin: 40px auto;
+    background: white;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+}
 
+.rating-section h3 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #1a202c;
+    margin-bottom: 20px;
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 8px;
+}
+
+.rating-list h4 {
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: #2d3748;
+    margin-bottom: 15px;
+}
+
+.no-rating {
+    font-style: italic;
+    color: #718096;
+}
+
+.rating-item {
+    border-bottom: 1px solid #e2e8f0;
+    padding-bottom: 12px;
+    margin-bottom: 12px;
+}
+
+.rating-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 4px;
+}
+
+.rating-user {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #2d3748;
+}
+
+.rating-stars {
+    color: #f5c518; /* vàng */
+    font-size: 1.1rem;
+}
+
+.rating-date {
+    font-size: 0.85rem;
+    color: #718096;
+    margin-bottom: 6px;
+}
+
+.rating-content {
+    font-size: 1rem;
+    color: #4a5568;
+    line-height: 1.5;
+}
+
+.rating-form {
+    margin-top: 25px;
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.rating-form label {
+    font-weight: 500;
+    color: #2d3748;
+}
+
+.rating-form select,
+.rating-form textarea {
+    padding: 10px;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    font-size: 1rem;
+}
+
+.rating-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.rating-form button {
+    align-self: flex-start;
+    padding: 12px 24px;
+    background-color: #3182ce;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.rating-form button:hover {
+    background-color: #2b6cb0;
+    transform: translateY(-2px);
+}
+.star-rating {
+    font-size: 2rem;
+    cursor: pointer;
+    display: flex;
+    gap: 5px;
+}
+.star {
+    color: lightgray;
+    transition: color 0.2s;
+}
+.star.selected {
+    color: gold;
+}
+.star:hover,
+.star:hover ~ .star {
+    color: gold;
+}
 
 </style>
 </head>
@@ -304,21 +428,50 @@
         </div>
     </div>
 
-    <div class="comment-section">
-        <h3>Bình luận</h3>
-        <form th:action="@{/comments/add}" method="post" class="comment-form">
-            <input type="hidden" name="idSanPham" th:value="${product.idSanPham}"/>
-            <textarea name="content" placeholder="Viết bình luận của bạn..." required></textarea>
-            <button type="submit">Gửi bình luận</button>
-        </form>
-        <div class="comment-list">
-            <div th:each="comment : ${comments}" class="comment-item">
-                <div class="comment-author" th:text="${comment.author}"></div>
-                <div class="comment-date" th:text="${#dates.format(comment.createdAt, 'dd/MM/yyyy HH:mm')}"></div>
-                <div class="comment-content" th:text="${comment.content}"></div>
+<div class="rating-section">
+    <h3>Đánh giá sản phẩm</h3>
+
+    <!-- Danh sách đánh giá -->
+    <div class="rating-list">
+        <h4>Đánh giá từ khách hàng:</h4>
+        <div th:if="${#lists.isEmpty(danhgias)}" class="no-rating">Chưa có đánh giá nào.</div>
+        <div th:each="dg : ${danhgias}" class="rating-item">
+            <div class="rating-header">
+                <strong th:text="${dg.user.hoten}" class="rating-user">Tên người dùng</strong>
+                <div class="rating-stars">
+    <span th:each="i : ${#numbers.sequence(1,5)}"
+          th:text="${i <= dg.sao ? '★' : '☆'}"
+          th:style="${i <= dg.sao} ? 'color: gold;' : 'color: lightgray;'">
+    </span>
+</div>
             </div>
+            <div class="rating-date" th:text="${#temporals.format(dg.ngayDanhGia, 'dd/MM/yyyy HH:mm')}"></div>
+            <div class="rating-content" th:text="${dg.noiDung}"></div>
         </div>
     </div>
+
+    <!-- Form gửi đánh giá -->
+    <form th:action="@{/danhgia/them}" method="post" onsubmit="return validateRating()">
+    <input type="hidden" name="idSanPham" th:value="${product.idSanPham}" />
+    <input type="hidden" name="sao" id="rating-value" value="0" />
+
+    <div class="star-rating" style="font-size: 24px; color: gold; cursor: pointer;">
+        <span class="star" data-value="1">&#9733;</span>
+        <span class="star" data-value="2">&#9733;</span>
+        <span class="star" data-value="3">&#9733;</span>
+        <span class="star" data-value="4">&#9733;</span>
+        <span class="star" data-value="5">&#9733;</span>
+    </div>
+
+    <textarea name="noiDung" rows="3" cols="40" placeholder="Viết đánh giá..."></textarea>
+    <br/><br/>
+    <button type="submit">Gửi đánh giá</button>
+</form>
+</div>
+
+
+
+
 
     <script>
         $(document).ready(function () {
@@ -337,5 +490,32 @@
             });
         });
     </script>
+    <script>
+document.addEventListener("DOMContentLoaded", function() {
+    const stars = document.querySelectorAll(".star-rating .star");
+    const ratingValue = document.getElementById("rating-value");
+
+    stars.forEach(star => {
+        star.addEventListener("click", function() {
+            const value = this.getAttribute("data-value");
+            ratingValue.value = value; // Gán giá trị vào input hidden
+
+            // Làm sáng các sao đã chọn
+            stars.forEach(s => {
+                s.style.color = (s.getAttribute("data-value") <= value) ? "gold" : "#ccc";
+            });
+        });
+    });
+});
+
+function validateRating() {
+    const ratingValue = document.getElementById("rating-value").value;
+    if (ratingValue === "0") {
+        alert("Vui lòng chọn số sao trước khi gửi đánh giá!");
+        return false;
+    }
+    return true;
+}
+</script>
 </body>
 </html>

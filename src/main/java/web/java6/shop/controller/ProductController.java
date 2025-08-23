@@ -6,9 +6,13 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import web.java6.shop.model.DanhGia;
 import web.java6.shop.model.SanPham;
 import web.java6.shop.model.SanPhamVariant;
+import web.java6.shop.repository.DanhGiaRepository;
 import web.java6.shop.repository.SanPhamVariantRepository;
+import web.java6.shop.service.DanhGiaService;
 import web.java6.shop.service.LoaiService;
 import web.java6.shop.service.SanPhamService;
 
@@ -42,18 +46,27 @@ public class ProductController {
         return "products";
     }
 
-        // Trang chi tiết sản phẩm
-    @GetMapping("/product/{id}")
-    public String productDetail(@PathVariable("id") Integer id, Model model) {
-        SanPham sanPham = sanPhamService.findById(id).orElse(null);
-        if (sanPham == null) {
-            return "redirect:/products";
-        }
+      @Autowired
+private DanhGiaService danhGiaService;
 
-        List<SanPhamVariant> variants = variantRepo.findBySanPham_IdSanPham(id);
+@Autowired
+private DanhGiaRepository danhGiaRepo;
 
-        model.addAttribute("product", sanPham);
-        model.addAttribute("variants", variants);
-        return "product-detail"; // Tên view
+@GetMapping("/product/{id}")
+public String productDetail(@PathVariable("id") Integer id, Model model) {
+    SanPham sanPham = sanPhamService.findById(id).orElse(null);
+    if (sanPham == null) {
+        return "redirect:/products";
     }
+
+    List<SanPhamVariant> variants = variantRepo.findBySanPham_IdSanPham(id);
+    List<DanhGia> danhGias = danhGiaRepo.findBySanPhamIdSanPham(id);
+
+    model.addAttribute("product", sanPham);
+    model.addAttribute("variants", variants);
+    model.addAttribute("danhgias", danhGias); // phải trùng với template
+
+    return "product-detail";
+}
+
 }

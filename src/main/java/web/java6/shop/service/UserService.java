@@ -10,4 +10,7 @@ public interface UserService {
     User save(User user);
     User update(User user);
     void deleteById(String id);
+
+    // Thêm mới để tìm user theo id
+    User findByIdUser(String idUser);
 }
