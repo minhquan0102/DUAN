@@ -60,7 +60,7 @@ public String productDetail(@PathVariable("id") Integer id, Model model) {
     }
 
     List<SanPhamVariant> variants = variantRepo.findBySanPham_IdSanPham(id);
-    List<DanhGia> danhGias = danhGiaRepo.findBySanPhamIdSanPham(id);
+    List<DanhGia> danhGias = danhGiaRepo.findBySanPhamIdSanPhamAndDaDuyetTrue(id);
 
     model.addAttribute("product", sanPham);
     model.addAttribute("variants", variants);

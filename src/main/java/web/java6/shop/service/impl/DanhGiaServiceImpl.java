@@ -7,20 +7,55 @@ import web.java6.shop.repository.DanhGiaRepository;
 import web.java6.shop.service.DanhGiaService;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class DanhGiaServiceImpl implements DanhGiaService {
 
     @Autowired
-    private DanhGiaRepository danhGiaRepo;
+    private DanhGiaRepository repo;
 
     @Override
-    public DanhGia save(DanhGia danhGia) {
-        return danhGiaRepo.save(danhGia);
+    public DanhGia save(DanhGia dg) {
+        return repo.save(dg);
     }
 
     @Override
-    public List<DanhGia> findBySanPham(Integer idSanPham) {
-        return danhGiaRepo.findBySanPhamIdSanPham(idSanPham);
+    public void delete(Integer id) {
+        repo.deleteById(id);
+    }
+
+    @Override
+    public Optional<DanhGia> findById(Integer id) {
+        return repo.findById(id);
+    }
+
+    @Override
+    public List<DanhGia> findAll() {
+        return repo.findAll();
+    }
+
+    @Override
+    public List<DanhGia> findBySanPhamIdSanPhamAndDaDuyetTrue(Integer idSanPham) {
+        return repo.findBySanPhamIdSanPhamAndDaDuyetTrue(idSanPham);
+    }
+
+    @Override
+    public List<DanhGia> search(String keyword) {
+        return repo.findByNoiDungContainingIgnoreCase(keyword);
+    }
+
+    @Override
+    public void duyet(Integer id) {
+        DanhGia dg = repo.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy đánh giá"));
+        dg.setDaDuyet(true);
+        repo.save(dg);
+    }
+
+    @Override
+    public void an(Integer id) {
+        DanhGia dg = repo.findById(id).orElseThrow(() -> new RuntimeException("Không tìm thấy đánh giá"));
+        dg.setDaDuyet(false);
+        repo.save(dg);
     }
 }
