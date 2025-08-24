@@ -1,4 +1,4 @@
- <main>
+<div class="page-content">
         <!-- Danh sách sản phẩm -->
         <div class="card">
             <table>
@@ -73,11 +73,11 @@
 
                 <div class="form-group">
                     <label>Mô tả ngắn:</label>
-                    <textarea th:field="*{motangan}"></textarea>
+                    <textarea th:field="*{motangan}" class="form-textarea" placeholder="Nhập mô tả..."></textarea>
                 </div>
                 <div class="form-group">
                     <label>Mô tả chi tiết:</label>
-                    <textarea th:field="*{mota}"></textarea>
+                    <textarea th:field="*{mota}"class="form-textarea" placeholder="Nhập mô tả..."></textarea>
                 </div>
 
                 <h4>Danh sách màu (tối đa 5 dòng)</h4>
@@ -105,4 +105,5 @@
             </form>
         </div>
     </main>
+</div>
 </div>

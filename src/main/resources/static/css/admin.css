@@ -190,3 +190,521 @@ tr:hover td{background:rgba(148,163,184,.06);}
     color: #fff;
     text-decoration: none !important;
 }
+.form-textarea {
+    width: 100%;
+    min-height: 120px;
+    padding: 10px 12px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--panel);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.5;
+    resize: vertical;
+    box-sizing: border-box;
+    transition: border-color 0.3s, box-shadow 0.3s;
+}
+
+.form-textarea:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.25);
+}
+.product-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.product-form div {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-form label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.product-form input,
+.product-form select,
+.product-form textarea {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--panel);
+    color: var(--text);
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.product-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.product-form .full-width {
+    grid-column: 1 / -1; /* chiếm full chiều ngang */
+}
+
+.product-form button {
+    padding: 10px 16px;
+    background: var(--brand);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.product-form button:hover {
+    background: var(--brand-hover);
+}
+input, select, textarea, button {
+    font-family: inherit;
+    font-size: 14px;
+    line-height: 1.4;
+    transition: border-color 0.3s, background-color 0.3s, box-shadow 0.3s;
+}
+
+input:focus,
+select:focus,
+textarea:focus {
+    outline: none;
+    border-color: var(--brand);
+    box-shadow: 0 0 0 2px rgba(99,102,241,0.25);
+}
+
+button {
+    cursor: pointer;
+    font-weight: 600;
+}
+
+button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+th, td {
+    padding: 10px 8px;
+    border-bottom: 1px solid var(--border);
+    text-align: left;
+    vertical-align: middle;
+}
+
+th {
+    color: var(--muted);
+    font-weight: 600;
+    background: var(--panel);
+}
+
+tr:nth-child(even) td {
+    background: rgba(148,163,184,.04);
+}
+
+tr:hover td {
+    background: rgba(99,102,241,.08);
+}
+.product-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 16px;
+    margin-top: 20px;
+}
+
+.product-form div {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-form label {
+    margin-bottom: 6px;
+    font-weight: 500;
+    color: var(--text);
+}
+
+.product-form input,
+.product-form select,
+.product-form textarea {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--panel);
+    color: var(--text);
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.product-form textarea {
+    min-height: 100px;
+    resize: vertical;
+}
+
+.product-form .full-width {
+    grid-column: 1 / -1; /* Chiếm trọn chiều ngang */
+}
+
+.product-form button {
+    padding: 10px 16px;
+    background: var(--brand);
+    color: white;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 14px;
+    font-weight: 500;
+    transition: background 0.3s;
+}
+
+.product-form button:hover {
+    background: #4f46e5; /* Màu hover đồng bộ */
+}
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+}
+
+h2.section-title {
+    margin: 0 0 10px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+}
+.badge {
+    display: inline-block;
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 1;
+    color: #fff;
+}
+
+.badge-success { background: var(--green); }
+.badge-info { background: var(--blue); }
+.badge-warning { background: var(--orange); }
+.badge-danger { background: var(--red); }
+.pagination {
+    display: flex;
+    justify-content: center;
+    gap: 8px;
+    margin: 10px 0;
+}
+
+.pagination a {
+    padding: 6px 12px;
+    border-radius: 6px;
+    background: var(--panel);
+    color: var(--text);
+    border: 1px solid var(--border);
+    text-decoration: none;
+    transition: all 0.3s;
+}
+
+.pagination a:hover {
+    background: rgba(99,102,241,.12);
+    border-color: rgba(99,102,241,.25);
+}
+
+.pagination a.active {
+    background: var(--brand);
+    border-color: var(--brand);
+    color: #fff;
+}
+.action-btn {
+    display: inline-block;
+    padding: 6px 10px;
+    border-radius: 6px;
+    font-size: 13px;
+    text-decoration: none;
+    color: #fff;
+    font-weight: 500;
+    margin-right: 4px;
+    transition: background 0.3s;
+}
+
+.action-btn.duyet { background: var(--brand-2); }
+.action-btn.duyet:hover { background: #16a34a; }
+
+.action-btn.an { background: var(--blue); }
+.action-btn.an:hover { background: #2563eb; }
+
+.action-btn.xoa { background: var(--danger); }
+.action-btn.xoa:hover { background: #dc2626; }
+.modal {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.modal-content {
+    background: var(--panel);
+    border-radius: 12px;
+    padding: 20px;
+    width: 400px;
+    max-width: 90%;
+    box-shadow: var(--shadow);
+}
+.page-content {
+    display: grid;
+    grid-template-columns: 1fr; /* Mặc định 1 cột trên màn hình nhỏ */
+    gap: 20px;
+    padding: 20px;
+}
+
+/* Nếu màn hình lớn thì chia 2 cột */
+@media (min-width: 1024px) {
+    .page-content {
+        grid-template-columns: 2fr 1fr; /* Bảng ở cột lớn, form ở cột nhỏ */
+    }
+}
+
+.card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    padding: 16px;
+    box-shadow: var(--shadow);
+}
+
+.section-title {
+    margin: 0 0 12px;
+    font-size: 16px;
+    font-weight: 600;
+    color: var(--text);
+}
+.product-form {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+}
+
+.product-form div {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-form label {
+    font-weight: 500;
+    margin-bottom: 4px;
+    font-size: 13px;
+    color: var(--text);
+}
+
+.product-form input,
+.product-form select,
+.product-form textarea {
+    padding: 8px 10px;
+    border: 1px solid var(--border);
+    border-radius: 6px;
+    background: var(--panel);
+    color: var(--text);
+    font-size: 14px;
+    box-sizing: border-box;
+}
+
+.product-form textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.product-form .full-width {
+    grid-column: 1 / -1; /* Chiếm hết chiều ngang */
+}
+.review-container {
+    padding: 20px;
+}
+
+.review-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+    background: var(--panel, #1e1e2f);
+    color: var(--text, #ffffff);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+}
+
+.review-table th {
+    background: var(--header, #2b2b40);
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.review-table td {
+    padding: 10px 12px;
+    border-top: 1px solid var(--border, #3c3c55);
+    vertical-align: middle;
+}
+
+/* Nhóm nút hành động */
+.action-group {
+    display: flex;
+    gap: 6px;
+}
+
+.btn {
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    color: #fff;
+    transition: background 0.2s ease;
+}
+
+.btn-approve {
+    background-color: #28a745;
+}
+.btn-approve:hover {
+    background-color: #218838;
+}
+
+.btn-hide {
+    background-color: #ffc107;
+    color: #000;
+}
+.btn-hide:hover {
+    background-color: #e0a800;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+.btn-delete:hover {
+    background-color: #c82333;
+}
+.card {
+    background: #1e1e2f;
+    padding: 20px;
+    border-radius: 8px;
+    color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+.alert-success {
+    background: #28a745;
+    padding: 10px 15px;
+    border-radius: 4px;
+    margin-bottom: 15px;
+    color: #fff;
+    font-weight: 600;
+}
+
+/* Bảng danh mục */
+.table-category {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+.table-category th {
+    background: #2b2b40;
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.table-category td {
+    padding: 10px 12px;
+    border-top: 1px solid #3c3c55;
+    vertical-align: middle;
+}
+
+.table-category tr:hover {
+    background: rgba(255,255,255,0.05);
+}
+
+.actions {
+    display: flex;
+    gap: 8px;
+}
+
+/* Nút chung */
+.btn {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 13px;
+    font-weight: 500;
+    text-decoration: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+    color: #fff;
+}
+
+/* Nút từng loại */
+.btn-edit {
+    background-color: #17a2b8;
+}
+.btn-edit:hover {
+    background-color: #138496;
+}
+
+.btn-delete {
+    background-color: #dc3545;
+}
+.btn-delete:hover {
+    background-color: #c82333;
+}
+
+.btn-save {
+    background-color: #28a745;
+    border: none;
+}
+.btn-save:hover {
+    background-color: #218838;
+}
+
+.btn-cancel {
+    background-color: #6c757d;
+}
+.btn-cancel:hover {
+    background-color: #5a6268;
+}
+
+/* Form */
+.form-category .form-group {
+    margin-bottom: 12px;
+}
+
+.form-category label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 6px;
+}
+
+.form-category input[type="text"] {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid #444;
+    border-radius: 4px;
+    background: #2b2b40;
+    color: #fff;
+}
+
+.form-category .form-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 10px;
+}

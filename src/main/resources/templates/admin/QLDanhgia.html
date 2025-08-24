@@ -1,38 +1,42 @@
-<h2>Quản lý đánh giá</h2>
-<form method="get" action="/admin/danhgia">
-</form>
+<div class="review-container">
+    <form method="get" action="/admin/danhgia" class="filter-form">
+        <!-- Nếu sau này muốn thêm bộ lọc, bạn có thể thêm input/select ở đây -->
+    </form>
 
-<table border="1" cellpadding="8">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Người dùng</th>
-            <th>Sản phẩm</th>
-            <th>Sao</th>
-            <th>Nội dung</th>
-            <th>Duyệt?</th>
-            <th>Hành động</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr th:each="dg : ${danhgias}">
-            <td th:text="${dg.idDanhGia}"></td>
-            <td th:text="${dg.user.idUser}"></td>
-            <td th:text="${dg.sanPham.tenSanPham}"></td>
-            <td th:text="${dg.sao}"></td>
-            <td th:text="${dg.noiDung}"></td>
-            <td th:text="${dg.daDuyet ? 'Đã duyệt' : 'Chưa duyệt/Ẩn'}"></td>
-            <td>
-                <form th:action="@{'/admin/danhgia/duyet/' + ${dg.idDanhGia}}" method="post">
-                    <button type="submit">Duyệt</button>
-                </form>
-                <form th:action="@{'/admin/danhgia/an/' + ${dg.idDanhGia}}" method="post">
-                    <button type="submit">Ẩn</button>
-                </form>
-                <form th:action="@{'/admin/danhgia/xoa/' + ${dg.idDanhGia}}" method="post">
-                    <button type="submit" onclick="return confirm('Xóa đánh giá này?');">Xóa</button>
-                </form>
-            </td>
-        </tr>
-    </tbody>
-</table>
+    <table class="review-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Người dùng</th>
+                <th>Sản phẩm</th>
+                <th>Sao</th>
+                <th>Nội dung</th>
+                <th>Duyệt?</th>
+                <th>Hành động</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="dg : ${danhgias}">
+                <td th:text="${dg.idDanhGia}"></td>
+                <td th:text="${dg.user.idUser}"></td>
+                <td th:text="${dg.sanPham.tenSanPham}"></td>
+                <td th:text="${dg.sao}"></td>
+                <td th:text="${dg.noiDung}"></td>
+                <td th:text="${dg.daDuyet ? 'Đã duyệt' : 'Chưa duyệt/Ẩn'}"></td>
+                <td>
+                    <div class="action-group">
+                        <form th:action="@{'/admin/danhgia/duyet/' + ${dg.idDanhGia}}" method="post">
+                            <button type="submit" class="btn btn-approve">Duyệt</button>
+                        </form>
+                        <form th:action="@{'/admin/danhgia/an/' + ${dg.idDanhGia}}" method="post">
+                            <button type="submit" class="btn btn-hide">Ẩn</button>
+                        </form>
+                        <form th:action="@{'/admin/danhgia/xoa/' + ${dg.idDanhGia}}" method="post">
+                            <button type="submit" class="btn btn-delete" onclick="return confirm('Xóa đánh giá này?');">Xóa</button>
+                        </form>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>

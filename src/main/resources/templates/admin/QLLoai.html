@@ -1,39 +1,43 @@
-<!-- content-loai.html -->
-<div th:fragment="main-content">
-    <h2>Quản lý danh mục</h2>
+<div class="card">
+  <div th:fragment="main-content">
 
     <!-- Thông báo -->
-    <div th:if="${message}" style="color: green;">
+    <div th:if="${message}" class="alert-success">
         <b th:text="${message}"></b>
     </div>
-
-    <!-- Danh sách danh mục -->
-    <table>
+    <table class="table-category">
         <thead>
-        <tr>
-            <th>Tên danh mục</th>
-            <th>Hành động</th>
-        </tr>
+            <tr>
+                <th>Tên danh mục</th>
+                <th>Hành động</th>
+            </tr>
         </thead>
         <tbody>
-        <tr th:each="l : ${loais}">
-            <td th:text="${l.tenLoai}"></td>
-            <td>
-                <a th:href="@{'/admin/loai/edit/' + ${l.idLoai}}" class="edit">Sửa</a>
-                <a th:href="@{'/admin/loai/delete/' + ${l.idLoai}}" class="delete" onclick="return confirm('Bạn chắc chắn xoá?')">Xoá</a>
-            </td>
-        </tr>
+            <tr th:each="l : ${loais}">
+                <td th:text="${l.tenLoai}"></td>
+                <td class="actions">
+                    <a th:href="@{'/admin/loai/edit/' + ${l.idLoai}}" class="btn btn-edit">Sửa</a>
+                    <a th:href="@{'/admin/loai/delete/' + ${l.idLoai}}" 
+                       class="btn btn-delete" 
+                       onclick="return confirm('Bạn chắc chắn xoá?')">Xoá</a>
+                </td>
+            </tr>
         </tbody>
     </table>
 
     <!-- Form thêm/sửa -->
     <h3 th:text="${loai.idLoai == null ? 'Thêm danh mục' : 'Sửa danh mục'}"></h3>
-    <form th:action="@{/admin/loai/save}" method="post" th:object="${loai}">
+    <form th:action="@{/admin/loai/save}" method="post" th:object="${loai}" class="form-category">
         <input type="hidden" th:field="*{idLoai}">
-        <label>Tên danh mục:</label>
-        <input type="text" th:field="*{tenLoai}" required>
-        <br>
-        <button type="submit">💾 Lưu</button>
-        <a th:href="@{/admin/loai}">Huỷ</a>
+        <div class="form-group">
+            <label for="tenLoai">Tên danh mục:</label>
+            <input type="text" th:field="*{tenLoai}" id="tenLoai" required>
+        </div>
+        <div class="form-actions">
+            <button type="submit" class="btn btn-save">💾 Lưu</button>
+            <a th:href="@{/admin/loai}" class="btn btn-cancel">Huỷ</a>
+        </div>
     </form>
+
+  </div>
 </div>
