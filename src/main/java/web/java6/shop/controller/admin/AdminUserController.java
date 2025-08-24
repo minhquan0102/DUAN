@@ -33,7 +33,8 @@ public String loadUserPage(@RequestParam(name = "editId", required = false) Stri
 
     model.addAttribute("user", userForm); // Dùng cho form thêm/sửa
     model.addAttribute("list", userService.findAll()); // Danh sách người dùng
-
+    //nút tìm kiếm
+    model.addAttribute("searchAction", "/admin/users");
     // Thêm các biến cho layout
     model.addAttribute("pageTitle", "Quản lý người dùng");
     model.addAttribute("activePage", "users");

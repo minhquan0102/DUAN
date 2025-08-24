@@ -34,6 +34,8 @@ public String danhSachHoaDon(Model model) {
     model.addAttribute("activePage", "hoadon");
     model.addAttribute("content", "admin/QLHoaDon"); // file con để chèn vào layout
 
+    // Nút tìm kiếm
+    model.addAttribute("searchAction", "/admin/hoadon");
     return "admin/layout"; // Luôn trả về layout.html
 }
     // Xử lý cập nhật

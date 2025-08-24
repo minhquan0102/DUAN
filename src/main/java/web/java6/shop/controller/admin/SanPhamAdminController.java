@@ -53,7 +53,7 @@ public class SanPhamAdminController {
         model.addAttribute("loais", sanPhamService.findAllLoai());
         model.addAttribute("sanPham", new SanPham());
         model.addAttribute("variants", generateEmptyVariants(5));
-
+        model.addAttribute("searchAction", "/admin/sanpham");
         // --- layout chung ---
         model.addAttribute("content", "admin/QLSanPham");
         model.addAttribute("pageTitle", "Quản lý sản phẩm");

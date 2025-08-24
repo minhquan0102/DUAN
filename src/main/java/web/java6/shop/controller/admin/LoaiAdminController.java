@@ -53,7 +53,7 @@ public void addUserToModel(HttpSession session, Model model) {
         model.addAttribute("pageTitle", "Sửa loại sản phẩm");
         model.addAttribute("activePage", "loai");
         model.addAttribute("content", "admin/QLLoai"); // file con
-
+        model.addAttribute("searchAction", "/admin/loai");
         return "admin/layout";
     }
 

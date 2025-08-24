@@ -22,6 +22,7 @@ public String listDanhGia(Model model,
     List<DanhGia> danhgias = (keyword != null && !keyword.isEmpty())
             ? danhGiaService.search(keyword)
             : danhGiaService.findAll();
+            model.addAttribute("searchAction", "/admin/danhgia");
     model.addAttribute("danhgias", danhgias);
     model.addAttribute("pageTitle", "Quản lý đánh giá");
     model.addAttribute("activePage", "danhgia");

@@ -9,7 +9,7 @@ import web.java6.shop.model.User;
 
 @ControllerAdvice
 public class GlobalModelAttribute {
-
+// truyền avt vào tất cả controller để có thể hiển thị
     @ModelAttribute
     public void addUserToModel(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");

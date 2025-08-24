@@ -53,7 +53,7 @@ public class KhuyenMaiAdminController {
 
         model.addAttribute("dsKhuyenMai", khuyenMaiService.findAll());
         model.addAttribute("khuyenMai", km);
-
+        model.addAttribute("searchAction", "/admin/khuyenmai");
         model.addAttribute("pageTitle", "Sửa khuyến mãi");
         model.addAttribute("activePage", "khuyenmai");
         model.addAttribute("content", "admin/QLKhuyenMai"); // file con

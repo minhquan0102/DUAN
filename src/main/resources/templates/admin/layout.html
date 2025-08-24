@@ -21,7 +21,7 @@
         <button class="icon-btn" id="toggleSidebar">☰</button>
         <div class="brand">
             <div class="logo">📱</div>
-            <span><strong>PhoneShop</strong> Admin</span>
+            <span><strong>FIVETECH</strong></span>
         </div>
         <nav class="nav">
             <a th:href="@{/admin/dashboard}" th:classappend="${activePage=='dashboard'} ? ' active'"><i class="fas fa-home"></i><span>Tổng quan</span></a>
@@ -31,7 +31,6 @@
             <a th:href="@{/admin/danhgia}" th:classappend="${activePage=='danhgia'} ? ' active'"><i class="fas fa-comment"></i><span>Đánh giá</span></a>
             <a th:href="@{/admin/loai}" th:classappend="${activePage=='loai'} ? ' active'"><i class="fas fa-tags"></i><span>Loại Sản Phẩm</span></a>
             <a th:href="@{/admin/khuyenmai}" th:classappend="${activePage=='khuyenmai'} ? ' active'"><i class="fas fa-gift"></i><span>Khuyến mãi</span></a>
-            <a href="#"><i class="fas fa-chart-bar"></i><span>Báo cáo</span></a>
         </nav>
         <a th:href="@{/logout}" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span></a>
     </aside>
@@ -39,7 +38,17 @@
     <!-- Content -->
     <div class="content">
         <header>
-            <div class="search">🔎 <input placeholder="Tìm kiếm..." /></div>
+            <!-- Nút quay về trang chủ -->
+            <a th:href="@{/home}" class="icon-btn" title="Quay về Trang chủ" style="margin-right: 10px;">
+                <i class="fas fa-arrow-left"></i>
+            </a>
+
+            <!-- Thanh tìm kiếm -->
+            <form class="search" th:action="@{${searchAction}}" method="get">
+                🔎 
+                <input type="text" name="keyword" th:value="${keyword}" placeholder="Tìm kiếm..." />
+            </form>
+
             <div class="right">
                 <button class="icon-btn" id="themeBtn">🌓</button>
                 <button class="icon-btn">🔔</button>
