@@ -33,8 +33,6 @@
             <a th:href="@{/admin/loai}" th:classappend="${activePage=='loai'} ? ' active'"><i class="fas fa-tags"></i><span>Loại Sản Phẩm</span></a>
             <a th:href="@{/admin/khuyenmai}" th:classappend="${activePage=='khuyenmai'} ? ' active'"><i class="fas fa-gift"></i><span>Khuyến mãi</span></a>
         </nav>
-        <a th:href="@{/logout}" class="logout-btn">
-        <i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span>
     </a>
     </aside>
 
@@ -51,9 +49,34 @@
             <div class="right">
                 <button class="icon-btn" id="themeBtn">🌓</button>
                 <button class="icon-btn">🔔</button>
-                <img th:src="${avatar != null} ? @{${avatar}} : @{/images/default-avatar.png}"
-                     class="avatar-img" alt="Avatar">
-                <span th:text="${hoten}">Tên user</span>
+                <div class="account">
+                <th:block th:if="${session.user != null}">
+                    <div class="dropdown">
+                        <a href="#" class="account-link">
+                            <img th:src="${avatar != null} ? @{${avatar}} : @{/images/default-avatar.png}"
+     class="avatar-img" alt="Avatar">
+<span th:text="${hoten}">Tên user</span>
+
+                           
+                            <i class="fas fa-chevron-down"></i>
+                            
+                        </a>
+                        <div class="dropdown-content">
+                            <a href="/user/profile"><i class="fas fa-id-card"></i> Thông tin cá nhân</a>
+                            <a href="/user/donhang"><i class="fas fa-box"></i> Đơn hàng của tôi</a>
+                            <th:block th:if="${session.user != null and session.user.vaitro}">
+    <a href="/admin"><i class="fas fa-cog"></i> Quản lý</a>
+</th:block>
+                            <a href="/logout"><i class="fas fa-sign-out-alt"></i> Đăng xuất</a>
+                        </div>
+                    </div>
+                </th:block>
+
+                <th:block th:if="${session.user == null}">
+                    <a href="/login" class="account-link">
+                        <i class="fas fa-user"></i> Đăng nhập
+                    </a>
+                </th:block>
             </div>
         </header>
 

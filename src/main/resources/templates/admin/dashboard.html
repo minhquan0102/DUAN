@@ -1,63 +1,84 @@
 <div class="card"> 
   <div th:fragment="main-content">
-<div>
-  <div class="kpi-container">
-    <div class="kpi-card bg-gradient-green">
-      <div>
-        <h3>Tổng doanh thu</h3>
-        <p th:text="${#numbers.formatDecimal(tongDoanhThu,0,'COMMA',0,'POINT')} + ' ₫'">0 ₫</p>
+    <div>
+      <div class="kpi-container">
+        <div class="kpi-card bg-gradient-green">
+          <div>
+            <h3>Tổng doanh thu</h3>
+            <p th:text="${#numbers.formatDecimal(tongDoanhThu,0,'COMMA',0,'POINT')} + ' ₫'">0 ₫</p>
+          </div>
+        </div>
+        <div class="kpi-card bg-gradient-blue">
+          <div>
+            <h3>Tổng đơn hàng</h3>
+            <p th:text="${tongDonHang}">0</p>
+          </div>
+        </div>
+        <div class="kpi-card bg-gradient-orange">
+          <div>
+            <h3>Tổng khách hàng</h3>
+            <p th:text="${tongKhachHang}">0</p>
+          </div>
+        </div>
+        <div class="kpi-card" th:classappend="${tongHangSapHet > 0} ? ' bg-gradient-red' : ' bg-gradient-green'">
+          <div>
+            <h3 th:text="${tongHangSapHet > 0} ? 'Hàng sắp hết' : 'Hàng còn tồn'"></h3>
+            <p th:text="${tongHangSapHet > 0} ? 'Có ' + ${tongHangSapHet} + ' sản phẩm cần nhập thêm' : 'Không cần nhập thêm'"></p>
+          </div>
+        </div>
       </div>
     </div>
-    <div class="kpi-card bg-gradient-blue">
-      <div>
-        <h3>Tổng đơn hàng</h3>
-        <p th:text="${tongDonHang}">0</p>
-      </div>
+
+    <!-- Recent Orders -->
+    <div class="card">
+      <h2>Đơn hàng gần đây</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Mã HĐ</th><th>Ngày lập</th><th>Khách hàng</th><th>Trạng thái</th><th>Tổng tiền</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="hd : ${donHangGanDay}">
+            <td th:text="${hd.idHoaDon}">1</td>
+            <td th:text="${hd.ngayTao}">2025-08-13</td>
+            <td th:text="${hd.user.hoten}">Nguyễn Văn A</td>
+            <td th:text="${hd.trangThai}">Đã giao</td>
+            <td th:text="${#numbers.formatDecimal(hd.tongTien,0,'COMMA',0,'POINT')} + ' ₫'">1.000.000 ₫</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="kpi-card bg-gradient-orange">
-      <div>
-        <h3>Tổng khách hàng</h3>
-        <p th:text="${tongKhachHang}">0</p>
-      </div>
+
+    <!-- Bảng chi tiết sản phẩm sắp hết (đã chuyển xuống dưới) -->
+    <div class="card" th:if="${tongHangSapHet > 0}">
+      <h2>Sản phẩm sắp hết hàng</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Mã SP</th>
+            <th>Tên SP</th>
+            <th>Số lượng</th>
+            <th>Ngày nhập</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr th:each="sp : ${sanPhamSapHet}">
+            <td th:text="${sp.idSanPham}">1</td>
+            <td th:text="${sp.tenSanPham}">Tên SP</td>
+            <td th:text="${sp.soLuong}">0</td>
+            <td th:text="${#temporals.format(sp.ngayTao,'yyyy-MM-dd')}">2025-08-24</td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-    <div class="kpi-card" th:classappend="${tongHangSapHet > 0} ? ' bg-gradient-red' : ' bg-gradient-green'">
-      <div>
-        <h3 th:text="${tongHangSapHet > 0} ? 'Hàng sắp hết' : 'Hàng còn tồn'"></h3>
-        <p th:text="${tongHangSapHet > 0} ? 'Có ' + ${tongHangSapHet} + ' sản phẩm cần nhập thêm' : 'Không cần nhập thêm'"></p>
+
+    <!-- Chart -->
+    <div class="card">
+      <h2>Doanh thu 7 ngày gần nhất</h2>
+      <div class="chart-container">
+        <canvas id="revenueChart"></canvas>
       </div>
     </div>
   </div>
-
-  <!-- Recent Orders -->
-  <div class="card">
-    <h2>Đơn hàng gần đây</h2>
-    <table>
-      <thead>
-        <tr>
-          <th>Mã HĐ</th><th>Ngày lập</th><th>Khách hàng</th><th>Trạng thái</th><th>Tổng tiền</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr th:each="hd : ${donHangGanDay}">
-          <td th:text="${hd.idHoaDon}">1</td>
-          <td th:text="${hd.ngayTao}">2025-08-13</td>
-          <td th:text="${hd.user.hoten}">Nguyễn Văn A</td>
-          <td th:text="${hd.trangThai}">Đã giao</td>
-          <td th:text="${#numbers.formatDecimal(hd.tongTien,0,'COMMA',0,'POINT')} + ' ₫'">1.000.000 ₫</td>
-        </tr>
-      </tbody>
-    </table>
-  </div>
-
-  <!-- Chart -->
-  <div class="card">
-    <h2>Doanh thu 7 ngày gần nhất</h2>
-    <div class="chart-container">
-      <canvas id="revenueChart"></canvas>
-    </div>
-  </div>
 </div>
-</div>
-</div>
-
-

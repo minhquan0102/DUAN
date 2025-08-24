@@ -58,3 +58,29 @@ themeBtn.addEventListener('click', () => {
     rootApp.classList.toggle('light-theme');
     localStorage.setItem(THEME_KEY, rootApp.classList.contains('light-theme') ? 'light' : '');
 });
+// Lấy tất cả dropdown
+const dropdowns = document.querySelectorAll('.account .dropdown');
+
+dropdowns.forEach(drop => {
+    const link = drop.querySelector('.account-link');
+    const menu = drop.querySelector('.dropdown-content');
+
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        // Ẩn các menu khác
+        dropdowns.forEach(d => {
+            if (d !== drop) d.querySelector('.dropdown-content').style.display = 'none';
+        });
+        // Toggle menu hiện/ẩn
+        menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+    });
+});
+
+// Ẩn menu khi click ra ngoài
+document.addEventListener('click', (e) => {
+    dropdowns.forEach(drop => {
+        if (!drop.contains(e.target)) {
+            drop.querySelector('.dropdown-content').style.display = 'none';
+        }
+    });
+});

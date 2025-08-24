@@ -3,6 +3,7 @@ package web.java6.shop.model;
 import jakarta.persistence.*;
 import lombok.Data;
 import java.time.LocalDate;
+import java.util.List;
 
 @Entity
 @Table(name = "HOADON")
@@ -28,12 +29,14 @@ public class HoaDon {
     @Column(name = "tongtien")
     private double tongTien;
 
-    @Column(name = "active", nullable = false)
-    private boolean active = true;
+    @Column(name = "active")
+    private boolean active = false;
 
     @ManyToOne
     @JoinColumn(name = "id_user")
     private User user;
 
-    
+    @OneToMany(mappedBy = "hoaDon", cascade = CascadeType.ALL)
+private List<HoaDonChiTiet> hoaDonChiTiets;
+
 }

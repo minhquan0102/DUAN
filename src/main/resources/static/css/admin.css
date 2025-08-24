@@ -863,3 +863,47 @@ body.light-theme button {
     border: 1px solid #ccc;
     border-radius: 4px;
 }
+.account .dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.account .account-link {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    text-decoration: none;
+    color: #333;
+    cursor: pointer;
+}
+
+.account .account-link .avatar-img {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+}
+
+.account .dropdown-content {
+    display: none;
+    position: absolute;
+    right: 0;
+    top: 100%;
+    background-color: #fff;
+    min-width: 200px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    z-index: 1000;
+}
+
+.account .dropdown-content a {
+    display: block;
+    padding: 10px 15px;
+    color: #333;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.account .dropdown-content a:hover {
+    background-color: #f4f4f4;
+}

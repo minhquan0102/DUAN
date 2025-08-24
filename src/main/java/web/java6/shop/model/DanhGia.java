@@ -31,6 +31,7 @@ public class DanhGia {
 
     @Column(name = "ngaydanhgia")
     private LocalDateTime ngayDanhGia;
+    
     @Column(name = "daduyet")
 private Boolean daDuyet = false;
 

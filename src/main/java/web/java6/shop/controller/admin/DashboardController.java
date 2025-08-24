@@ -30,7 +30,8 @@ public String dashboard(Model model) {
     model.addAttribute("tongDonHang", dashboardService.getTongDonHang());
     model.addAttribute("tongKhachHang", dashboardService.getTongKhachHang());
     model.addAttribute("donHangGanDay", dashboardService.getDonHangGanDay());
-
+    model.addAttribute("tongHangSapHet", dashboardService.getTongHangSapHet());
+    model.addAttribute("sanPhamSapHet", dashboardService.getSanPhamSapHet());
     // Thêm các biến cho layout
     model.addAttribute("pageTitle", "Tổng quan");
     model.addAttribute("activePage", "dashboard");

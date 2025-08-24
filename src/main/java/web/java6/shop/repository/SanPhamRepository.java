@@ -26,4 +26,7 @@ public interface SanPhamRepository extends JpaRepository<SanPham, Integer> {
     default List<SanPham> findTop5ByOrderByNgayTaoDesc() {
         return findTop5ByOrderByNgayTaoDesc(PageRequest.of(0, 5));
     }
+//sản phẩm sắp hết
+@Query(value = "SELECT TOP (100) * FROM SANPHAM WHERE soluong < 5 ORDER BY soluong ASC, ngaytao DESC", nativeQuery = true)
+    List<SanPham> findSanPhamSapHet();
 }
