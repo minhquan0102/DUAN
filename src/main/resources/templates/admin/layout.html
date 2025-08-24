@@ -19,10 +19,11 @@
     <!-- Sidebar -->
     <aside class="sidebar" id="sidebar">
         <button class="icon-btn" id="toggleSidebar">☰</button>
-        <div class="brand">
-            <div class="logo">📱</div>
-            <span><strong>FIVETECH</strong></span>
-        </div>
+        <a th:href="@{/home}" class="brand" title="Quay về Trang chủ">
+    <div class="logo">📱</div>
+    <span><strong>FIVETECH</strong></span>
+</a>
+
         <nav class="nav">
             <a th:href="@{/admin/dashboard}" th:classappend="${activePage=='dashboard'} ? ' active'"><i class="fas fa-home"></i><span>Tổng quan</span></a>
             <a th:href="@{/admin/users}" th:classappend="${activePage=='users'} ? ' active'"><i class="fas fa-users"></i><span>Người dùng</span></a>
@@ -32,17 +33,15 @@
             <a th:href="@{/admin/loai}" th:classappend="${activePage=='loai'} ? ' active'"><i class="fas fa-tags"></i><span>Loại Sản Phẩm</span></a>
             <a th:href="@{/admin/khuyenmai}" th:classappend="${activePage=='khuyenmai'} ? ' active'"><i class="fas fa-gift"></i><span>Khuyến mãi</span></a>
         </nav>
-        <a th:href="@{/logout}" class="logout-btn"><i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span></a>
+        <a th:href="@{/logout}" class="logout-btn">
+        <i class="fas fa-sign-out-alt"></i><span>Đăng xuất</span>
+    </a>
     </aside>
 
     <!-- Content -->
     <div class="content">
         <header>
-            <!-- Nút quay về trang chủ -->
-            <a th:href="@{/home}" class="icon-btn" title="Quay về Trang chủ" style="margin-right: 10px;">
-                <i class="fas fa-arrow-left"></i>
-            </a>
-
+            
             <!-- Thanh tìm kiếm -->
             <form class="search" th:action="@{${searchAction}}" method="get">
                 🔎 

@@ -49,37 +49,7 @@
         </tbody>
     </table>
     <script>
-const root=document.documentElement;
-const THEME_KEY='ps_theme';
-function applyTheme(t){t==='light'?root.classList.add('light'):root.classList.remove('light');}
-applyTheme(localStorage.getItem(THEME_KEY)||'');
-document.getElementById('themeBtn').addEventListener('click', ()=>{
-  const nowLight=!root.classList.contains('light');
-  applyTheme(nowLight?'light':'');
-  localStorage.setItem(THEME_KEY,nowLight?'light':'');
-});
-document.getElementById('toggleSidebar').addEventListener('click', ()=>{
-  document.querySelector('.app').classList.toggle('collapsed');
-});
-// Chart
-const ctx=document.getElementById('revenueChart').getContext('2d');
-new Chart(ctx,{
-  type:'line',
-  data:{
-    labels:['Ngày 1','Ngày 2','Ngày 3','Ngày 4','Ngày 5','Ngày 6','Ngày 7'],
-    datasets:[{
-      label:'Doanh thu',
-      data:[1,2,1.5,3,4,6,5],
-      backgroundColor:'rgba(0,123,255,0.2)',
-      borderColor:'#007bff',
-      borderWidth:2,
-      fill:true,
-      tension:0.3,
-      pointBackgroundColor:'#007bff'
-    }]
-  },
-  options:{responsive:true,plugins:{legend:{display:false}},scales:{y:{beginAtZero:true}}}
-});
+
 </script>
 </body>
 </html>

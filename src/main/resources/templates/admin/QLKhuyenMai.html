@@ -162,18 +162,6 @@ form .form-group{margin-bottom:10px;}
 </div>
 
 <script>
-const root=document.documentElement;
-const THEME_KEY='ps_theme';
-function applyTheme(t){t==='light'?root.classList.add('light'):root.classList.remove('light');}
-applyTheme(localStorage.getItem(THEME_KEY)||'');
-document.getElementById('themeBtn').addEventListener('click', ()=>{
-  const nowLight=!root.classList.contains('light');
-  applyTheme(nowLight?'light':'');
-  localStorage.setItem(THEME_KEY,nowLight?'light':'');
-});
-document.getElementById('toggleSidebar').addEventListener('click', ()=>{
-  document.querySelector('.app').classList.toggle('collapsed');
-});
 </script>
 </body>
 </html>
