@@ -1,5 +1,6 @@
 
 <div class="card">
+    <div th:fragment="main-content">
 <body>
 
     <table>
@@ -39,16 +40,17 @@
                 <td th:text="${hd.diaChi}"></td>
                 <td th:text="${hd.giaoHang}"></td>
                 <td th:text="${hd.user.idUser}"></td>
-                <td>
-                    <a th:href="@{'/admin/hoadon/view/' + ${hd.idHoaDon}}">🔍 Xem</a> |
-                    <a th:href="@{'/admin/hoadon/delete/' + ${hd.idHoaDon}}"
-                       onclick="return confirm('Bạn có chắc muốn xoá hóa đơn này?')">❌ Xoá</a>
-                </td>
+                <td class="action-links">
+    <a th:href="@{'/admin/hoadon/view/' + ${hd.idHoaDon}}" class="view-btn">🔍 Xem</a>
+    <a th:href="@{'/admin/hoadon/delete/' + ${hd.idHoaDon}}" 
+       class="delete-btn"
+       onclick="return confirm('Bạn có chắc muốn xoá hóa đơn này?')">❌ Xoá</a>
+</td>
             </tr>
         </tbody>
     </table>
+    </div>
     <script>
-</div>
 </script>
 </body>
 </html>

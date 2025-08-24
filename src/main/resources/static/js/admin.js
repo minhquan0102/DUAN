@@ -50,3 +50,11 @@ if (chartEl) {
         options: {responsive:true, plugins:{legend:{display:false}}, scales:{y:{beginAtZero:true}}}
     });
 }
+if (localStorage.getItem(THEME_KEY) === 'light') {
+    rootApp.classList.add('light-theme');
+}
+
+themeBtn.addEventListener('click', () => {
+    rootApp.classList.toggle('light-theme');
+    localStorage.setItem(THEME_KEY, rootApp.classList.contains('light-theme') ? 'light' : '');
+});

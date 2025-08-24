@@ -708,3 +708,158 @@ h2.section-title {
     display: flex;
     gap: 10px;
 }
+.action-links a {
+        display: inline-block;
+        padding: 6px 12px;
+        margin: 0 4px;
+        font-size: 14px;
+        text-decoration: none;
+        border-radius: 5px;
+        transition: 0.3s;
+        color: #fff;
+    }
+
+    .view-btn {
+        background-color: #4CAF50; /* xanh lá */
+    }
+
+    .view-btn:hover {
+        background-color: #45a049;
+    }
+
+    .delete-btn {
+        background-color: #f44336; /* đỏ */
+    }
+
+    .delete-btn:hover {
+        background-color: #da190b;
+    }
+    /* Khi chuyển theme sáng */
+body.light-theme {
+    background-color: #ffffff;
+    color: #333; /* màu chữ chính */
+}
+
+/* Header */
+body.light-theme header {
+    background-color: #f8f9fa;
+    color: #333;
+}
+
+/* Bảng */
+body.light-theme table {
+    background-color: #ffffff;
+    color: #333;
+    border-color: #ddd;
+}
+
+body.light-theme th, 
+body.light-theme td {
+    background-color: #ffffff;
+    color: #333;
+}
+
+/* Input, select, textarea */
+body.light-theme input,
+body.light-theme select,
+body.light-theme textarea {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+}
+
+/* Buttons */
+body.light-theme button {
+    background-color: #e0e0e0;
+    color: #333;
+    border: none;
+}
+/* Card trong theme sáng */
+.app.light-theme .card {
+    background-color: #ffffff;  /* nền trắng */
+    color: #333;                /* chữ tối */
+    border: 1px solid #ddd;     /* viền nhẹ */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
+
+/* Nội dung bên trong card */
+.app.light-theme .card * {
+    color: #333;  /* tất cả chữ trong card đều tối */
+}
+
+/* Input, button trong card */
+.app.light-theme .card input,
+.app.light-theme .card select,
+.app.light-theme .card textarea,
+.app.light-theme .card button {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+}
+/* Khi bật light theme */
+.app.light-theme {
+    background-color: #fefefe; /* nền tổng */
+    color: #333;
+}
+
+/* Card */
+.app.light-theme .card {
+    background-color: #ffffff;
+    color: #333;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    padding: 16px;
+    border-radius: 8px;
+}
+
+/* KPI Cards */
+.app.light-theme .kpi-card {
+    color: #fff; /* chữ trong kpi-card sáng vẫn trắng vì bg gradient */
+}
+
+/* Table */
+.app.light-theme table {
+    background-color: #fff;
+    color: #333;
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.app.light-theme th,
+.app.light-theme td {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+/* Table header */
+.app.light-theme th {
+    background-color: #f4f4f4;
+}
+
+/* Chart container */
+.app.light-theme .chart-container {
+    background-color: #fff;
+    padding: 16px;
+    border-radius: 8px;
+}
+
+/* H2, H3, P */
+.app.light-theme h2,
+.app.light-theme h3,
+.app.light-theme p {
+    color: #333;
+}
+
+/* Inputs, buttons nếu có trong card */
+.app.light-theme .card input,
+.app.light-theme .card select,
+.app.light-theme .card textarea,
+.app.light-theme .card button {
+    background-color: #fff;
+    color: #333;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
