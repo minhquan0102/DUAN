@@ -141,9 +141,10 @@ public class CartController {
         Cart cart = cartService.getCart(user.getIdUser())
                 .orElse(new Cart(user.getIdUser(), new ArrayList<>()));
 
-        double total = cart.getItems().stream()
+        // Ép sang int và làm tròn
+        int total = (int) Math.round(cart.getItems().stream()
                 .mapToDouble(i -> i.getGia() * i.getSoLuong())
-                .sum();
+                .sum());
 
         model.addAttribute("cart", cart);
         model.addAttribute("total", total);
@@ -166,17 +167,17 @@ public class CartController {
 
         // Kiểm tra dữ liệu nhập
         if (fullName.trim().isEmpty() || phone.trim().isEmpty() || address.trim().isEmpty()) {
-            // Có thể thêm thông báo lỗi qua RedirectAttributes
             return "redirect:/cart?error=missing_info";
         }
 
-        if (tongTien <= 0) {
-            // Nếu tổng tiền không hợp lệ
+        // Ép sang int
+        int tongTienInt = (int) Math.round(tongTien);
+        if (tongTienInt <= 0) {
             return "redirect:/cart?error=invalid_total";
         }
 
         // Thực hiện đặt hàng
-        cartService.checkout(user.getIdUser(), fullName, phone, address, tongTien);
+        cartService.checkout(user.getIdUser(), fullName, phone, address, tongTienInt);
 
         return "redirect:/cart?success=true";
     }
@@ -190,9 +191,9 @@ public class CartController {
         Cart cart = cartService.getCart(user.getIdUser())
                 .orElse(new Cart(user.getIdUser(), new ArrayList<>()));
 
-        double total = cart.getItems().stream()
+        int total = (int) Math.round(cart.getItems().stream()
                 .mapToDouble(i -> i.getGia() * i.getSoLuong())
-                .sum();
+                .sum());
 
         model.addAttribute("total", total);
         model.addAttribute("cart", cart);
