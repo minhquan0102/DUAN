@@ -92,25 +92,34 @@
 <body>
 <div class="container">
     <h1>Thanh toán</h1>
-    <p>Tổng tiền: <span th:text="${total}">0</span> VNĐ</p>
 
-    <ul>
-        <li th:each="item : ${cart.items}">
-            <span class="item-name" th:text="${item.tenSanPham}">Tên SP</span>
-            <span class="item-info">
-                <span th:text="${item.soLuong}">1</span> x 
-                <span th:text="${item.gia}">0</span> VNĐ
-            </span>
-        </li>
-    </ul>
+    <table border="1" cellpadding="5" cellspacing="0">
+    <thead>
+        <tr>
+            <th>Tên sản phẩm</th>
+            <th>Số lượng</th>
+            <th>Giá (VNĐ)</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr th:each="item : ${cart.items}">
+            <td th:text="${item.tenSanPham}">Tên SP</td>
+            <td th:text="${item.soLuong}">1</td>
+            <td th:text="${#numbers.formatInteger(item.gia.intValue(), 0, 'COMMA')}">0</td>
+        </tr>
+    </tbody>
+</table>
 
+<form th:action="@{/submitOrder}" method="post">
    <form th:action="@{/cart/payment}" method="post">
     <p>
-        Tổng tiền: <span th:text="${total}">0</span> VNĐ
+       <p>Tổng tiền: <span th:text="${#numbers.formatInteger(total, 0, 'COMMA')}"></span>
+        VNĐ</p>
     </p>
-    <!-- Input ẩn để gửi tổng tiền -->
-    <input type="hidden" name="tongTien" th:value="${total}">
 
+<input type="text" class="form-control" id="amount" name="amount" th:value="${total * 4.34555630014}">
+
+    <input type="text" class="form-control" id="orderInfo" name="orderInfo" th:value="${'Thanh toan don hang'}">
     <label>Họ và tên:</label>
     <input type="text" name="fullName" required>
 
@@ -120,10 +129,9 @@
     <label>Địa chỉ giao hàng:</label>
     <input type="text" name="address" required>
 
-    <button type="submit">Xác nhận đặt hàng</button>
+    <button type="submit" class="btn btn-primary">Thanh toán</button>
 </form>
-
-
+</form>
 </div>
 </body>
 </html>
