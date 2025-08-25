@@ -58,4 +58,10 @@ public class DanhGiaServiceImpl implements DanhGiaService {
         dg.setDaDuyet(false);
         repo.save(dg);
     }
+
+    @Override
+    public void deleteBySanPhamId(Integer idSanPham) {
+        repo.deleteBySanPham_IdSanPham(idSanPham);
+    }
+
 }

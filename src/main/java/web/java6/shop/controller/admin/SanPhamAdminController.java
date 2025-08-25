@@ -99,13 +99,48 @@ public class SanPhamAdminController {
     // -------- LƯU (THÊM/SỬA) -------- //
     @PostMapping("/save")
     public String saveSanPham(@ModelAttribute("sanPham") SanPham sanPham,
-            @RequestParam(value = "variantColors", required = false) List<String> colors,
-            @RequestParam(value = "variantPrices", required = false) List<Integer> prices,
-            @RequestParam(value = "variantQuantities", required = false) List<Integer> quantities,
-            @RequestParam(value = "variantFiles", required = false) List<MultipartFile> variantFiles,
             @RequestParam(value = "file", required = false) MultipartFile file,
             RedirectAttributes ra) {
-        // ... (giữ nguyên logic lưu sản phẩm)
+
+        try {
+            if (sanPham.getNgayTao() == null) {
+                sanPham.setNgayTao(LocalDate.now());
+            }
+
+            String uploadDir = "C:\\Users\\ASUS\\OneDrive\\Hình ảnh\\images\\";
+
+            // --- Xử lý ảnh chính của sản phẩm ---
+            if (file != null && !file.isEmpty()) {
+                if (sanPham.getIdSanPham() != null) {
+                    Optional<SanPham> oldSanPham = sanPhamService.findById(sanPham.getIdSanPham());
+                    if (oldSanPham.isPresent() && oldSanPham.get().getHinh() != null) {
+                        Path oldPath = Paths.get(uploadDir, oldSanPham.get().getHinh());
+                        Files.deleteIfExists(oldPath);
+                    }
+                }
+
+                String fileName = UUID.randomUUID() + "_" + file.getOriginalFilename();
+                Path path = Paths.get(uploadDir, fileName);
+                Files.createDirectories(path.getParent());
+                Files.copy(file.getInputStream(), path, StandardCopyOption.REPLACE_EXISTING);
+
+                sanPham.setHinh(fileName);
+            } else {
+                if (sanPham.getIdSanPham() != null) {
+                    Optional<SanPham> oldSanPham = sanPhamService.findById(sanPham.getIdSanPham());
+                    oldSanPham.ifPresent(value -> sanPham.setHinh(value.getHinh()));
+                }
+            }
+
+            // --- Lưu sản phẩm ---
+            sanPhamService.save(sanPham);
+
+            ra.addFlashAttribute("message", "Đã lưu sản phẩm thành công!");
+        } catch (Exception e) {
+            e.printStackTrace();
+            ra.addFlashAttribute("error", "Có lỗi khi lưu sản phẩm!");
+        }
+
         return "redirect:/admin/sanpham";
     }
 

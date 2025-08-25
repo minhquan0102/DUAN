@@ -356,7 +356,7 @@
             <p class="price">Giá: <span id="price-value">0 VNĐ</span></p>
 
             <h3>Chọn màu:</h3>
-            <div class="color-options" id="color-options">
+                  <div class="color-options" id="color-options">
                 <button th:each="variant : ${variants}"
                         th:text="${variant.tenMau}"
                         th:attr="data-id=${variant.idVariant},
@@ -496,6 +496,32 @@
                 $('#price-value').text(formatVNĐ(parseInt("[[${product.gia}]]")));
             }
         });
+
+        
+    // Khi click chọn sao
+    document.querySelectorAll(".star-rating .star").forEach(star => {
+        star.addEventListener("click", function () {
+            const value = this.getAttribute("data-value");
+
+            // Gán giá trị vào input hidden để submit
+            document.getElementById("rating-value").value = value;
+
+            // Reset màu sao
+            document.querySelectorAll(".star-rating .star").forEach(s => {
+                s.style.color = (s.getAttribute("data-value") <= value) ? "gold" : "lightgray";
+            });
+        });
+    });
+
+    // Kiểm tra trước khi submit form
+    function validateRating() {
+        const rating = parseInt(document.getElementById("rating-value").value);
+        if (rating < 1 || rating > 5) {
+            alert("Vui lòng chọn số sao từ 1 đến 5 trước khi gửi đánh giá!");
+            return false;
+        }
+        return true;
+    }
     </script>
 </body>
 </html>

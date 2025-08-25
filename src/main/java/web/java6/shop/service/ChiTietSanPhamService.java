@@ -10,7 +10,9 @@ public interface ChiTietSanPhamService {
 
     ChiTietSanPham save(ChiTietSanPham chiTiet);
 
-    void deleteById(Integer id);
+    void deleteBySanPhamId(Integer idSanPham);
 
     Optional<ChiTietSanPham> findById(Integer id);
+
+    void deleteById(Integer id);
 }

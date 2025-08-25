@@ -3,6 +3,7 @@ package web.java6.shop.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import jakarta.transaction.Transactional;
 import web.java6.shop.dto.SanPhamDTO;
 import web.java6.shop.mapper.SanPhamMapper;
 import web.java6.shop.model.KhuyenMai;
@@ -10,6 +11,7 @@ import web.java6.shop.model.KhuyenMaiLoai;
 import web.java6.shop.model.KhuyenMaiSanPham;
 import web.java6.shop.model.Loai;
 import web.java6.shop.model.SanPham;
+import web.java6.shop.repository.DanhGiaRepository;
 import web.java6.shop.repository.KhuyenMaiLoaiRepository;
 import web.java6.shop.repository.KhuyenMaiRepository;
 import web.java6.shop.repository.KhuyenMaiSanPhamRepository;
@@ -50,6 +52,12 @@ public class SanPhamServiceImpl implements SanPhamService {
     private KhuyenMaiLoaiRepository khuyenMaiLoaiRepository;
     @Autowired
     private SanPhamVariantRepository sanPhamVariantRepository;
+    @Autowired
+    private ChiTietSanPhamServiceImpl chiTietSanPhamService;
+    @Autowired
+    private DanhGiaServiceImpl danhGiaService;
+    @Autowired
+    private DanhGiaRepository danhGiaRepository;
 
     @Override
     public List<SanPham> findAll() {
@@ -75,8 +83,12 @@ public class SanPhamServiceImpl implements SanPhamService {
     }
 
     @Override
+    @Transactional
     public void delete(Integer idSanPham) {
         sanPhamVariantRepository.deleteBySanPham_IdSanPham(idSanPham);
+        chiTietSanPhamService.deleteBySanPhamId(idSanPham);
+        ;
+        danhGiaService.deleteBySanPhamId(idSanPham);
         sanPhamRepository.deleteById(idSanPham);
     }
 

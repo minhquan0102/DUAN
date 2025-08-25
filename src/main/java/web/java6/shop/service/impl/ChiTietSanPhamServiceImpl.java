@@ -31,7 +31,13 @@ public class ChiTietSanPhamServiceImpl implements ChiTietSanPhamService {
     }
 
     @Override
+    public void deleteBySanPhamId(Integer idSanPham) {
+        chiTietSanPhamRepository.deleteBySanPham_IdSanPham(idSanPham);
+    }
+
+    @Override
     public void deleteById(Integer id) {
         chiTietSanPhamRepository.deleteById(id);
     }
+
 }
