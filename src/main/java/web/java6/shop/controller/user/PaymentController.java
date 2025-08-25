@@ -44,6 +44,6 @@ public class PaymentController {
         model.addAttribute("paymentTime", paymentTime);
         model.addAttribute("transactionId", transactionId);
 
-        return paymentStatus == 1 ? "ordersuccess" : "orderfail";
+        return paymentStatus == 1 ? "user/home" : "user/home";
     }
 }
