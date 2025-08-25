@@ -30,6 +30,9 @@ public class AuthController {
         return "register";
     }
 
+    @Autowired
+    private web.java6.shop.Config.EmailService emailService;
+
     // Xử lý đăng ký
 
     // Xử lý đăng ký
@@ -49,6 +52,9 @@ public class AuthController {
         user.setUpdatedAt(LocalDate.now());
 
         userService.save(user);
+        emailService.sendSimpleMail(user.getIdUser(),
+                "Chúc mừng đăng ký!",
+                "Cảm ơn bạn đã đăng ký tài khoản tại website của chúng tôi!");
 
         return "redirect:/login";
     }
