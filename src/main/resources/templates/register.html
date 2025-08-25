@@ -1,37 +1,167 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
-    <title>Đăng ký</title>
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>Đăng ký tài khoản</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato:300,400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+    <style>
+        body {
+            background: url('https://cdn-media.sforum.vn/storage/app/media/ctvseo_15/Background%20xanh/background-xanh-2.jpg') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            color: #fff;
+            overflow: hidden;
+            margin: 0;
+            font-family: 'Lato', sans-serif;
+        }
+        .login-wrap {
+            background: rgba(0, 0, 0, 0.6);
+            padding: 40px;
+            border-radius: 20px;
+            width: 100%;
+            max-width: 420px;
+            text-align: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+        .form-group {
+            margin-bottom: 20px;
+            position: relative;
+        }
+        .form-group-row {
+            display: flex;
+            gap: 15px;
+        }
+        .form-control {
+            background: rgba(255, 255, 255, 0.15);
+            border: none;
+            border-radius: 25px;
+            color: #fff; /* chữ trắng */
+            padding: 12px 20px;
+            width: 100%;
+            font-size: 16px;
+            transition: background 0.3s;
+        }
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.25);
+            outline: none;
+        }
+        .form-control::placeholder {
+            color: #ccc; /* placeholder xám nhạt */
+        }
+        select.form-control {
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%23fff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 15px center;
+            padding-right: 40px;
+            color: #fff; /* chữ trắng */
+        }
+        select.form-control option {
+            background: #000;
+            color: #fff;
+        }
+        .btn-primary {
+            background: #ff5722;
+            border: none;
+            border-radius: 25px;
+            padding: 15px;
+            width: 100%;
+            font-weight: 700;
+            font-size: 18px;
+            text-transform: uppercase;
+            color: #000;
+            transition: background 0.3s;
+        }
+        .btn-primary:hover {
+            background: #e64a19;
+        }
+        .alert-danger {
+            color: #fff;
+            background: rgba(255, 0, 0, 0.4);
+            border-radius: 10px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+        a {
+            color: #ff5722;
+            text-decoration: none;
+            font-weight: 400;
+        }
+        a:hover {
+            text-decoration: underline;
+        }
+    </style>
 </head>
 <body>
-<div class="container mt-5">
-    <h2>Đăng ký tài khoản</h2>
-    <form th:action="@{/register}" th:object="${user}" method="post">
-        <div class="mb-3">
-            <label for="idUser" class="form-label">ID Người dùng</label>
-            <input type="text" class="form-control" id="idUser" th:field="*{idUser}" required>
-        </div>
-        <div class="mb-3">
-            <label for="sdt" class="form-label">Số điện thoại</label>
-            <input type="text" class="form-control" id="sdt" th:field="*{sdt}" required>
-        </div>
-        <div class="mb-3">
-            <label for="hoten" class="form-label">Họ tên</label>
-            <input type="text" class="form-control" id="hoten" th:field="*{hoten}" required>
-        </div>
-        <div class="mb-3">
-            <label for="matkhau" class="form-label">Mật khẩu</label>
-            <input type="password" class="form-control" id="matkhau" th:field="*{matkhau}" required>
-        </div>
-        <div class="form-check mb-3">
-            <input type="checkbox" class="form-check-input" id="vaitro" th:field="*{vaitro}">
-            <label class="form-check-label" for="vaitro">Đăng ký với quyền Admin</label>
-        </div>
-        <button type="submit" class="btn btn-primary">Đăng ký</button>
-    </form>
-    <p class="mt-3">Bạn đã có tài khoản? <a th:href="@{/login}">Đăng nhập ngay</a></p>
-</div>
+    <div class="login-wrap">
+        <h2 class="mb-4" style="font-size: 28px; font-weight: 700;">Đăng ký</h2>
+        <form th:action="@{/register}" th:object="${user}" method="post" class="signin-form">
+            <div th:if="${error != null}" class="alert alert-danger" role="alert">
+                <span th:text="${error}"></span>
+            </div>
+
+            <div class="form-group">
+                <input type="email" class="form-control" placeholder="Nhập Email" id="idUser" th:field="*{idUser}" required>
+            </div>
+
+            <div class="form-group">
+                <input type="password" class="form-control" placeholder="Nhập mật khẩu" id="matkhau" th:field="*{matkhau}" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nhập địa chỉ" id="diachi" th:field="*{diachi}" required>
+            </div>
+
+            <div class="form-group">
+                <input type="text" class="form-control" placeholder="Nhập số điện thoại" id="sdt" th:field="*{sdt}" required>
+            </div>
+
+            <div class="form-group form-group-row">
+                <div style="flex: 1;">
+                    <select class="form-control" id="gioitinh" th:field="*{gioitinh}">
+                        <option value="">Chọn giới tính</option>
+                        <option value="Nam">Nam</option>
+                        <option value="Nữ">Nữ</option>
+                        <option value="Khác">Khác</option>
+                    </select>
+                </div>
+
+                <div style="flex: 1;">
+                    <input type="date" class="form-control" id="ngaysinh" th:field="*{ngaysinh}">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">ĐĂNG KÝ</button>
+            </div>
+
+            <div class="form-group">
+                <p>Bạn đã có tài khoản? <a th:href="@{/login}">Đăng nhập</a></p>
+            </div>
+        </form>
+    </div>
+
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/popper.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/main.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('input[type="password"]').after('<span class="fa fa-fw fa-eye field-icon toggle-password" style="position: absolute; right: 20px; top: 50%; transform: translateY(-50%); cursor: pointer; color: #fff;"></span>');
+            $('.toggle-password').click(function() {
+                const passwordField = $(this).prev('input[type="password"]');
+                const type = passwordField.attr('type') === 'password' ? 'text' : 'password';
+                passwordField.attr('type', type);
+                $(this).toggleClass('fa-eye fa-eye-slash');
+            });
+        });
+    </script>
 </body>
 </html>

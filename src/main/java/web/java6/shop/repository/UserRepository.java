@@ -7,5 +7,7 @@ import web.java6.shop.model.User;
 
 public interface UserRepository extends JpaRepository<User, String> {
     @Query("SELECT COUNT(u) FROM User u WHERE u.vaitro = false")
-Long tongKhachHang();
+    Long tongKhachHang();
+
+    User findByIdUser(String idUser);
 }

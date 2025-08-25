@@ -354,19 +354,19 @@
 
             <p id="original-price" class="original-price" style="display:none;"></p>
             <p class="price">Giá: <span id="price-value">0 VNĐ</span></p>
-
-            <h3>Chọn màu:</h3>
-                  <div class="color-options" id="color-options">
-                <button th:each="variant : ${variants}"
-                        th:text="${variant.tenMau}"
-                        th:attr="data-id=${variant.idVariant},
-                                 data-mau=${variant.tenMau},
-                                 data-image=@{'/images/' + ${variant.hinhAnh}},
-                                 data-gia=${variant.giaBan},
-                                 data-giamgia=${product.giamgia != null ? product.giamgia : 0}"
-                        class="color-button"
-                        type="button"></button>
-            </div>
+<div class="color-options" id="color-options">
+    <button th:each="variant, iterStat : ${variants}"
+            th:text="${variant.tenMau}"
+            th:attr="data-id=${variant.idVariant},
+                     data-mau=${variant.tenMau},
+                     data-image=@{'/images/' + ${variant.hinhAnh}},
+                     data-gia=${variant.giaBan},
+                     data-giamgia=${product.giamgia != null ? product.giamgia : 0}"
+            class="color-button"
+            th:classappend="${iterStat.index == 0} ? ' selected' : ''"
+            type="button">
+    </button>
+</div>
 
             <form th:action="@{/cart/add}" method="post">
                 <input type="hidden" name="idSanPham" th:value="${product.idSanPham}"/>

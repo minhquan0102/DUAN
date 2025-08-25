@@ -1,5 +1,6 @@
 package web.java6.shop.controller;
 
+import java.time.LocalDate;
 import java.util.Collections;
 import java.util.Optional;
 
@@ -7,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -28,9 +30,26 @@ public class AuthController {
         return "register";
     }
 
+    // Xử lý đăng ký
+
+    // Xử lý đăng ký
     @PostMapping("/register")
-    public String registerUser(@ModelAttribute("user") User user) {
+    public String registerUser(@ModelAttribute("user") User user, Model model) {
+        // Kiểm tra email đã tồn tại chưa
+        if (userService.findByIdUser(user.getIdUser()) != null) {
+            model.addAttribute("error", "Email đã được đăng ký!");
+            return "register";
+        }
+
+        // Set các thông tin mặc định
+        user.setVaitro(false); // user bình thường
+        user.setTrangthai(true); // active
+        user.setNgaydangky(LocalDate.now());
+        user.setCreatedAt(LocalDate.now());
+        user.setUpdatedAt(LocalDate.now());
+
         userService.save(user);
+
         return "redirect:/login";
     }
 
@@ -54,43 +73,38 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public String loginUser(@RequestParam("idUser") String idUser,
-                            @RequestParam("matkhau") String password,
-                            @RequestParam(value = "remember", required = false) String remember,
-                            HttpSession session,
-                            HttpServletResponse response,
-                            Model model) {
+    public String loginUser(
+            @RequestParam("idUser") String idUser,
+            @RequestParam("matkhau") String password,
+            @RequestParam(value = "remember", required = false) String remember,
+            HttpSession session,
+            HttpServletResponse response,
+            Model model) {
+
         Optional<User> optionalUser = userService.findById(idUser);
         if (optionalUser.isPresent()) {
             User user = optionalUser.get();
             if (user.getMatkhau().equals(password)) {
+                // Lưu session
                 session.setAttribute("user", user);
 
-                if ("on".equals(remember)) {
-                    Cookie ckUser = new Cookie("username", idUser);
-                    ckUser.setMaxAge(7 * 24 * 60 * 60);
-                    ckUser.setPath("/");
-                    response.addCookie(ckUser);
-                } else {
-                    Cookie ckUser = new Cookie("username", null);
-                    ckUser.setMaxAge(0);
-                    ckUser.setPath("/");
-                    response.addCookie(ckUser);
-                }
+                // Lưu cookie username nếu đánh dấu "remember me"
+                Cookie ckUser = new Cookie("username", "on".equals(remember) ? idUser : null);
+                ckUser.setMaxAge("on".equals(remember) ? 7 * 24 * 60 * 60 : 0); // 7 ngày hoặc xóa cookie
+                ckUser.setPath("/");
+                response.addCookie(ckUser);
 
+                // Spring Security auth
                 String role = user.isVaitro() ? "ROLE_ADMIN" : "ROLE_USER";
                 UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
-                    idUser, null, Collections.singleton(new SimpleGrantedAuthority(role))
-                );
+                        idUser, null, Collections.singleton(new SimpleGrantedAuthority(role)));
                 SecurityContextHolder.getContext().setAuthentication(auth);
 
-                if (user.isVaitro()) {
-                    return "redirect:/admin/dashboard";
-                } else {
-                    return "redirect:/home";
-                }
+                // Redirect
+                return user.isVaitro() ? "redirect:/admin/dashboard" : "redirect:/home";
             }
         }
+
         model.addAttribute("error", "Sai thông tin đăng nhập");
         return "login";
     }

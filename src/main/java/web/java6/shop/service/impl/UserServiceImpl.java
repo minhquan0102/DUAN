@@ -37,14 +37,13 @@ public class UserServiceImpl implements UserService {
         return userRepository.save(user);
     }
 
-     @Override
+    @Override
     public void deleteById(String id) {
         userRepository.deleteById(id);
     }
 
-     @Override
-     public User findByIdUser(String idUser) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'findByIdUser'");
-     }
+    @Override
+    public User findByIdUser(String idUser) {
+        return userRepository.findByIdUser(idUser);
+    }
 }
