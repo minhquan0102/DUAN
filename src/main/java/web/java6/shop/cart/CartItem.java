@@ -1,9 +1,9 @@
 package web.java6.shop.cart;
 
+import java.io.Serializable;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.AllArgsConstructor;
-import java.io.Serializable;
 
 @Data
 @NoArgsConstructor
@@ -11,9 +11,8 @@ import java.io.Serializable;
 public class CartItem implements Serializable {
     private Integer idSanPham;
     private String tenSanPham;
+    private String mau;
+    private Long gia; // dùng Long
     private Integer soLuong;
-    private double gia;
-    private String mau;         // MÀU sản phẩm
-    private String anh;         // ảnh sản phẩm
+    private String anh;
 }
-

@@ -7,6 +7,8 @@ import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactor
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.*;
 
+import web.java6.shop.cart.Cart;
+
 @Configuration
 public class RedisConfig {
 
@@ -21,20 +23,20 @@ public class RedisConfig {
     }
 
     @Bean
-    public RedisTemplate<String, Object> redisTemplate() {
-        // Template dùng để thao tác dữ liệu Redis (set, get, delete...)
-        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        template.setConnectionFactory(redisConnectionFactory());
+public RedisTemplate<String, Cart> redisTemplate() {
+    RedisTemplate<String, Cart> template = new RedisTemplate<>();
+    template.setConnectionFactory(redisConnectionFactory());
 
-        // Set serializer cho key và value để tránh lỗi lưu trữ
-        template.setKeySerializer(new StringRedisSerializer());
-        template.setValueSerializer(new GenericJackson2JsonRedisSerializer());
+    // Key là String
+    template.setKeySerializer(new StringRedisSerializer());
 
-        // Cấu hình cho hash (nếu dùng kiểu Redis Hash)
-        template.setHashKeySerializer(new StringRedisSerializer());
-        template.setHashValueSerializer(new GenericJackson2JsonRedisSerializer());
+    // Value là Cart, dùng Jackson serializer chuẩn Long
+    Jackson2JsonRedisSerializer<Cart> serializer = new Jackson2JsonRedisSerializer<>(Cart.class);
+    template.setValueSerializer(serializer);
+    template.setHashValueSerializer(serializer);
 
-        template.afterPropertiesSet();
-        return template;
-    }
+    template.setHashKeySerializer(new StringRedisSerializer());
+    template.afterPropertiesSet();
+    return template;
+}
 }

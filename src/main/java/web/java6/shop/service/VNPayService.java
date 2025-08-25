@@ -24,7 +24,7 @@ public class VNPayService {
         vnp_Params.put("vnp_Version", vnp_Version);
         vnp_Params.put("vnp_Command", vnp_Command);
         vnp_Params.put("vnp_TmnCode", vnp_TmnCode);
-        vnp_Params.put("vnp_Amount", String.valueOf(total*100));
+        vnp_Params.put("vnp_Amount", String.valueOf((long)total * 100)); // đảm bảo long * 100
         vnp_Params.put("vnp_CurrCode", "VND");
         
         vnp_Params.put("vnp_TxnRef", vnp_TxnRef);
@@ -62,9 +62,9 @@ public class VNPayService {
                 try {
                     hashData.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
                     //Build query
-                    query.append(URLEncoder.encode(fieldName, StandardCharsets.US_ASCII.toString()));
-                    query.append('=');
-                    query.append(URLEncoder.encode(fieldValue, StandardCharsets.US_ASCII.toString()));
+                    query.append(URLEncoder.encode(fieldName, StandardCharsets.UTF_8.toString()))
+                    .append('=')
+                    .append(URLEncoder.encode(fieldValue, StandardCharsets.UTF_8.toString()));
                 } catch (UnsupportedEncodingException e) {
                     e.printStackTrace();
                 }

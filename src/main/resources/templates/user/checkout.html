@@ -105,7 +105,7 @@
         <tr th:each="item : ${cart.items}">
             <td th:text="${item.tenSanPham}">Tên SP</td>
             <td th:text="${item.soLuong}">1</td>
-            <td th:text="${#numbers.formatInteger(item.gia.intValue(), 0, 'COMMA')}">0</td>
+            <td th:text="${item.gia}">0</td>
         </tr>
     </tbody>
 </table>
@@ -113,13 +113,12 @@
 <form th:action="@{/submitOrder}" method="post">
    <form th:action="@{/cart/payment}" method="post">
     <p>
-       <p>Tổng tiền: <span th:text="${#numbers.formatInteger(total, 0, 'COMMA')}"></span>
-        VNĐ</p>
+       <p>Tổng tiền: <span th:text="${total}"></span> VNĐ</p>
     </p>
 
-<input type="text" class="form-control" id="amount" name="amount" th:value="${total}">
+<input type="hidden" id="amount" name="amount" th:value="${total}" />
 
-    <input type="text" class="form-control" id="orderInfo" name="orderInfo" th:value="${'Thanh toan don hang'}">
+    <input type="hidden" class="form-control" id="orderInfo" name="orderInfo" th:value="${'Thanh toan don hang FIVETECH'}">
     <label>Họ và tên:</label>
     <input type="text" name="fullName" required>
 

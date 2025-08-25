@@ -30,7 +30,6 @@ public class CartController {
     @Autowired
     private SanPhamVariantRepository variantRepo;
 
-    // Hiển thị giỏ hàng
     @GetMapping
     public String xemGioHang(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
@@ -41,46 +40,41 @@ public class CartController {
                 .orElse(new Cart(user.getIdUser(), new ArrayList<>()));
 
         model.addAttribute("cart", cart);
-        return "user/cart"; // View Thymeleaf
+        return "user/cart";
     }
 
-    // Thêm sản phẩm vào giỏ hàng
     @PostMapping("/add")
     public String themVaoGio(@RequestParam("idSanPham") Integer idSanPham,
-            @RequestParam("variantId") Integer variantId,
-            @RequestParam(defaultValue = "1") Integer soLuong,
-            @RequestParam(required = false) String mau,
-            HttpSession session) {
+                             @RequestParam("variantId") Integer variantId,
+                             @RequestParam(defaultValue = "1") Integer soLuong,
+                             @RequestParam(required = false) String mau,
+                             HttpSession session) {
         User user = (User) session.getAttribute("user");
         if (user == null)
             return "redirect:/login";
 
-        if (soLuong == null || soLuong <= 0)
-            soLuong = 1;
+        if (soLuong == null || soLuong <= 0) soLuong = 1;
 
         SanPham sanPham = sanPhamService.findById(idSanPham).orElse(null);
-        if (sanPham == null)
-            return "redirect:/products";
+        if (sanPham == null) return "redirect:/products";
 
         SanPhamVariant variant = variantRepo.findById(variantId).orElse(null);
-        if (variant == null)
-            return "redirect:/products";
+        if (variant == null) return "redirect:/products";
 
         CartItem item = new CartItem();
         item.setIdSanPham(sanPham.getIdSanPham());
         item.setTenSanPham(sanPham.getTenSanPham());
 
-        double giaGoc = variant.getGiaBan() != null ? variant.getGiaBan() : 0;
-        int giamGia = sanPham.getGiamgia() != null ? sanPham.getGiamgia() : 0;
+        long giaGoc = variant.getGiaBan() != null ? variant.getGiaBan() : 0;
+        long giamGia = sanPham.getGiamgia() != null ? sanPham.getGiamgia() : 0;
 
-        double giaSauGiam;
+        long giaSauGiam;
         if (giamGia <= 100) {
-            giaSauGiam = giaGoc - (giaGoc * giamGia / 100.0);
+            giaSauGiam = giaGoc - (giaGoc * giamGia / 100);
         } else {
             giaSauGiam = giaGoc - giamGia;
         }
-        if (giaSauGiam < 0)
-            giaSauGiam = 0;
+        if (giaSauGiam < 0) giaSauGiam = 0;
 
         item.setGia(giaSauGiam);
         item.setSoLuong(soLuong);
@@ -91,93 +85,73 @@ public class CartController {
         return "redirect:/cart";
     }
 
-    // Xóa 1 sản phẩm khỏi giỏ hàng
     @GetMapping("/delete/{idSanPham}")
     public String xoaKhoiGio(@PathVariable("idSanPham") Integer idSanPham,
-            HttpSession session) {
+                              HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (user == null)
-            return "redirect:/login";
+        if (user == null) return "redirect:/login";
 
         cartService.removeItem(user.getIdUser(), idSanPham);
         return "redirect:/cart";
     }
 
-    // Cập nhật số lượng sản phẩm
     @PostMapping("/update")
     public String capNhatSoLuong(@RequestParam("idSanPham") Integer idSanPham,
-            @RequestParam("soLuong") Integer soLuong,
-            @RequestParam("mau") String mau,
-            HttpSession session) {
+                                 @RequestParam("soLuong") Integer soLuong,
+                                 @RequestParam("mau") String mau,
+                                 HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (user == null)
-            return "redirect:/login";
+        if (user == null) return "redirect:/login";
 
-        if (soLuong == null || soLuong <= 0)
-            soLuong = 1;
+        if (soLuong == null || soLuong <= 0) soLuong = 1;
 
         cartService.updateQuantity(user.getIdUser(), idSanPham, mau, soLuong);
         return "redirect:/cart";
     }
 
-    // Xóa toàn bộ giỏ hàng
     @GetMapping("/delete-all")
     public String xoaToanBoGio(HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (user == null)
-            return "redirect:/login";
+        if (user == null) return "redirect:/login";
 
         cartService.clearCart(user.getIdUser());
         return "redirect:/cart";
     }
 
-    // Thanh toán
     @GetMapping("/checkout")
     public String hienThiTrangThanhToan(HttpSession session, Model model) {
         User user = (User) session.getAttribute("user");
-        if (user == null)
-            return "redirect:/login";
+        if (user == null) return "redirect:/login";
 
         Cart cart = cartService.getCart(user.getIdUser())
                 .orElse(new Cart(user.getIdUser(), new ArrayList<>()));
 
-        // Ép sang int và làm tròn
-        int total = (int) Math.round(cart.getItems().stream()
-                .mapToDouble(i -> i.getGia() * i.getSoLuong())
-                .sum());
+        long total = cart.getItems().stream()
+                .mapToLong(i -> i.getGia() * i.getSoLuong())
+                .sum();
 
         model.addAttribute("cart", cart);
         model.addAttribute("total", total);
-
-        return "user/checkout"; // -> checkout.html
+        return "user/checkout";
     }
 
     @PostMapping("/payment")
     public String thanhToan(HttpSession session,
-            @RequestParam("fullName") String fullName,
-            @RequestParam("phone") String phone,
-            @RequestParam("address") String address,
-            @RequestParam(name = "tongTien", required = false, defaultValue = "0") double tongTien) {
+                            @RequestParam("fullName") String fullName,
+                            @RequestParam("phone") String phone,
+                            @RequestParam("address") String address,
+                            @RequestParam(name = "tongTien", required = false, defaultValue = "0") long tongTien) {
 
-        // Kiểm tra đăng nhập
         User user = (User) session.getAttribute("user");
-        if (user == null) {
-            return "redirect:/login";
-        }
+        if (user == null) return "redirect:/login";
 
-        // Kiểm tra dữ liệu nhập
         if (fullName.trim().isEmpty() || phone.trim().isEmpty() || address.trim().isEmpty()) {
             return "redirect:/cart?error=missing_info";
         }
 
-        // Ép sang int
-        int tongTienInt = (int) Math.round(tongTien);
-        if (tongTienInt <= 0) {
-            return "redirect:/cart?error=invalid_total";
-        }
+        if (tongTien <= 0) return "redirect:/cart?error=invalid_total";
 
-        // Thực hiện đặt hàng
-        cartService.checkout(user.getIdUser(), fullName, phone, address, tongTienInt);
+        cartService.checkout(user.getIdUser(), fullName, phone, address, tongTien);
 
         return "redirect:/cart?success=true";
     }
@@ -185,19 +159,17 @@ public class CartController {
     @GetMapping("/payment")
     public String showPaymentPage(Model model, HttpSession session) {
         User user = (User) session.getAttribute("user");
-        if (user == null)
-            return "redirect:/login";
+        if (user == null) return "redirect:/login";
 
         Cart cart = cartService.getCart(user.getIdUser())
                 .orElse(new Cart(user.getIdUser(), new ArrayList<>()));
 
-        int total = (int) Math.round(cart.getItems().stream()
-                .mapToDouble(i -> i.getGia() * i.getSoLuong())
-                .sum());
+        long total = cart.getItems().stream()
+                .mapToLong(i -> i.getGia() * i.getSoLuong())
+                .sum();
 
         model.addAttribute("total", total);
         model.addAttribute("cart", cart);
-        return "payment"; // Tên view payment.html
+        return "payment";
     }
-
 }

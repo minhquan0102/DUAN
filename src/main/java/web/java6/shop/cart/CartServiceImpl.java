@@ -110,7 +110,8 @@ public class CartServiceImpl implements CartService {
             hoaDonChiTiet.setSoLuong(cartItem.getSoLuong());
             hoaDonChiTiet.setTenSanPham(cartItem.getTenSanPham());
             hoaDonChiTiet.setMauSac(cartItem.getMau());
-            hoaDonChiTiet.setGiaBan(cartItem.getGia());
+            hoaDonChiTiet.setGiaBan(cartItem.getGia().doubleValue());
+
 
             hoaDonChiTiet.setHoaDon(savedHoaDon);
 
