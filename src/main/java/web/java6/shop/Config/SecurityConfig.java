@@ -28,6 +28,7 @@ public class SecurityConfig {
         http
             .authorizeRequests(authorizeRequests ->
                 authorizeRequests
+                .requestMatchers("/payment", "/api/payment/**").permitAll()
                     .requestMatchers("/admin/**").hasRole("ADMIN")
                     .anyRequest().permitAll()
             )

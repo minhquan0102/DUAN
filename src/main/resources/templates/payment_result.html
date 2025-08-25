@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Kết quả thanh toán</title>
+    <style>
+        body { font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px; }
+        h2 { color: #333; }
+        p { font-size: 18px; }
+        a { color: #28a745; text-decoration: none; }
+        a:hover { text-decoration: underline; }
+    </style>
+</head>
+<body>
+    <h2>Kết quả thanh toán</h2>
+    <p th:text="${message}"></p>
+    <a href="/payment">Thử thanh toán lại</a>
+</body>
+</html>
