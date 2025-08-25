@@ -14,8 +14,8 @@ public class SanPhamDTO {
     private Integer gia;
     private Integer giamgia;
     private LocalDate ngayTao;
-    private Integer idLoai;    
+    private Integer idLoai;
     private String tenLoai;
     private Integer giaSauGiam;
-     
+
 }

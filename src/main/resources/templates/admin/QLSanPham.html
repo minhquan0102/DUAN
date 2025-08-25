@@ -15,6 +15,8 @@
                     <td th:text="${sp.soLuong}"></td>
                     <td>
                         <a th:href="@{'/admin/sanpham/edit/' + ${sp.idSanPham}}">Sửa</a> |
+                        <a th:href="@{'/admin/chitiet/' + ${sp.idSanPham}}">Thông số</a> |
+                        <a th:href="@{'/admin/variant/list/' + ${sp.idSanPham}}">Màu</a> |
                         <a th:href="@{'/admin/sanpham/delete/' + ${sp.idSanPham}}"
                            onclick="return confirm('Bạn có chắc muốn xoá?')">Xoá</a>
                     </td>
@@ -80,23 +82,7 @@
                     <textarea th:field="*{mota}"class="form-textarea" placeholder="Nhập mô tả..."></textarea>
                 </div>
 
-                <h4>Danh sách màu (tối đa 5 dòng)</h4>
-                <div th:each="i : ${#numbers.sequence(0,4)}" class="variant-group">
-                    <label>Màu:</label>
-                    <input type="text" name="variantColors" th:value="${variants.size() > i} ? ${variants[i].tenMau} : ''">
-                    
-                    <label>Giá bán:</label>
-                    <input type="number" name="variantPrices" th:value="${variants.size() > i} ? ${variants[i].giaBan} : ''">
-                    
-                    <label>Số lượng:</label>
-                    <input type="number" name="variantQuantities" th:value="${variants.size() > i} ? ${variants[i].soLuong} : ''">
-
-                    <label>Ảnh:</label>
-                    <input type="file" name="variantFiles" accept="image/*">
-                    <div th:if="${variants.size() > i and variants[i].hinhAnh != null}">
-                        <img th:src="@{'/images/' + ${variants[i].hinhAnh}}" style="max-height:80px;">
-                    </div>
-                </div>
+               
 
                 <div class="form-actions">
                     <button type="submit">💾 Lưu</button>

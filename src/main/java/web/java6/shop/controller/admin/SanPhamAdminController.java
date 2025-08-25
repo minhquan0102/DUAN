@@ -40,9 +40,9 @@ public class SanPhamAdminController {
     // -------- DANH SÁCH + TÌM KIẾM + PHÂN TRANG -------- //
     @GetMapping
     public String listSanPham(Model model,
-                              @RequestParam(value = "page", defaultValue = "0") int page,
-                              @RequestParam(value = "size", defaultValue = "5") int size,
-                              @RequestParam(value = "keyword", required = false) String keyword) {
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "size", defaultValue = "5") int size,
+            @RequestParam(value = "keyword", required = false) String keyword) {
 
         Pageable pageable = PageRequest.of(page, size);
         Page<SanPham> sanPhamPage = sanPhamService.searchSanPham(keyword == null ? "" : keyword, pageable);
@@ -64,9 +64,9 @@ public class SanPhamAdminController {
     // -------- HIỂN THỊ FORM SỬA -------- //
     @GetMapping("/edit/{id}")
     public String editSanPhamForm(@PathVariable("id") Integer id,
-                                  @RequestParam(value = "page", defaultValue = "0") int page,
-                                  @RequestParam(value = "keyword", required = false) String keyword,
-                                  Model model) {
+            @RequestParam(value = "page", defaultValue = "0") int page,
+            @RequestParam(value = "keyword", required = false) String keyword,
+            Model model) {
 
         Optional<SanPham> optSanPham = sanPhamService.findById(id);
         if (optSanPham.isEmpty()) {
@@ -99,12 +99,12 @@ public class SanPhamAdminController {
     // -------- LƯU (THÊM/SỬA) -------- //
     @PostMapping("/save")
     public String saveSanPham(@ModelAttribute("sanPham") SanPham sanPham,
-                              @RequestParam(value = "variantColors", required = false) List<String> colors,
-                              @RequestParam(value = "variantPrices", required = false) List<Integer> prices,
-                              @RequestParam(value = "variantQuantities", required = false) List<Integer> quantities,
-                              @RequestParam(value = "variantFiles", required = false) List<MultipartFile> variantFiles,
-                              @RequestParam(value = "file", required = false) MultipartFile file,
-                              RedirectAttributes ra) {
+            @RequestParam(value = "variantColors", required = false) List<String> colors,
+            @RequestParam(value = "variantPrices", required = false) List<Integer> prices,
+            @RequestParam(value = "variantQuantities", required = false) List<Integer> quantities,
+            @RequestParam(value = "variantFiles", required = false) List<MultipartFile> variantFiles,
+            @RequestParam(value = "file", required = false) MultipartFile file,
+            RedirectAttributes ra) {
         // ... (giữ nguyên logic lưu sản phẩm)
         return "redirect:/admin/sanpham";
     }

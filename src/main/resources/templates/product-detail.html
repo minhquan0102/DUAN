@@ -5,380 +5,336 @@
     <title th:text="${product.tenSanPham}"></title>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
-<style>
-    body {
-        font-family: 'Poppins', sans-serif;
-        margin: 0;
-        padding: 40px;
-        background-color: #f8fafc;
-        color: #2d3748;
-    }
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            padding: 40px;
+            background-color: #f5f7fa;
+            color: #333;
+        }
 
-    header {
-        text-align: center;
-        margin-bottom: 40px;
-    }
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
 
-    header h1 {
-        font-size: 2.5rem;
-        font-weight: 600;
-        color: #1a202c;
-        margin: 0;
-    }
+        header h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin: 0;
+        }
 
-    .product-detail {
-        display: flex;
-        gap: 30px;
-        max-width: 1000px;
-        margin: 0 auto;
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
+        .product-detail {
+            display: flex;
+            gap: 30px;
+            max-width: 1000px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .product-image-container {
-        flex: 1;
-        overflow: hidden;
-        border-radius: 10px;
-    }
+        .product-image-container {
+            flex: 1;
+            overflow: hidden;
+            border-radius: 8px;
+        }
 
-    .product-image {
-        max-width: 100%;
-        height: auto;
-        border-radius: 10px;
-        transition: transform 0.3s ease, opacity 0.3s ease;
-    }
+        .product-image {
+            max-width: 100%;
+            height: auto;
+            border-radius: 8px;
+            transition: transform 0.3s ease, opacity 0.3s ease;
+        }
 
-    .product-image:hover {
-        transform: scale(1.05);
-    }
+        .product-image:hover {
+            transform: scale(1.03);
+        }
 
-    .product-image.fade {
-        opacity: 0;
-    }
+        .product-image.fade {
+            opacity: 0;
+        }
 
-    .product-info {
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-    }
+        .product-info {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
 
-    .product-info h2 {
-        font-size: 1.8rem;
-        font-weight: 600;
-        color: #1a202c;
-        margin: 0;
-    }
+        .product-info h2 {
+            font-size: 1.8rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin: 0;
+        }
 
-    .product-info p {
-        font-size: 1rem;
-        color: #4a5568;
-        line-height: 1.6;
-    }
+        .product-info p {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
 
-    .product-info .price {
-        font-size: 1.2rem;
-        font-weight: 500;
-        color: #e53e3e;
-    }
+        .product-info .price {
+            font-size: 1.2rem;
+            font-weight: 500;
+            color: #d32f2f;
+        }
 
-    .product-info .original-price {
-        font-size: 1rem;
-        color: #718096;
-        text-decoration: line-through;
-    }
+        .product-info .original-price {
+            font-size: 1rem;
+            color: #999;
+            text-decoration: line-through;
+        }
 
-    .color-options {
-        display: flex;
-        gap: 12px;
-        margin-top: 15px;
-    }
+        .color-options {
+            display: flex;
+            gap: 12px;
+            margin-top: 15px;
+        }
 
-    .color-button {
-        padding: 12px 24px;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-        background-color: #edf2f7;
-        font-size: 0.9rem;
-        font-weight: 500;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
+        .color-button {
+            padding: 12px 24px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            cursor: pointer;
+            background-color: #fff;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
 
-    .color-button:hover {
-        background-color: #e2e8f0;
-        transform: translateY(-2px);
-    }
+        .color-button:hover {
+            background-color: #f5f7fa;
+            border-color: #d32f2f;
+            transform: translateY(-1px);
+        }
 
-    .color-button.active {
-        background-color: #3182ce;
-        color: white;
-        transform: translateY(-2px);
-    }
+        .color-button.active {
+            background-color: #d32f2f;
+            color: white;
+            border-color: #d32f2f;
+            transform: translateY(-1px);
+        }
 
-    form {
-        display: flex;
-        align-items: center;
-        gap: 15px;
-        margin-top: 20px;
-    }
+        form {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-top: 20px;
+        }
 
-    form label {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #2d3748;
-    }
+        form label {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
+        }
 
-    form input[type="number"] {
-        width: 80px;
-        padding: 10px;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        font-size: 1rem;
-    }
+        form input[type="number"] {
+            width: 80px;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            font-size: 1rem;
+            background-color: #fff;
+        }
 
-    form button {
-        padding: 12px 24px;
-        background-color: #3182ce;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
+        form button {
+            padding: 12px 24px;
+            background-color: #d32f2f;
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.3s ease, transform 0.2s ease;
+        }
 
-    form button:hover {
-        background-color: #2b6cb0;
-        transform: translateY(-2px);
-    }
+        form button:hover {
+            background-color: #b71c1c;
+            transform: translateY(-2px);
+        }
 
-    a.back-link {
-        display: inline-block;
-        margin-top: 30px;
-        color: #3182ce;
-        font-size: 1rem;
-        font-weight: 500;
-        text-decoration: none;
-        transition: color 0.3s ease;
-    }
+        a.back-link {
+            display: inline-block;
+            margin-top: 30px;
+            color: #d32f2f;
+            font-size: 1rem;
+            font-weight: 500;
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
 
-    a.back-link:hover {
-        color: #2b6cb0;
-        text-decoration: underline;
-    }
+        a.back-link:hover {
+            color: #b71c1c;
+            text-decoration: underline;
+        }
 
-    /* Comment Section Styles */
-    .comment-section {
-        max-width: 1000px;
-        margin: 40px auto;
-        background: white;
-        padding: 30px;
-        border-radius: 15px;
-        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    }
+        .specifications-section {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .comment-section h3 {
-        font-size: 1.5rem;
-        font-weight: 600;
-        color: #1a202c;
-        margin-bottom: 20px;
-    }
+        .specifications-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    .comment-form {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-bottom: 30px;
-    }
+        .specifications-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1rem;
+            color: #333;
+        }
 
-    .comment-form textarea {
-        width: 100%;
-        min-height: 100px;
-        padding: 12px;
-        border: 1px solid #e2e8f0;
-        border-radius: 8px;
-        font-size: 1rem;
-        resize: vertical;
-    }
+        .specifications-table th,
+        .specifications-table td {
+            padding: 12px 15px;
+            border: 1px solid #e0e0e0;
+            text-align: left;
+        }
 
-    .comment-form button {
-        align-self: flex-start;
-        padding: 12px 24px;
-        background-color: #3182ce;
-        color: white;
-        border: none;
-        border-radius: 8px;
-        font-size: 1rem;
-        font-weight: 500;
-        cursor: pointer;
-        transition: background-color 0.3s ease, transform 0.2s ease;
-    }
+        .specifications-table th {
+            background-color: #f5f7fa;
+            font-weight: 600;
+            color: #1a1a2e;
+        }
 
-    .comment-form button:hover {
-        background-color: #2b6cb0;
-        transform: translateY(-2px);
-    }
+        .specifications-table td {
+            background-color: #fff;
+        }
 
-    .comment-list {
-        display: flex;
-        flex-direction: column;
-        gap: 20px;
-    }
+        .specifications-table tr:nth-child(even) td {
+            background-color: #fafafa;
+        }
 
-    .comment-item {
-        border-bottom: 1px solid #e2e8f0;
-        padding-bottom: 15px;
-    }
+        .specifications-table tr:hover td {
+            background-color: #f0f2f5;
+        }
 
-    .comment-item .comment-author {
-        font-size: 1rem;
-        font-weight: 500;
-        color: #2d3748;
-        margin-bottom: 5px;
-    }
+        .review-section {
+            max-width: 1000px;
+            margin: 40px auto;
+            background: #fff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
 
-    .comment-item .comment-date {
-        font-size: 0.85rem;
-        color: #718096;
-        margin-bottom: 10px;
-    }
+        .review-section h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            color: #1a1a2e;
+            margin-bottom: 20px;
+            text-align: center;
+        }
 
-    .comment-item .comment-content {
-        font-size: 1rem;
-        color: #4a5568;
-        line-height: 1.6;
-    }
-.rating-section {
-    max-width: 1000px;
-    margin: 40px auto;
-    background: white;
-    padding: 30px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
-}
+        .review-list {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
 
-.rating-section h3 {
-    font-size: 1.5rem;
-    font-weight: 600;
-    color: #1a202c;
-    margin-bottom: 20px;
-    border-bottom: 2px solid #edf2f7;
-    padding-bottom: 8px;
-}
+        .review-item {
+            border-bottom: 1px solid #e0e0e0;
+            padding-bottom: 15px;
+        }
 
-.rating-list h4 {
-    font-size: 1.2rem;
-    font-weight: 500;
-    color: #2d3748;
-    margin-bottom: 15px;
-}
+        .review-author {
+            font-size: 1rem;
+            font-weight: 500;
+            color: #333;
+            margin-bottom: 5px;
+        }
 
-.no-rating {
-    font-style: italic;
-    color: #718096;
-}
+        .review-date {
+            font-size: 0.85rem;
+            color: #999;
+            margin-bottom: 10px;
+        }
 
-.rating-item {
-    border-bottom: 1px solid #e2e8f0;
-    padding-bottom: 12px;
-    margin-bottom: 12px;
-}
+        .review-stars {
+            color: #ffca28;
+            font-size: 1.1rem;
+            margin-bottom: 10px;
+        }
 
-.rating-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 4px;
-}
+        .review-content {
+            font-size: 1rem;
+            color: #666;
+            line-height: 1.6;
+        }
 
-.rating-user {
-    font-size: 1rem;
-    font-weight: 500;
-    color: #2d3748;
-}
+        .review-form {
+            margin-top: 30px;
+            padding: 20px;
+            border-radius: 10px;
+            background: #f5f7fa;
+            border: 1px solid #e0e0e0;
+        }
 
-.rating-stars {
-    color: #f5c518; /* vàng */
-    font-size: 1.1rem;
-}
+        .review-form label {
+            font-weight: 500;
+            color: #333;
+        }
 
-.rating-date {
-    font-size: 0.85rem;
-    color: #718096;
-    margin-bottom: 6px;
-}
+        .review-form select,
+        .review-form textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #fff;
+            color: #333;
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
 
-.rating-content {
-    font-size: 1rem;
-    color: #4a5568;
-    line-height: 1.5;
-}
+        .review-form textarea {
+            min-height: 80px;
+            resize: vertical;
+        }
 
-.rating-form {
-    margin-top: 25px;
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
+        .review-form button[type="submit"] {
+            background-color: #d32f2f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
 
-.rating-form label {
-    font-weight: 500;
-    color: #2d3748;
-}
+        .review-form button[type="submit"]:hover {
+            background-color: #b71c1c;
+        }
 
-.rating-form select,
-.rating-form textarea {
-    padding: 10px;
-    border: 1px solid #e2e8f0;
-    border-radius: 8px;
-    font-size: 1rem;
-}
+        .review-form button[type="reset"] {
+            background-color: #666;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-left: 10px;
+        }
 
-.rating-form textarea {
-    min-height: 100px;
-    resize: vertical;
-}
-
-.rating-form button {
-    align-self: flex-start;
-    padding: 12px 24px;
-    background-color: #3182ce;
-    color: white;
-    border: none;
-    border-radius: 8px;
-    font-size: 1rem;
-    font-weight: 500;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-}
-
-.rating-form button:hover {
-    background-color: #2b6cb0;
-    transform: translateY(-2px);
-}
-.star-rating {
-    font-size: 2rem;
-    cursor: pointer;
-    display: flex;
-    gap: 5px;
-}
-.star {
-    color: lightgray;
-    transition: color 0.2s;
-}
-.star.selected {
-    color: gold;
-}
-.star:hover,
-.star:hover ~ .star {
-    color: gold;
-}
-
-</style>
+        .review-form button[type="reset"]:hover {
+            background-color: #444;
+        }
+    </style>
 </head>
 <body>
     <header>
@@ -387,37 +343,34 @@
 
     <div class="product-detail">
         <div class="product-image-container">
-         <img id="product-image"
-     th:src="@{/images/} + (${product.hinh} ?: 'placeholder.jpg')" 
-     alt="Hình sản phẩm" 
-     class="product-image"/>
-
+            <img id="product-image"
+                 th:src="@{/images/} + (${product.hinh} ?: 'placeholder.jpg')"
+                 alt="Hình sản phẩm"
+                 class="product-image"/>
         </div>
         <div class="product-info">
             <h2 th:text="${product.tenSanPham}"></h2>
             <p th:utext="${product.mota}" class="mota" style="white-space: pre-line;"></p>
 
-            <p class="original-price" th:if="${product.giamgia > 0}">
-                Giá gốc: <span th:text="${#numbers.formatInteger(product.gia, 0, 'COMMA')} + ' VNĐ'"></span>
-            </p>
-            <p class="price">
-                Giá: <span th:text="${#numbers.formatInteger(product.gia * (1 - product.giamgia / 100), 0, 'COMMA')} + ' VNĐ'"></span>
-                <span th:if="${product.giamgia > 0}" th:text="'(-' + ${product.giamgia} + '%)'"></span>
-            </p>
+            <p id="original-price" class="original-price" style="display:none;"></p>
+            <p class="price">Giá: <span id="price-value">0 VNĐ</span></p>
 
             <h3>Chọn màu:</h3>
             <div class="color-options" id="color-options">
-              <button th:each="variant : ${variants}" 
-        th:text="${variant.tenMau}" 
-        th:data-mau="${variant.tenMau}"
-        th:data-image="@{'/images/' + ${variant.hinhAnh}}"
-        class="color-button" 
-        type="button"></button>
-
+                <button th:each="variant : ${variants}"
+                        th:text="${variant.tenMau}"
+                        th:attr="data-id=${variant.idVariant},
+                                 data-mau=${variant.tenMau},
+                                 data-image=@{'/images/' + ${variant.hinhAnh}},
+                                 data-gia=${variant.giaBan},
+                                 data-giamgia=${product.giamgia != null ? product.giamgia : 0}"
+                        class="color-button"
+                        type="button"></button>
             </div>
 
             <form th:action="@{/cart/add}" method="post">
                 <input type="hidden" name="idSanPham" th:value="${product.idSanPham}"/>
+                <input type="hidden" name="variantId" id="selected-variant" value=""/>
                 <input type="hidden" name="mau" id="selected-color" value=""/>
                 <label for="soLuong">Số lượng:</label>
                 <input type="number" name="soLuong" value="1" min="1"/>
@@ -428,7 +381,25 @@
         </div>
     </div>
 
-<div class="rating-section">
+    <div class="specifications-section">
+        <h3>Thông số kỹ thuật</h3>
+        <table class="specifications-table">
+            <thead>
+                <tr>
+                    <th>Thuộc tính</th>
+                    <th>Giá trị</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="ct : ${chiTietList}">
+                    <td th:text="${ct.tenThuocTinh}"></td>
+                    <td th:text="${ct.giaTri}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+   <div class="rating-section">
     <h3>Đánh giá sản phẩm</h3>
 
     <!-- Danh sách đánh giá -->
@@ -467,55 +438,64 @@
     <br/><br/>
     <button type="submit">Gửi đánh giá</button>
 </form>
-</div>
-
-
-
-
+    </div>
 
     <script>
         $(document).ready(function () {
+            function formatVNĐ(num) {
+                return num.toLocaleString('vi-VN') + " VNĐ";
+            }
+
+            function updatePrice(button) {
+                const giaBan = parseInt($(button).data('gia'));
+                const giamgia = parseInt($(button).data('giamgia'));
+
+                let giaSau = giaBan;
+                if (giamgia > 0) {
+                    if (giamgia <= 100) {
+                        giaSau = giaBan - (giaBan * giamgia / 100);
+                    } else {
+                        giaSau = giaBan - giamgia;
+                    }
+                    if (giaSau < 0) giaSau = 0;
+
+                    $('#original-price').show().text("Giá gốc: " + formatVNĐ(giaBan));
+                } else {
+                    $('#original-price').hide();
+                }
+
+                $('#price-value').text(formatVNĐ(giaSau));
+            }
+
             $('.color-button').click(function () {
                 $('.color-button').removeClass('active');
                 $(this).addClass('active');
-                
+
                 const selectedColor = $(this).data('mau');
+                const selectedVariantId = $(this).data('id');
                 const newImage = $(this).data('image');
-                
+
                 $('#selected-color').val(selectedColor);
-                
+                $('#selected-variant').val(selectedVariantId);
+
                 $('#product-image').fadeOut(200, function () {
                     $(this).attr('src', newImage).fadeIn(200);
                 });
+
+                updatePrice(this);
             });
+
+            const firstVariant = $('.color-button').first();
+            if (firstVariant.length > 0) {
+                firstVariant.addClass('active');
+                $('#selected-color').val(firstVariant.data('mau'));
+                $('#selected-variant').val(firstVariant.data('id'));
+                $('#product-image').attr('src', firstVariant.data('image'));
+                updatePrice(firstVariant);
+            } else {
+                $('#price-value').text(formatVNĐ(parseInt("[[${product.gia}]]")));
+            }
         });
     </script>
-    <script>
-document.addEventListener("DOMContentLoaded", function() {
-    const stars = document.querySelectorAll(".star-rating .star");
-    const ratingValue = document.getElementById("rating-value");
-
-    stars.forEach(star => {
-        star.addEventListener("click", function() {
-            const value = this.getAttribute("data-value");
-            ratingValue.value = value; // Gán giá trị vào input hidden
-
-            // Làm sáng các sao đã chọn
-            stars.forEach(s => {
-                s.style.color = (s.getAttribute("data-value") <= value) ? "gold" : "#ccc";
-            });
-        });
-    });
-});
-
-function validateRating() {
-    const ratingValue = document.getElementById("rating-value").value;
-    if (ratingValue === "0") {
-        alert("Vui lòng chọn số sao trước khi gửi đánh giá!");
-        return false;
-    }
-    return true;
-}
-</script>
 </body>
 </html>

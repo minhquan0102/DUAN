@@ -7,11 +7,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import web.java6.shop.model.ChiTietSanPham;
 import web.java6.shop.model.DanhGia;
 import web.java6.shop.model.SanPham;
 import web.java6.shop.model.SanPhamVariant;
 import web.java6.shop.repository.DanhGiaRepository;
 import web.java6.shop.repository.SanPhamVariantRepository;
+import web.java6.shop.service.ChiTietSanPhamService;
 import web.java6.shop.service.DanhGiaService;
 import web.java6.shop.service.LoaiService;
 import web.java6.shop.service.SanPhamService;
@@ -25,7 +27,7 @@ public class ProductController {
     private SanPhamVariantRepository variantRepo;
 
     @Autowired
-    private LoaiService loaiService; 
+    private LoaiService loaiService;
     @Autowired
     private SanPhamService sanPhamService;
 
@@ -46,27 +48,31 @@ public class ProductController {
         return "products";
     }
 
-      @Autowired
-private DanhGiaService danhGiaService;
+    @Autowired
+    private DanhGiaService danhGiaService;
+    @Autowired
+    private ChiTietSanPhamService chiTietSanPhamService;
 
-@Autowired
-private DanhGiaRepository danhGiaRepo;
+    @Autowired
+    private DanhGiaRepository danhGiaRepo;
 
-@GetMapping("/product/{id}")
-public String productDetail(@PathVariable("id") Integer id, Model model) {
-    SanPham sanPham = sanPhamService.findById(id).orElse(null);
-    if (sanPham == null) {
-        return "redirect:/products";
+    // chi tiết sản phẩm
+    @GetMapping("/product/{id}")
+    public String productDetail(@PathVariable("id") Integer id, Model model) {
+        SanPham sanPham = sanPhamService.findById(id).orElse(null);
+        if (sanPham == null) {
+            return "redirect:/products";
+        }
+
+        List<SanPhamVariant> variants = variantRepo.findBySanPham_IdSanPham(id);
+        List<DanhGia> danhGias = danhGiaRepo.findBySanPhamIdSanPhamAndDaDuyetTrue(id);
+        List<ChiTietSanPham> chiTietList = chiTietSanPhamService.getChiTietBySanPham(id);
+
+        model.addAttribute("product", sanPham);
+        model.addAttribute("variants", variants);
+        model.addAttribute("danhgias", danhGias); // phải trùng với template
+        model.addAttribute("chiTietList", chiTietList);
+        return "product-detail";
     }
-
-    List<SanPhamVariant> variants = variantRepo.findBySanPham_IdSanPham(id);
-    List<DanhGia> danhGias = danhGiaRepo.findBySanPhamIdSanPhamAndDaDuyetTrue(id);
-
-    model.addAttribute("product", sanPham);
-    model.addAttribute("variants", variants);
-    model.addAttribute("danhgias", danhGias); // phải trùng với template
-
-    return "product-detail";
-}
 
 }

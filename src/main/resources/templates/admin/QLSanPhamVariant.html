@@ -1,0 +1,168 @@
+<!-- src/main/resources/templates/admin/QLSanPhamVariant.html -->
+<!DOCTYPE html>
+<html lang="vi" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Quản lý biến thể sản phẩm</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --bg: #0f172a; --panel: #111827; --text: #e5e7eb; --muted: #9ca3af;
+            --brand: #6366f1; --brand-2: #22c55e; --danger: #ef4444; --border: #1f2937;
+            --card: #0b1220; --shadow: 0 10px 30px rgba(0,0,0,.25);
+        }
+        :root.light {
+            --bg: #f3f4f6; --panel: #fff; --text: #0f172a; --muted: #6b7280;
+            --brand: #4f46e5; --brand-2: #16a34a; --danger: #dc2626; --border: #e5e7eb;
+            --card: #fff; --shadow: 0 10px 20px rgba(0,0,0,.06);
+        }
+        body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 system-ui, Roboto, sans-serif; }
+        header { background: var(--panel); border-bottom: 1px solid var(--border); display: flex; align-items: center; justify-content: space-between; padding: 10px 16px; }
+        .icon-btn { border: 1px solid var(--border); background: transparent; color: var(--text); padding: 8px 10px; border-radius: 10px; cursor: pointer; }
+        .right { display: flex; align-items: center; gap: 10px; }
+        .avatar-img { width: 34px; height: 34px; border-radius: 50%; object-fit: cover; }
+        main { padding: 18px; display: flex; flex-direction: column; gap: 18px; }
+        .card { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 16px; box-shadow: var(--shadow); }
+        table { width: 100%; border-collapse: collapse; font-size: 13px; }
+        th, td { padding: 10px 8px; border-bottom: 1px solid var(--border); text-align: left; }
+        th { color: var(--muted); font-weight: 600; }
+        tr:hover td { background: rgba(148,163,184,.06); }
+        button { cursor: pointer; background-color: var(--brand); color: #fff; border: none; padding: 8px 16px; border-radius: 5px; margin-top: 5px; }
+        button:hover { background-color: #5555ff; }
+        .btn-danger { background-color: var(--danger); }
+        .btn-danger:hover { background-color: #c52222; }
+        .btn-success { background-color: var(--brand-2); }
+        .btn-success:hover { background-color: #16a34a; }
+        .form-section { background: var(--card); border: 1px solid var(--border); border-radius: 16px; padding: 20px; box-shadow: var(--shadow); margin-top: 20px; }
+        .form-group { margin-bottom: 15px; }
+        .form-group label { font-weight: 600; color: var(--text); display: block; margin-bottom: 5px; }
+        .form-group input { width: 100%; padding: 8px; border: 1px solid var(--border); border-radius: 8px; background: var(--panel); color: var(--text); }
+        .form-actions { margin-top: 10px; }
+        .back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 6px 12px;
+    border-radius: 8px;
+    background: var(--border);
+    color: var(--text);
+    text-decoration: none;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+.back-btn:hover {
+    background: var(--brand);
+    color: #fff;
+}
+
+    </style>
+</head>
+<body>
+
+<header>
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <a href="/admin/sanpham" class="back-btn">
+            <i class="fa fa-arrow-left"></i> Quay về
+        </a>
+        <h2 th:text="'Biến thể sản phẩm: ' + ${sanPham.tenSanPham}"></h2>
+    </div>
+    <div class="right">
+        <button class="icon-btn" id="themeBtn">🌓</button>
+        <button class="icon-btn">🔔</button>
+        <img th:src="${avatar != null} ? @{${avatar}} : @{/images/default-avatar.png}" 
+             class="avatar-img" alt="Avatar">
+        <span th:text="${hoten}">Tên user</span>
+    </div>
+</header>
+
+<main>
+    <!-- Form thêm/sửa -->
+    <div class="form-section">
+        <form th:action="@{/admin/variant/save}" method="post" enctype="multipart/form-data" th:object="${variant}">
+            <input type="hidden" th:field="*{idVariant}"/>
+            <input type="hidden" name="sanPhamId" th:value="${sanPham.idSanPham}"/>
+
+            <div class="form-group">
+                <label>Tên màu</label>
+                <input type="text" th:field="*{tenMau}" required/>
+            </div>
+
+            <div class="form-group">
+                <label>Hình ảnh</label>
+                <input type="file" name="file" accept="image/*"/>
+                <div th:if="${variant.hinhAnh != null}">
+                    <p>Ảnh hiện tại:</p>
+                    <img th:src="@{'/images/' + ${variant.hinhAnh}}" style="max-height:100px;">
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label>Số lượng</label>
+                <input type="number" th:field="*{soLuong}" required/>
+            </div>
+
+            <div class="form-group">
+                <label>Giá bán</label>
+                <input type="number" th:field="*{giaBan}" required/>
+            </div>
+
+            <div class="form-actions">
+                <button type="submit" class="btn-success">💾 Lưu</button>
+                <a th:href="@{'/admin/variant/list/' + ${sanPham.idSanPham}}">
+                    <button type="button">Làm mới</button>
+                </a>
+            </div>
+        </form>
+    </div>
+
+    <!-- Danh sách -->
+    <div class="card">
+        <table>
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên màu</th>
+                <th>Hình ảnh</th>
+                <th>Số lượng</th>
+                <th>Giá bán</th>
+                <th>Thao tác</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="v : ${variants}">
+                <td th:text="${v.idVariant}"></td>
+                <td th:text="${v.tenMau}"></td>
+                <td>
+                    <img th:if="${v.hinhAnh != null}" th:src="@{'/images/' + ${v.hinhAnh}}" style="width: 80px; height: 80px; object-fit: cover;">
+                </td>
+                <td th:text="${v.soLuong}"></td>
+                <td th:text="${#numbers.formatInteger(v.giaBan, 0, 'POINT')} + ' ₫'"></td>
+                <td>
+                    <a th:href="@{'/admin/variant/edit/' + ${sanPham.idSanPham} + '/' + ${v.idVariant}}">
+                        <button type="button">Sửa</button>
+                    </a>
+                    <a th:href="@{'/admin/variant/delete/' + ${sanPham.idSanPham} + '/' + ${v.idVariant}}" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">
+                        <button type="button" class="btn-danger">Xóa</button>
+                    </a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<script>
+const root = document.documentElement;
+const THEME_KEY = 'ps_theme';
+function applyTheme(t) { t === 'light' ? root.classList.add('light') : root.classList.remove('light'); }
+applyTheme(localStorage.getItem(THEME_KEY) || '');
+document.getElementById('themeBtn').addEventListener('click', () => {
+    const nowLight = !root.classList.contains('light');
+    applyTheme(nowLight ? 'light' : '');
+    localStorage.setItem(THEME_KEY, nowLight ? 'light' : '');
+});
+</script>
+
+</body>
+</html>

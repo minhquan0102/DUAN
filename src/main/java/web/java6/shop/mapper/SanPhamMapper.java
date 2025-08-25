@@ -21,13 +21,31 @@ public class SanPhamMapper {
             dto.setIdLoai(sp.getLoai().getIdLoai());
             dto.setTenLoai(sp.getLoai().getTenLoai());
         }
-       
+
         // Tính giá sau giảm giá
-        int giaSauGiam = sp.getGia();
-if (sp.getGiamgia() != null && sp.getGiamgia() > 0) {
-    giaSauGiam = sp.getGia() * (100 - sp.getGiamgia()) / 100;
-}
-dto.setGiaSauGiam(giaSauGiam);
+        int discount = sp.getGiamgia() != null ? sp.getGiamgia() : 0;
+
+        int gia = sp.getGia() != null ? sp.getGia() : 0;
+
+        int giaSauGiam;
+
+        // Nếu discount <= 100 thì coi là %, còn >100 thì coi là số tiền giảm
+        if (discount <= 100) {
+            giaSauGiam = gia - (gia * discount / 100);
+        } else {
+            giaSauGiam = gia - discount;
+        }
+
+        // Tránh âm
+        if (giaSauGiam < 0) {
+            giaSauGiam = 0;
+        }
+
+        dto.setGiaSauGiam(giaSauGiam);
+        System.out.println("SanPham: " + sp.getTenSanPham() +
+                " | Gia goc: " + sp.getGia() +
+                " | Giam gia raw: " + sp.getGiamgia());
+
         return dto;
     }
 }

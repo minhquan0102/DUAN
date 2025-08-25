@@ -93,7 +93,8 @@ public class SanPhamServiceImpl implements SanPhamService {
 
     private List<SanPham> applyKhuyenMai(List<SanPham> sanPhams) {
         LocalDate today = LocalDate.now();
-        List<KhuyenMai> activeKhuyenMais = khuyenMaiRepository.findByNgayBatDauLessThanEqualAndNgayKetThucGreaterThanEqual(today, today);
+        List<KhuyenMai> activeKhuyenMais = khuyenMaiRepository
+                .findByNgayBatDauLessThanEqualAndNgayKetThucGreaterThanEqual(today, today);
 
         for (SanPham sp : sanPhams) {
             int maxDiscount = sp.getGiamgia() != null ? sp.getGiamgia() : 0;
@@ -104,7 +105,7 @@ public class SanPhamServiceImpl implements SanPhamService {
                 if ("flashsale".equals(km.getLoaiApDung())) {
                     LocalTime nowTime = LocalTime.now();
                     if (km.getGioBatDau() == null || km.getGioKetThuc() == null ||
-                        !nowTime.isBefore(km.getGioBatDau()) && !nowTime.isAfter(km.getGioKetThuc())) {
+                            (!nowTime.isBefore(km.getGioBatDau()) && !nowTime.isAfter(km.getGioKetThuc()))) {
                         isApplicable = true;
                     }
                 } else {
@@ -115,71 +116,79 @@ public class SanPhamServiceImpl implements SanPhamService {
                     if ("toan_bo".equals(km.getLoaiApDung())) {
                         maxDiscount = Math.max(maxDiscount, km.getPhanTram());
                     } else if ("sanpham".equals(km.getLoaiApDung())) {
-                        List<KhuyenMaiSanPham> kmspList = khuyenMaiSanPhamRepository.findBySanPham_IdSanPham(sp.getIdSanPham());
-                        if (kmspList.stream().anyMatch(kmsp -> kmsp.getKhuyenMai().getIdKhuyenMai().equals(km.getIdKhuyenMai()))) {
+                        List<KhuyenMaiSanPham> kmspList = khuyenMaiSanPhamRepository
+                                .findBySanPham_IdSanPham(sp.getIdSanPham());
+                        if (kmspList.stream()
+                                .anyMatch(kmsp -> kmsp.getKhuyenMai().getIdKhuyenMai().equals(km.getIdKhuyenMai()))) {
                             maxDiscount = Math.max(maxDiscount, km.getPhanTram());
                         }
                     } else if ("loai".equals(km.getLoaiApDung())) {
-                        List<KhuyenMaiLoai> kmlList = khuyenMaiLoaiRepository.findByLoaiIdLoai(sp.getLoai().getIdLoai());
-                        if (kmlList.stream().anyMatch(kml -> kml.getKhuyenMai().getIdKhuyenMai().equals(km.getIdKhuyenMai()))) {
+                        List<KhuyenMaiLoai> kmlList = khuyenMaiLoaiRepository
+                                .findByLoaiIdLoai(sp.getLoai().getIdLoai());
+                        if (kmlList.stream()
+                                .anyMatch(kml -> kml.getKhuyenMai().getIdKhuyenMai().equals(km.getIdKhuyenMai()))) {
                             maxDiscount = Math.max(maxDiscount, km.getPhanTram());
                         }
                     }
                 }
             }
 
-            if (maxDiscount > 0) {
-                double discountedPrice = sp.getGia() * (1 - maxDiscount / 100.0);
-                sp.setGiamgia(maxDiscount);
-                sp.setGia((int) Math.round(discountedPrice));
-            }
+            // ✅ Không ghi đè sp.gia nữa, chỉ set giamgia để Mapper tính giáSauGiam
+            sp.setGiamgia(maxDiscount);
         }
         return sanPhams;
     }
 
     @Override
-public Page<SanPham> searchSanPham(String keyword, Pageable pageable) {
-    Page<SanPham> page = sanPhamRepository.findByTenSanPhamContainingIgnoreCase(keyword, pageable);
-    applyKhuyenMai(page.getContent()); // áp khuyến mãi
-    return page;
-}
-
-//home 
- @Override
-public List<SanPhamDTO> getTop5SanPhamMoiNhatByTenLoai(Integer idLoai) {
-    List<SanPham> sanPhams = sanPhamRepository.findTop5ByLoai_IdOrderByNgayTaoDesc(idLoai);
-    
-    // 🔴 Thêm dòng này để tính khuyến mãi
-    applyKhuyenMai(sanPhams);
-
-    return sanPhams.stream()
-                   .map(SanPhamMapper::toDTO)
-                   .collect(Collectors.toList());
-}
-
-@Override
-public List<SanPhamDTO> getTop5SanPhamMoiNhat() {
-    // Lấy top 5 sản phẩm mới nhất
-    List<SanPham> sanPhams = sanPhamRepository.findTop5ByOrderByNgayTaoDesc();
-    
-    // Log số lượng sản phẩm để kiểm tra
-    System.out.println("Số sản phẩm lấy được: " + sanPhams.size());
-    
-    // Áp dụng khuyến mãi
-    applyKhuyenMai(sanPhams);
-
-    // Ánh xạ sang SanPhamDTO
-    List<SanPhamDTO> result = sanPhams.stream()
-                                      .map(SanPhamMapper::toDTO)
-                                      .collect(Collectors.toList());
-    
-    // Đảm bảo chỉ trả về tối đa 5 sản phẩm
-    if (result.size() > 5) {
-        System.out.println("Cảnh báo: Danh sách vượt quá 5 sản phẩm, giới hạn lại.");
-        return result.subList(0, 5);
+    public Page<SanPham> searchSanPham(String keyword, Pageable pageable) {
+        Page<SanPham> page = sanPhamRepository.findByTenSanPhamContainingIgnoreCase(keyword, pageable);
+        applyKhuyenMai(page.getContent()); // áp khuyến mãi
+        return page;
     }
-    
-    return result;
 
+    // home
+    @Override
+    public List<SanPhamDTO> getTop5SanPhamMoiNhatByTenLoai(Integer idLoai) {
+        List<SanPham> sanPhams = sanPhamRepository.findTop5ByLoai_IdOrderByNgayTaoDesc(idLoai);
 
-}}
+        // 🔴 Thêm dòng này để tính khuyến mãi
+        applyKhuyenMai(sanPhams);
+
+        return sanPhams.stream()
+                .map(SanPhamMapper::toDTO)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<SanPhamDTO> getTop5SanPhamMoiNhat() {
+        // Lấy top 5 sản phẩm mới nhất
+        List<SanPham> sanPhams = sanPhamRepository.findTop5ByOrderByNgayTaoDesc();
+
+        // Log số lượng sản phẩm để kiểm tra
+        System.out.println("Số sản phẩm lấy được: " + sanPhams.size());
+
+        // Áp dụng khuyến mãi
+        applyKhuyenMai(sanPhams);
+
+        // Ánh xạ sang SanPhamDTO
+        List<SanPhamDTO> result = sanPhams.stream()
+                .map(SanPhamMapper::toDTO)
+                .collect(Collectors.toList());
+
+        // Đảm bảo chỉ trả về tối đa 5 sản phẩm
+        if (result.size() > 5) {
+            System.out.println("Cảnh báo: Danh sách vượt quá 5 sản phẩm, giới hạn lại.");
+            return result.subList(0, 5);
+        }
+
+        return result;
+
+    }
+
+    @Override
+    public SanPham getById(Integer idSanPham) {
+        // Có thể throw nếu không tìm thấy hoặc trả null
+        return sanPhamRepository.findById(idSanPham)
+                .orElseThrow(() -> new RuntimeException("Không tìm thấy sản phẩm với ID: " + idSanPham));
+    }
+}

@@ -23,15 +23,14 @@ public class CartServiceImpl implements CartService {
 
     private static final String CART_PREFIX = "cart:";
 
-
     @Autowired
     private CartRepository cartRepository;
 
     @Autowired
-    private HoaDonRepository hoaDonRepository;  // Sử dụng repository cho HoaDon
+    private HoaDonRepository hoaDonRepository; // Sử dụng repository cho HoaDon
 
     @Autowired
-    private HoaDonChiTietRepository hoaDonChiTietRepository;  // Sử dụng repository cho HoaDonChiTiet
+    private HoaDonChiTietRepository hoaDonChiTietRepository; // Sử dụng repository cho HoaDonChiTiet
 
     @Override
     public Optional<Cart> getCart(String idUser) {
@@ -62,14 +61,14 @@ public class CartServiceImpl implements CartService {
         }
         return cartRepository.save(cart);
     }
-    
+
     @Override
     public Cart removeItem(String idUser, Integer idSanPham) {
         Cart cart = cartRepository.findById(idUser).orElse(new Cart(idUser, new ArrayList<>()));
         List<CartItem> updatedItems = cart.getItems().stream()
                 .filter(ci -> !ci.getIdSanPham().equals(idSanPham))
                 .collect(Collectors.toList());
-        cart.setItems(updatedItems);    
+        cart.setItems(updatedItems);
         return cartRepository.save(cart);
     }
 
@@ -80,67 +79,66 @@ public class CartServiceImpl implements CartService {
         }
     }
 
-   @Override
-public void checkout(String idUser, String fullName, String phone, String address, double tongTien) {
-    Cart cart = cartRepository.findById(idUser).orElse(new Cart(idUser, new ArrayList<>()));
+    @Override
+    public void checkout(String idUser, String fullName, String phone, String address, double tongTien) {
+        Cart cart = cartRepository.findById(idUser).orElse(new Cart(idUser, new ArrayList<>()));
 
-    if (cart.getItems().isEmpty()) {
-        throw new RuntimeException("Giỏ hàng trống. Không thể thanh toán.");
-    }
-
-    HoaDon hoaDon = new HoaDon();
-    hoaDon.setNgayTao(LocalDate.now());
-    hoaDon.setTrangThai("Đặt hàng thành công và đang chờ xử lý");
-    hoaDon.setDiaChi(address);
-    hoaDon.setGiaoHang("Giao hàng tận nơi");
-    hoaDon.setTongTien(tongTien);
-
-    User user = new User();
-    user.setIdUser(idUser);
-    hoaDon.setUser(user);
-
-    HoaDon savedHoaDon = hoaDonRepository.save(hoaDon);
-
-    for (CartItem cartItem : cart.getItems()) {
-        if (cartItem.getIdSanPham() == null || cartItem.getSoLuong() <= 0) {
-            throw new RuntimeException("Sản phẩm trong giỏ hàng không hợp lệ.");
+        if (cart.getItems().isEmpty()) {
+            throw new RuntimeException("Giỏ hàng trống. Không thể thanh toán.");
         }
 
-        HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
+        HoaDon hoaDon = new HoaDon();
+        hoaDon.setNgayTao(LocalDate.now());
+        hoaDon.setTrangThai("Đặt hàng thành công và đang chờ xử lý");
+        hoaDon.setDiaChi(address);
+        hoaDon.setGiaoHang("Giao hàng tận nơi");
+        hoaDon.setTongTien(tongTien);
 
-        hoaDonChiTiet.setSoLuong(cartItem.getSoLuong());
-        hoaDonChiTiet.setTenSanPham(cartItem.getTenSanPham());
-        hoaDonChiTiet.setMauSac(cartItem.getMau());
-        hoaDonChiTiet.setGiaBan(cartItem.getGia());
+        User user = new User();
+        user.setIdUser(idUser);
+        hoaDon.setUser(user);
 
-        hoaDonChiTiet.setHoaDon(savedHoaDon);
+        HoaDon savedHoaDon = hoaDonRepository.save(hoaDon);
 
-        hoaDonChiTietRepository.save(hoaDonChiTiet);
-    }
+        for (CartItem cartItem : cart.getItems()) {
+            if (cartItem.getIdSanPham() == null || cartItem.getSoLuong() <= 0) {
+                throw new RuntimeException("Sản phẩm trong giỏ hàng không hợp lệ.");
+            }
 
-    clearCart(idUser);
-}
+            HoaDonChiTiet hoaDonChiTiet = new HoaDonChiTiet();
 
+            hoaDonChiTiet.setSoLuong(cartItem.getSoLuong());
+            hoaDonChiTiet.setTenSanPham(cartItem.getTenSanPham());
+            hoaDonChiTiet.setMauSac(cartItem.getMau());
+            hoaDonChiTiet.setGiaBan(cartItem.getGia());
 
-@Override
-public void updateQuantity(String idUser, Integer idSanPham, String mau, Integer soLuong) {
-    Cart cart = cartRepository.findById(idUser).orElse(new Cart(idUser, new ArrayList<>()));
-    for (CartItem item : cart.getItems()) {
-        if (item.getIdSanPham().equals(idSanPham) && item.getMau().equals(mau)) {
-            item.setSoLuong(soLuong);
-            break;
+            hoaDonChiTiet.setHoaDon(savedHoaDon);
+
+            hoaDonChiTietRepository.save(hoaDonChiTiet);
         }
+
+        clearCart(idUser);
     }
-    cartRepository.save(cart);
-}
+
+    @Override
+    public void updateQuantity(String idUser, Integer idSanPham, String mau, Integer soLuong) {
+        Cart cart = cartRepository.findById(idUser).orElse(new Cart(idUser, new ArrayList<>()));
+        for (CartItem item : cart.getItems()) {
+            if (item.getIdSanPham().equals(idSanPham) && item.getMau().equals(mau)) {
+                item.setSoLuong(soLuong);
+                break;
+            }
+        }
+        cartRepository.save(cart);
+    }
+
     // Đếm tổng số lượng sản phẩm trong giỏ theo userId
-@Override
-public Long getCartCount(String userId) {
-    Cart cart = cartRepository.findById(userId).orElse(new Cart(userId, new ArrayList<>()));
-    return cart.getItems().stream()
-               .mapToLong(CartItem::getSoLuong)
-               .sum();
+    @Override
+    public Long getCartCount(String userId) {
+        Cart cart = cartRepository.findById(userId).orElse(new Cart(userId, new ArrayList<>()));
+        return cart.getItems().stream()
+                .mapToLong(CartItem::getSoLuong)
+                .sum();
+    }
+
 }
-
-
-} 
